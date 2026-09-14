@@ -30,4 +30,12 @@
   /* the "outside the box" motif's own colour: dim, secondary, never the CTA.
      Plain hex for the same reason as --sc-ink-soft above. */
   --oa-bracket: #9aa0e8;
+
+  /* scroll/hover pulse — a "you're moving" cue, breathing between two
+     intensities of neon orange. Deliberately calmer than the WPM Typing
+     Pulse project's per-keystroke strobe: this reads as one continuous
+     gesture, not a counter. rgba(), not color-mix(), for the same reason
+     --sc-ink-soft is plain hex above. */
+  --oa-pulse-dim: rgba(255, 138, 46, 0.35);
+  --oa-pulse-bright: rgba(255, 138, 46, 0.85);
 }

@@ -55,7 +55,7 @@ export default function Ledger() {
 
     const tick = () => {
       const servicesP = readP(servicesEl);
-      if (servicesP > 0) setVisible(true);
+      setVisible(servicesP > 0);
 
       setChecked((prev) => {
         let changed = false;
@@ -63,7 +63,7 @@ export default function Ledger() {
           const threshold =
             SERVICE_JOBS[i].cueFrom +
             (SERVICE_JOBS[i].cueTo - SERVICE_JOBS[i].cueFrom) * 0.5;
-          const now = was || servicesP >= threshold;
+          const now = servicesP >= threshold;
           if (now !== was) changed = true;
           return now;
         });
@@ -72,7 +72,7 @@ export default function Ledger() {
 
       if (contactEl) {
         const contactP = readP(contactEl);
-        if (contactP >= 0.5) setFinalized(true);
+        setFinalized(contactP >= 0.5);
       }
 
       rafRef.current = requestAnimationFrame(tick);

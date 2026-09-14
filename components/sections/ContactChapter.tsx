@@ -1,4 +1,5 @@
 import TerminalLine from "../TerminalLine";
+import SocialClip from "../SocialClip";
 
 export default function ContactChapter() {
   return (
@@ -10,27 +11,32 @@ export default function ContactChapter() {
       className="contact"
     >
       <div data-sc-stage className="contact__stage">
-        <hr className="sc-rule contact__rule" data-sc-reveal="up" data-sc-reveal-at="0 0.2" />
-        <h2
-          className="sc-display sc-display--lg contact__headline"
-          data-sc-cue="0.08"
-          data-sc-kinetic="lines"
-        >
-          Tell me the problem once.
-        </h2>
-        <p className="sc-body contact__sub" data-sc-cue="0.22">
-          Twenty minutes is usually enough to know if I&rsquo;m the right one
-          to solve it.
-        </p>
-        <a
-          className="contact__cta"
-          href="mailto:hello@outside.ai"
-          data-sc-cue="0.55"
-        >
-          Book a call →
-          <span className="contact__cta-note">(Calendly link coming soon)</span>
-        </a>
-        <TerminalLine text="> ready when you are_" />
+        <div className="contact__grid">
+          <div className="contact__copy">
+            <hr className="sc-rule contact__rule" data-sc-reveal="up" data-sc-reveal-at="0 0.2" />
+            <h2
+              className="sc-display sc-display--lg contact__headline"
+              data-sc-cue="0.08"
+              data-sc-kinetic="lines"
+            >
+              Tell me the problem once.
+            </h2>
+            <p className="sc-body contact__sub" data-sc-cue="0.22">
+              Twenty minutes is usually enough to know if I&rsquo;m the right
+              one to solve it.
+            </p>
+            <a
+              className="contact__cta"
+              href="mailto:hello@outside.ai"
+              data-sc-cue="0.55"
+            >
+              Book a call →
+              <span className="contact__cta-note">(Calendly link coming soon)</span>
+            </a>
+            <TerminalLine text="> ready when you are_" />
+          </div>
+          <SocialClip />
+        </div>
       </div>
     </section>
   );

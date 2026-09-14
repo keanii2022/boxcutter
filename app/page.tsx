@@ -1,6 +1,6 @@
 import Nav from "../components/Nav";
 import Ledger from "../components/Ledger";
-import HeroPlaceholder from "../components/sections/HeroPlaceholder";
+import Opening from "../components/sections/Opening";
 import ServicesChapter from "../components/sections/ServicesChapter";
 import AboutChapter from "../components/sections/AboutChapter";
 import PortfolioChapter from "../components/sections/PortfolioChapter";
@@ -12,7 +12,7 @@ export default function Home() {
       <Nav />
       <Ledger />
       <main id="top">
-        <HeroPlaceholder />
+        <Opening />
         <ServicesChapter />
         <AboutChapter />
         <PortfolioChapter />

@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import TerminalLine from "./TerminalLine";
 
 const CHAPTERS: { id: string; label: string }[] = [
   { id: "chapter-hero", label: "" },
@@ -43,10 +45,20 @@ export default function Nav() {
 
   return (
     <nav className="oa-nav" aria-label="Page section">
-      <a className="oa-nav__mark" href="#chapter-hero">
-        <span className="oa-nav__bracket">[</span>
-        outside.ai
-        <span className="oa-nav__bracket">]</span>
+      <a
+        className="oa-nav__mark pulse-hover"
+        href="#chapter-hero"
+        aria-label="outside.ai"
+      >
+        <Image
+          src="/brand/box.png"
+          alt=""
+          width={20}
+          height={20}
+          className="oa-nav__icon"
+          priority
+        />
+        <TerminalLine text="outside.ai" className="oa-nav__type" />
       </a>
       <span className="oa-nav__folio" aria-live="polite">
         {active}

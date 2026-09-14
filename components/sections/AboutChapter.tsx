@@ -1,3 +1,5 @@
+import SplineWorld from "../SplineWorld";
+
 const PRINCIPLES = [
   {
     title: "One conversation, not five hires.",
@@ -17,22 +19,27 @@ export default function AboutChapter() {
   return (
     <div id="chapter-about" data-chapter="About" className="about">
       <section className="sc-section about__story">
-        <div className="sc-wrap sc-stack" data-sc-in data-sc-stagger="70">
-          <hr className="sc-rule about__rule" data-sc-reveal="up" data-sc-reveal-at="0.1 0.6" />
-          <h2 className="sc-display sc-display--md">I am the entity outside.ai.</h2>
-          <p className="sc-body about__lede">
-            I think outside of the box: literally the name. Most of what I do
-            starts as a problem a small business or startup has been living
-            with quietly: a product nobody can operate at scale, a process
-            three people are stitching together by hand, a launch that needs
-            more disciplines than one hire covers. I sit outside the org
-            chart and bring the solution in from wherever it actually lives.
-          </p>
-          <p className="sc-body about__lede">
-            I&rsquo;m keeping my face out of this for now: the work speaks
-            first, and the introductions come once we&rsquo;re actually
-            talking.
-          </p>
+        <div className="sc-wrap about__story-inner">
+          <div className="sc-stack" data-sc-in data-sc-stagger="70">
+            <hr className="sc-rule about__rule" data-sc-reveal="up" data-sc-reveal-at="0.1 0.6" />
+            <h2 className="sc-display sc-display--md">I am the entity outside.ai.</h2>
+            <p className="sc-body about__lede">
+              I think outside of the box: literally the name. Most of what I do
+              starts as a problem a small business or startup has been living
+              with quietly: a product nobody can operate at scale, a process
+              three people are stitching together by hand, a launch that needs
+              more disciplines than one hire covers. I sit outside the org
+              chart and bring the solution in from wherever it actually lives.
+            </p>
+            <p className="sc-body about__lede">
+              I&rsquo;m keeping my face out of this for now: the work speaks
+              first, and the introductions come once we&rsquo;re actually
+              talking.
+            </p>
+          </div>
+          <div className="about__world">
+            <SplineWorld />
+          </div>
         </div>
       </section>
 

@@ -7,7 +7,13 @@ import { useEffect, useRef, useState } from "react";
  * not the signature move, just texture. Types once on entry; reduced motion
  * writes the final line immediately.
  */
-export default function TerminalLine({ text }: { text: string }) {
+export default function TerminalLine({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) {
   const [shown, setShown] = useState("");
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
@@ -45,7 +51,7 @@ export default function TerminalLine({ text }: { text: string }) {
   }, [text]);
 
   return (
-    <span className="terminal-line" ref={ref}>
+    <span className={`terminal-line${className ? ` ${className}` : ""}`} ref={ref}>
       <span className="terminal-line__text">{shown}</span>
       <span className="terminal-line__cursor" aria-hidden="true" />
     </span>

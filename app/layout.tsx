@@ -5,6 +5,7 @@ import "../styles/tokens.css";
 import "../styles/site.css";
 import "./globals.css";
 import ScrollCraftMount from "../components/ScrollCraftMount";
+import ScrollPulse from "../components/ScrollPulse";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div className="sc-grain" aria-hidden="true" />
         {children}
         <ScrollCraftMount />
+        <ScrollPulse />
       </body>
     </html>
   );
