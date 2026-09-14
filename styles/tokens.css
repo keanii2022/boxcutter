@@ -1,0 +1,33 @@
+/* ============================================================================
+   outsideAI.site — brand tokens
+   ----------------------------------------------------------------------------
+   PLACEHOLDER. Derived from the Spline hero scene's own palette (purple /
+   orange / teal, #888FF3 background) so the page below the hero doesn't clash
+   with it before real branding exists. Replaced wholesale in PLAN.md Step 5
+   once the user's Canva logo is ready. Everything here is exactly the set
+   scrollcraft.css asks a brand to override: six colour roles and two font
+   families, nothing else.
+   ========================================================================== */
+
+:root {
+  --sc-canvas:     #0b0a13;
+  --sc-surface:    #16131f;
+  --sc-ink:        #f3efe8;
+  /* Plain hex, not color-mix(): Chrome serialises color-mix's computed value
+     as lab()/oklab(), and both the verification harness's contrast checker
+     and this browser's own canvas colour parser read that as black, turning
+     every line using it into a false near-1:1 contrast failure. Pre-mixed by
+     hand instead (was ~55% --sc-ink / 45% #8f89a8) — verified 7.5:1 on
+     canvas, 7:1 on surface. */
+  --sc-ink-soft:   #a39dae;
+  --sc-accent:     #ff6b3d;
+  --sc-accent-ink: #170e08;
+
+  --sc-font-display: var(--font-fraunces), Georgia, serif;
+  --sc-font-text:    var(--font-space-grotesk), system-ui, sans-serif;
+  --sc-font-mono:    var(--font-space-mono), ui-monospace, monospace;
+
+  /* the "outside the box" motif's own colour: dim, secondary, never the CTA.
+     Plain hex for the same reason as --sc-ink-soft above. */
+  --oa-bracket: #9aa0e8;
+}

@@ -1,0 +1,451 @@
+/* ============================================================================
+   outsideAI.site — authored page styles
+   ----------------------------------------------------------------------------
+   Built on scrollcraft's token/device floor. Nothing here restyles a
+   [data-sc-*] mechanism class; every rule targets our own markup.
+   ========================================================================== */
+
+/* a size step the engine's ramp doesn't ship */
+.sc-display--sm {
+  font-size: var(--sc-t-lg);
+  letter-spacing: var(--sc-track-snug);
+}
+
+/* --------------------------------------------------------------- nav ---- */
+.oa-nav {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: var(--sc-z-chrome);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sc-4) var(--sc-gutter);
+  pointer-events: none;
+}
+.oa-nav__mark,
+.oa-nav__folio {
+  pointer-events: auto;
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  padding: 0.4em 0.75em;
+  border-radius: var(--sc-r-pill);
+  background: color-mix(in oklab, var(--sc-canvas) 55%, transparent);
+  backdrop-filter: blur(6px);
+}
+.oa-nav__mark {
+  color: var(--sc-ink);
+  display: inline-flex;
+  gap: 0.35em;
+  text-decoration: none;
+}
+.oa-nav__bracket {
+  color: var(--oa-bracket);
+}
+.oa-nav__folio {
+  color: var(--sc-ink-soft);
+  min-height: 1.6em;
+}
+
+/* ------------------------------------------------------------- hero ---- */
+.hero-placeholder {
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  background: var(--sc-canvas);
+}
+.hero-placeholder__note {
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft);
+  border: 1px dashed var(--sc-hairline-strong);
+  border-radius: var(--sc-r-md);
+  padding: var(--sc-4) var(--sc-6);
+}
+
+/* --------------------------------------------------------- services ---- */
+.services {
+  background: var(--sc-surface);
+}
+.services__stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sc-7);
+  padding-inline: var(--sc-gutter);
+}
+.services__argument {
+  display: grid;
+  max-width: min(52rem, 84vw);
+}
+.services__line {
+  grid-area: 1 / 1;
+  font-size: var(--sc-t-2xl);
+  line-height: var(--sc-leading-tight);
+  color: var(--sc-ink);
+  max-width: 16ch;
+  text-wrap: pretty;
+  margin: 0;
+}
+.services__line--question {
+  max-width: 30ch;
+}
+
+/* endless, borderless ticker of scattered tasks under the argument */
+.task-marquee {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--sc-9);
+  overflow: hidden;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black var(--sc-gutter),
+    black calc(100% - var(--sc-gutter)),
+    transparent
+  );
+}
+/* clear the ledger's own footprint rather than running under it */
+@media (min-width: 860px) {
+  .task-marquee {
+    right: 24rem;
+    mask-image: linear-gradient(90deg, transparent, black var(--sc-gutter), black 100%);
+  }
+}
+.task-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: oa-marquee 26s linear infinite;
+}
+.task-marquee__set {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.task-marquee__word {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-lg);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  color: var(--sc-ink-soft);
+  white-space: nowrap;
+}
+.task-marquee__dash {
+  color: var(--sc-accent);
+  margin-inline: var(--sc-5);
+}
+@keyframes oa-marquee {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .task-marquee__track {
+    animation: none;
+  }
+  .task-marquee__set:last-child {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------ ledger --- */
+.ledger {
+  position: fixed;
+  right: var(--sc-gutter);
+  bottom: var(--sc-7);
+  z-index: var(--sc-z-chrome);
+  width: min(20rem, calc(100vw - 2 * var(--sc-gutter)));
+  padding: var(--sc-5);
+  border-radius: var(--sc-r-lg);
+  background: color-mix(in oklab, var(--sc-surface) 92%, transparent);
+  box-shadow: var(--sc-e2);
+  border: 1px solid var(--sc-hairline);
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition: opacity var(--sc-d-slow) var(--sc-ease-out),
+    transform var(--sc-d-slow) var(--sc-ease-out);
+  pointer-events: none;
+}
+.ledger--visible {
+  opacity: 1;
+  transform: none;
+}
+.ledger:not(.ledger--expanded) {
+  padding: var(--sc-3) var(--sc-4);
+  /* Riding quietly means out of the way: About/Portfolio's own content is
+     vertically centred or bottom-weighted, so the minimised badge moves up
+     under the nav rather than fighting either for the same corner. */
+  top: calc(var(--sc-8) + var(--sc-2));
+  bottom: auto;
+}
+.ledger:not(.ledger--expanded) .ledger__list,
+.ledger:not(.ledger--expanded) .ledger__label {
+  display: none;
+}
+.ledger:not(.ledger--expanded) .ledger__total {
+  margin: 0;
+  padding-top: 0;
+  border-top: none;
+  font-size: var(--sc-t-sm);
+}
+.ledger__label {
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  color: var(--sc-ink-soft);
+  margin: 0 0 var(--sc-3);
+}
+.ledger__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-2);
+}
+.ledger__line {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  line-height: 1.5;
+}
+.ledger__strike {
+  color: var(--sc-ink-soft);
+}
+.ledger__line--done .ledger__strike {
+  text-decoration: line-through;
+  text-decoration-color: var(--sc-ink-soft);
+}
+.ledger__handled {
+  color: var(--sc-accent);
+  opacity: 0;
+  transform: translate3d(0, 4px, 0);
+  transition: opacity var(--sc-d-base) var(--sc-ease-out),
+    transform var(--sc-d-base) var(--sc-ease-out);
+}
+.ledger__line--done .ledger__handled {
+  opacity: 1;
+  transform: none;
+}
+.ledger__total {
+  margin: var(--sc-4) 0 0;
+  padding-top: var(--sc-3);
+  border-top: 1px solid var(--sc-hairline);
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-base);
+  color: var(--sc-ink-soft);
+  transition: color var(--sc-d-base) var(--sc-ease-out);
+}
+.ledger--final .ledger__total {
+  color: var(--sc-accent);
+  font-weight: 500;
+}
+@media (max-width: 640px) {
+  .ledger__list {
+    display: none;
+  }
+  .ledger {
+    width: auto;
+    padding: var(--sc-3) var(--sc-4);
+  }
+}
+
+/* ------------------------------------------------------------- about --- */
+.about__story {
+  padding-bottom: var(--sc-4);
+}
+.about__rule {
+  margin-bottom: var(--sc-6);
+  max-width: 6rem;
+}
+.about__lede {
+  font-size: var(--sc-t-lg);
+  max-width: 58ch;
+}
+.about__principles {
+  padding-top: var(--sc-4);
+}
+.principles {
+  margin-top: var(--sc-6);
+  display: flex;
+  flex-direction: column;
+}
+.principles__item {
+  padding-block: var(--sc-6);
+  border-top: 1px solid var(--sc-hairline);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sc-2);
+  max-width: 60ch;
+}
+@media (min-width: 860px) {
+  .principles__item {
+    grid-template-columns: minmax(14rem, 22ch) minmax(0, 46ch);
+    max-width: none;
+    gap: var(--sc-7);
+    align-items: baseline;
+  }
+}
+
+/* --------------------------------------------------------- portfolio --- */
+.portfolio__rail-section {
+  padding-block: 0;
+}
+.rail {
+  gap: var(--sc-6);
+  padding-inline: var(--sc-gutter);
+  align-items: center;
+  height: 100%;
+}
+.rail__lead {
+  flex: 0 0 auto;
+  width: clamp(16rem, 30vw, 28rem);
+}
+.portfolio-item {
+  flex: 0 0 auto;
+  width: clamp(17rem, 26vw, 28rem);
+}
+/* Six items of real width, not four: devices.md's fix for a rail that
+   measures fine at 1440 (552px overflow) and goes nearly dead at 1920
+   (88px) — cards capping out while the viewport keeps growing is exactly
+   the width-dependent trap it warns about; more rail, not wider cards
+   alone, is what keeps the travel real at both. */
+.rail__close {
+  flex: 0 0 auto;
+  width: clamp(14rem, 20vw, 20rem);
+  color: var(--sc-ink-soft);
+  font-size: var(--sc-t-base);
+}
+.portfolio-item__panel {
+  background: var(--sc-canvas);
+  border: 1px solid var(--sc-hairline);
+  border-radius: var(--sc-r-lg);
+  box-shadow: var(--sc-e1);
+  padding: var(--sc-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-3);
+  min-height: 16rem;
+}
+.portfolio-item__panel .sc-label {
+  margin: 0;
+}
+.portfolio-item__panel h3 {
+  margin: 0;
+}
+.portfolio__github {
+  padding-top: var(--sc-4);
+}
+.github-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--sc-6);
+  max-width: 44rem;
+}
+.github-stats__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-1);
+}
+.github-stats__value {
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-3xl);
+  color: var(--sc-ink-soft);
+  margin: 0;
+}
+.github-stats__note {
+  margin-top: var(--sc-2);
+  max-width: 46ch;
+  font-size: var(--sc-t-sm);
+}
+
+/* ----------------------------------------------------------- contact --- */
+.contact {
+  background: var(--sc-canvas);
+}
+.contact__stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sc-4);
+  padding-inline: var(--sc-gutter);
+  padding-bottom: var(--sc-9);
+}
+.contact__rule {
+  max-width: 6rem;
+  margin-bottom: var(--sc-4);
+}
+.contact__headline {
+  max-width: 16ch;
+}
+.contact__sub {
+  font-size: var(--sc-t-lg);
+  max-width: 46ch;
+  color: var(--sc-ink-soft);
+}
+.contact__cta {
+  margin-top: var(--sc-5);
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sc-3);
+  width: fit-content;
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-xl);
+  color: var(--sc-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+  transition: transform var(--sc-d-fast) var(--sc-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .contact__cta:hover {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+.contact__cta:active {
+  transform: scale(0.98);
+}
+.contact__cta-note {
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  color: var(--sc-ink-soft);
+  text-decoration: none;
+}
+.terminal-line {
+  margin-top: var(--sc-6);
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft);
+}
+.terminal-line__cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.15em;
+  background: var(--sc-accent);
+  animation: oa-blink 1s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .terminal-line__cursor {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+@keyframes oa-blink {
+  50% {
+    opacity: 0;
+  }
+}

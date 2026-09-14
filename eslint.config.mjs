@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored, never edited per-project (see AGENTS.md / PLAN.md step 3).
+    "public/scrollcraft/**",
   ]),
 ]);
 
