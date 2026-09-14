@@ -46,10 +46,9 @@
   display: block;
   width: 1.5em;
   height: 1.5em;
-  /* box.png is black line art on transparent — invert to white for this
-     site's fixed dark canvas (see html { color-scheme: dark } in
-     app/globals.css; revisit if a light theme is ever added). */
-  filter: invert(1);
+  /* box.png is black line art on transparent — reads as-is on this site's
+     white canvas (see html { color-scheme: light } in app/globals.css). No
+     filter needed now that the canvas is light, not dark. */
 }
 .oa-nav__type.terminal-line {
   color: var(--sc-accent);

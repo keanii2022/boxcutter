@@ -1,41 +1,55 @@
 /* ============================================================================
    outsideAI.site — brand tokens
    ----------------------------------------------------------------------------
-   PLACEHOLDER. Derived from the Spline hero scene's own palette (purple /
-   orange / teal, #888FF3 background) so the page below the hero doesn't clash
-   with it before real branding exists. Replaced wholesale in PLAN.md Step 5
-   once the user's Canva logo is ready. Everything here is exactly the set
-   scrollcraft.css asks a brand to override: six colour roles and two font
-   families, nothing else.
+   Real brand palette (PLAN.md Step 5, 2026-09-14): white canvas, black ink,
+   the black box.png line-mark, neon orange for type/links/the typed wordmark,
+   neon green as a second accent for buttons. Replaces the Spline-palette
+   placeholder that stood in from Step 3 through the first half of Step 5.
+   Everything under the first blank line is exactly the set scrollcraft.css
+   asks a brand to override: six colour roles and two font families. Below
+   that are outsideAI's own site-specific additions — outside scrollcraft's
+   contract but following its naming convention.
    ========================================================================== */
 
 :root {
-  --sc-canvas:     #0b0a13;
-  --sc-surface:    #16131f;
-  --sc-ink:        #f3efe8;
-  /* Plain hex, not color-mix(): Chrome serialises color-mix's computed value
-     as lab()/oklab(), and both the verification harness's contrast checker
-     and this browser's own canvas colour parser read that as black, turning
-     every line using it into a false near-1:1 contrast failure. Pre-mixed by
-     hand instead (was ~55% --sc-ink / 45% #8f89a8) — verified 7.5:1 on
-     canvas, 7:1 on surface. */
-  --sc-ink-soft:   #a39dae;
-  --sc-accent:     #ff6b3d;
-  --sc-accent-ink: #170e08;
+  --sc-canvas:     #ffffff;
+  --sc-surface:    #f3f2ef;
+  --sc-ink:        #121212;
+  /* Warm gray, not flat: same "tinted, never flat gray" rule scrollcraft's
+     own default uses. 7.6:1 on canvas, 6.8:1 on surface. */
+  --sc-ink-soft:   #57534e;
+  /* Neon orange, dialed back from the top of the range (#ff5a1f, 3.1:1 on
+     white — fails AA for the body-sized text this token is also used as,
+     e.g. the nav wordmark and inline links) to #d64200 (4.5:1) so it stays
+     legible as text and not just as a fill. The louder, uncompromised neon
+     lives in the oa-pulse and oa-green tokens below, where it's only ever
+     a glow or a button fill sitting behind dark ink, not text color itself. */
+  --sc-accent:     #d64200;
+  /* Mirrors scrollcraft's own pattern: accent-ink matches canvas (there,
+     dark canvas → dark accent-ink; here, white canvas → white accent-ink).
+     4.5:1 on --sc-accent. */
+  --sc-accent-ink: #ffffff;
 
   --sc-font-display: var(--font-fraunces), Georgia, serif;
   --sc-font-text:    var(--font-space-grotesk), system-ui, sans-serif;
   --sc-font-mono:    var(--font-space-mono), ui-monospace, monospace;
 
   /* the "outside the box" motif's own colour: dim, secondary, never the CTA.
-     Plain hex for the same reason as --sc-ink-soft above. */
-  --oa-bracket: #9aa0e8;
+     4.7:1 on canvas. */
+  --oa-bracket: #78736a;
 
   /* scroll/hover pulse — a "you're moving" cue, breathing between two
      intensities of neon orange. Deliberately calmer than the WPM Typing
      Pulse project's per-keystroke strobe: this reads as one continuous
-     gesture, not a counter. rgba(), not color-mix(), for the same reason
-     --sc-ink-soft is plain hex above. */
-  --oa-pulse-dim: rgba(255, 138, 46, 0.35);
-  --oa-pulse-bright: rgba(255, 138, 46, 0.85);
+     gesture, not a counter. Full-saturation neon (#ff6a00) since this is
+     always a glow (box-shadow), never text color — contrast-with-canvas
+     doesn't apply the way it does to --sc-accent above. */
+  --oa-pulse-dim: rgba(255, 106, 0, 0.35);
+  --oa-pulse-bright: rgba(255, 106, 0, 0.85);
+
+  /* second accent, for buttons/CTAs — neon green, kept out of text/link
+     colour the same way the pulse glow is: a fill sitting behind dark ink,
+     not a text colour needing its own contrast-on-canvas. */
+  --oa-green: #39ff14;
+  --oa-green-ink: #0a1f00;
 }
