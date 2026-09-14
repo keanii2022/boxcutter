@@ -1,5 +1,5 @@
 // Shared, real data — not lorem. Single source so the Services chapter's
-// cue windows and the Ledger's check-off thresholds can't drift apart.
+// cue windows and the ToDoList's check-off thresholds can't drift apart.
 
 // The opening build-up, ahead of the specific jobs below. Same crossfading
 // argument, same pin, just the first three beats.
@@ -36,66 +36,42 @@ export const TASK_WORDS: string[] = [
   "Ops",
 ];
 
-export type ServiceJob = {
-  problem: string;
-  specialist: string;
+export type StoryStep = {
+  /** short to-do label for the ToDoList checkoff */
+  label: string;
+  /** the sentence shown in the Services chapter's crossfading argument */
+  line: string;
   /** act progress (0-1) window this line is fully readable in */
   cueFrom: number;
   cueTo: number;
 };
 
-export const SERVICE_JOBS: ServiceJob[] = [
+// The open-ended version of the pitch: not four fixed specialist roles,
+// but the actual arc from idea to client. Step 2 is the DIY-video's
+// counterpart — having the resources but not knowing how to use them.
+export const STORY_STEPS: StoryStep[] = [
   {
-    problem: "Your product works. Nobody outside your team can find it.",
-    specialist: "an SEO consultant",
+    label: "Business idea",
+    line: "You have a business idea and no map for turning it into something real.",
     cueFrom: 0.41,
     cueTo: 0.58,
   },
   {
-    problem: "The MVP holds up in the demo. It buckles at 200 real users.",
-    specialist: "a backend engineer",
+    label: "Research",
+    line: "You search “how to run a business” at midnight instead of running one.",
     cueFrom: 0.54,
     cueTo: 0.71,
   },
   {
-    problem: "You can see the funnel leaking. You can't see where.",
-    specialist: "an analytics consultant",
+    label: "outside.ai",
+    line: "outside.ai takes it from there and builds the thing itself.",
     cueFrom: 0.67,
     cueTo: 0.84,
   },
   {
-    problem: "Every new tool needs its own glue, by hand, again.",
-    specialist: "an integrations engineer",
+    label: "Clientele",
+    line: "You go from an idea to a business with actual clients.",
     cueFrom: 0.8,
     cueTo: 1,
-  },
-];
-
-export type PortfolioItem = {
-  name: string;
-  role: string;
-  blurb: string;
-};
-
-export const PORTFOLIO_ITEMS: PortfolioItem[] = [
-  {
-    name: "Yeti Survival",
-    role: "Personal project · in development",
-    blurb: "A survival game built for my son. Full loop, solo dev.",
-  },
-  {
-    name: "Robotics UI System",
-    role: "Client work · confidential, San Francisco",
-    blurb: "Product UI for a robotics company's internal tooling.",
-  },
-  {
-    name: "WPM Typing Pulse",
-    role: "Personal tool",
-    blurb: "A typing-speed tracker, built to sharpen my own React/TS.",
-  },
-  {
-    name: "Content Pipeline",
-    role: "Personal project · in development",
-    blurb: "An automated content system: proving the loop before selling it.",
   },
 ];

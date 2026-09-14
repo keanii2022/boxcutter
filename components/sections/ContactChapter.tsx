@@ -25,14 +25,10 @@ export default function ContactChapter() {
               Twenty minutes is usually enough to know if I&rsquo;m the right
               one to solve it.
             </p>
-            <a
-              className="contact__cta"
-              href="mailto:hello@outside.ai"
-              data-sc-cue="0.55"
-            >
+            <p className="contact__cta" data-sc-cue="0.55">
               Book a call →
               <span className="contact__cta-note">(Calendly link coming soon)</span>
-            </a>
+            </p>
             <TerminalLine text="> ready when you are_" />
           </div>
           <SocialClip />

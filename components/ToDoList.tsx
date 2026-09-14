@@ -1,18 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SERVICE_JOBS } from "../lib/content";
+import { STORY_STEPS } from "../lib/content";
 
 /**
- * The signature move: a fixed ledger that watches the Services chapter's
+ * The signature move: a fixed to-do list that watches the Services chapter's
  * own --sc-p (published by the engine on its act element) and checks off a
- * real job line as the reader passes it. It rides quietly through About and
- * Portfolio, then totals up in Contact. Bespoke JS reading --sc-p, per
+ * real story step as the reader passes it. It rides quietly through About
+ * and GitHub, then totals up in Contact. Bespoke JS reading --sc-p, per
  * uniqueness.md §3 — no engine edit, no kit device.
  */
-export default function Ledger() {
+export default function ToDoList() {
   const [checked, setChecked] = useState<boolean[]>(() =>
-    SERVICE_JOBS.map(() => false)
+    STORY_STEPS.map(() => false)
   );
   const [visible, setVisible] = useState(false);
   const [finalized, setFinalized] = useState(false);
@@ -26,7 +26,7 @@ export default function Ledger() {
 
     // Full detail only while Services (building the list) or Contact
     // (totalling it) is actually on screen; a minimised badge the rest of
-    // the way so the panel never sits on top of About/Portfolio's own text.
+    // the way so the panel never sits on top of About/GitHub's own text.
     const expandTargets = [servicesEl, contactEl].filter(
       (el): el is HTMLElement => Boolean(el)
     );
@@ -61,8 +61,8 @@ export default function Ledger() {
         let changed = false;
         const next = prev.map((was, i) => {
           const threshold =
-            SERVICE_JOBS[i].cueFrom +
-            (SERVICE_JOBS[i].cueTo - SERVICE_JOBS[i].cueFrom) * 0.5;
+            STORY_STEPS[i].cueFrom +
+            (STORY_STEPS[i].cueTo - STORY_STEPS[i].cueFrom) * 0.5;
           const now = servicesP >= threshold;
           if (now !== was) changed = true;
           return now;
@@ -89,26 +89,26 @@ export default function Ledger() {
 
   return (
     <aside
-      className={`ledger${visible ? " ledger--visible" : ""}${
-        finalized ? " ledger--final" : ""
-      }${expanded ? " ledger--expanded" : ""}`}
+      className={`todo${visible ? " todo--visible" : ""}${
+        finalized ? " todo--final" : ""
+      }${expanded ? " todo--expanded" : ""}`}
       aria-live="polite"
-      aria-label="Running list of jobs outside.ai handles"
+      aria-label="Running list of steps from idea to client"
     >
-      <p className="ledger__label">the ledger</p>
-      <ul className="ledger__list">
-        {SERVICE_JOBS.map((job, i) => (
+      <p className="todo__label">the to-do list</p>
+      <ul className="todo__list">
+        {STORY_STEPS.map((step, i) => (
           <li
-            key={job.specialist}
-            className={`ledger__line${checked[i] ? " ledger__line--done" : ""}`}
+            key={step.label}
+            className={`todo__line${checked[i] ? " todo__line--done" : ""}`}
           >
-            <span className="ledger__strike">hire {job.specialist}</span>
-            <span className="ledger__handled">outside.ai: handled</span>
+            <span className="todo__strike">{step.label}</span>
+            <span className="todo__handled">done</span>
           </li>
         ))}
       </ul>
-      <p className="ledger__total">
-        {total} {total === 1 ? "job" : "jobs"}. One conversation.
+      <p className="todo__total">
+        {total} {total === 1 ? "step" : "steps"} checked off. One conversation.
       </p>
     </aside>
   );

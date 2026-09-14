@@ -5,14 +5,6 @@ const PRINCIPLES = [
     title: "One conversation, not five hires.",
     body: "You describe the problem once. I figure out what it actually needs (design, backend, automation, analytics) and handle the parts myself or bring in the right piece.",
   },
-  {
-    title: "I show the work, not a portfolio of headshots.",
-    body: "What I've built is public: the code, the commits, the projects still in progress. Judge the work directly instead of a testimonial written by no one yet.",
-  },
-  {
-    title: "Automation is the point, not a buzzword.",
-    body: "Robotics consulting and evaluation is one half. The other is building systems (content, ops, tooling) that keep running after the conversation ends.",
-  },
 ];
 
 export default function AboutChapter() {
@@ -24,17 +16,22 @@ export default function AboutChapter() {
             <hr className="sc-rule about__rule" data-sc-reveal="up" data-sc-reveal-at="0.1 0.6" />
             <h2 className="sc-display sc-display--md">I am the entity outside.ai.</h2>
             <p className="sc-body about__lede">
-              I think outside of the box: literally the name. Most of what I do
-              starts as a problem a small business or startup has been living
-              with quietly: a product nobody can operate at scale, a process
-              three people are stitching together by hand, a launch that needs
-              more disciplines than one hire covers. I sit outside the org
-              chart and bring the solution in from wherever it actually lives.
+              I know what it&rsquo;s like to have an idea and never get to
+              build it.
             </p>
             <p className="sc-body about__lede">
-              I&rsquo;m keeping my face out of this for now: the work speaks
-              first, and the introductions come once we&rsquo;re actually
-              talking.
+              outside.ai is Hispanic-owned, built in San Francisco, and priced
+              for people who don&rsquo;t have big-tech budgets &mdash;
+              individuals and small businesses. I&rsquo;ve seen a solution I
+              couldn&rsquo;t afford. Had an idea I never got to execute. Found
+              a way in and still didn&rsquo;t have the money to walk through
+              it. I know what it feels like to want to give up completely and
+              just stay stuck there.
+            </p>
+            <p className="sc-body about__lede">
+              I got out of that. And now I build for the people still in it
+              &mdash; not to be the next big AI giant, but to help people
+              think outside the box.
             </p>
           </div>
           <div className="about__world">

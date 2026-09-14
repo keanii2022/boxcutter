@@ -1,4 +1,4 @@
-import { OVERWHELM_LINES, SERVICE_JOBS } from "../../lib/content";
+import { OVERWHELM_LINES, STORY_STEPS } from "../../lib/content";
 import TaskMarquee from "../TaskMarquee";
 
 export default function ServicesChapter() {
@@ -26,13 +26,13 @@ export default function ServicesChapter() {
               {line.text}
             </p>
           ))}
-          {SERVICE_JOBS.map((job) => (
+          {STORY_STEPS.map((step) => (
             <p
-              key={job.specialist}
+              key={step.label}
               className="sc-lede services__line"
-              data-sc-cue={`${job.cueFrom} ${job.cueTo}`}
+              data-sc-cue={`${step.cueFrom} ${step.cueTo}`}
             >
-              {job.problem}
+              {step.line}
             </p>
           ))}
         </div>

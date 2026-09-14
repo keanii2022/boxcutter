@@ -210,7 +210,7 @@
     transparent
   );
 }
-/* clear the ledger's own footprint rather than running under it */
+/* clear the to-do list's own footprint rather than running under it */
 @media (min-width: 860px) {
   .task-marquee {
     right: 24rem;
@@ -258,8 +258,8 @@
   }
 }
 
-/* ------------------------------------------------------------ ledger --- */
-.ledger {
+/* -------------------------------------------------------------- todo --- */
+.todo {
   position: fixed;
   right: var(--sc-gutter);
   bottom: var(--sc-7);
@@ -276,29 +276,29 @@
     transform var(--sc-d-slow) var(--sc-ease-out);
   pointer-events: none;
 }
-.ledger--visible {
+.todo--visible {
   opacity: 1;
   transform: none;
 }
-.ledger:not(.ledger--expanded) {
+.todo:not(.todo--expanded) {
   padding: var(--sc-3) var(--sc-4);
-  /* Riding quietly means out of the way: About/Portfolio's own content is
+  /* Riding quietly means out of the way: About/GitHub's own content is
      vertically centred or bottom-weighted, so the minimised badge moves up
      under the nav rather than fighting either for the same corner. */
   top: calc(var(--sc-8) + var(--sc-2));
   bottom: auto;
 }
-.ledger:not(.ledger--expanded) .ledger__list,
-.ledger:not(.ledger--expanded) .ledger__label {
+.todo:not(.todo--expanded) .todo__list,
+.todo:not(.todo--expanded) .todo__label {
   display: none;
 }
-.ledger:not(.ledger--expanded) .ledger__total {
+.todo:not(.todo--expanded) .todo__total {
   margin: 0;
   padding-top: 0;
   border-top: none;
   font-size: var(--sc-t-sm);
 }
-.ledger__label {
+.todo__label {
   font-family: var(--sc-font-mono);
   font-size: var(--sc-t-xs);
   letter-spacing: var(--sc-track-wide);
@@ -306,7 +306,7 @@
   color: var(--sc-ink-soft);
   margin: 0 0 var(--sc-3);
 }
-.ledger__list {
+.todo__list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -314,32 +314,32 @@
   flex-direction: column;
   gap: var(--sc-2);
 }
-.ledger__line {
+.todo__line {
   display: flex;
   flex-direction: column;
   font-family: var(--sc-font-mono);
   font-size: var(--sc-t-xs);
   line-height: 1.5;
 }
-.ledger__strike {
+.todo__strike {
   color: var(--sc-ink-soft);
 }
-.ledger__line--done .ledger__strike {
+.todo__line--done .todo__strike {
   text-decoration: line-through;
   text-decoration-color: var(--sc-ink-soft);
 }
-.ledger__handled {
+.todo__handled {
   color: var(--sc-accent);
   opacity: 0;
   transform: translate3d(0, 4px, 0);
   transition: opacity var(--sc-d-base) var(--sc-ease-out),
     transform var(--sc-d-base) var(--sc-ease-out);
 }
-.ledger__line--done .ledger__handled {
+.todo__line--done .todo__handled {
   opacity: 1;
   transform: none;
 }
-.ledger__total {
+.todo__total {
   margin: var(--sc-4) 0 0;
   padding-top: var(--sc-3);
   border-top: 1px solid var(--sc-hairline);
@@ -348,15 +348,15 @@
   color: var(--sc-ink-soft);
   transition: color var(--sc-d-base) var(--sc-ease-out);
 }
-.ledger--final .ledger__total {
+.todo--final .todo__total {
   color: var(--sc-accent);
   font-weight: 500;
 }
 @media (max-width: 640px) {
-  .ledger__list {
+  .todo__list {
     display: none;
   }
-  .ledger {
+  .todo {
     width: auto;
     padding: var(--sc-3) var(--sc-4);
   }
@@ -413,53 +413,8 @@
   }
 }
 
-/* --------------------------------------------------------- portfolio --- */
-.portfolio__rail-section {
-  padding-block: 0;
-}
-.rail {
-  gap: var(--sc-6);
-  padding-inline: var(--sc-gutter);
-  align-items: center;
-  height: 100%;
-}
-.rail__lead {
-  flex: 0 0 auto;
-  width: clamp(16rem, 30vw, 28rem);
-}
-.portfolio-item {
-  flex: 0 0 auto;
-  width: clamp(17rem, 26vw, 28rem);
-}
-/* Six items of real width, not four: devices.md's fix for a rail that
-   measures fine at 1440 (552px overflow) and goes nearly dead at 1920
-   (88px) — cards capping out while the viewport keeps growing is exactly
-   the width-dependent trap it warns about; more rail, not wider cards
-   alone, is what keeps the travel real at both. */
-.rail__close {
-  flex: 0 0 auto;
-  width: clamp(14rem, 20vw, 20rem);
-  color: var(--sc-ink-soft);
-  font-size: var(--sc-t-base);
-}
-.portfolio-item__panel {
-  background: var(--sc-canvas);
-  border: 1px solid var(--sc-hairline);
-  border-radius: var(--sc-r-lg);
-  box-shadow: var(--sc-e1);
-  padding: var(--sc-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--sc-3);
-  min-height: 16rem;
-}
-.portfolio-item__panel .sc-label {
-  margin: 0;
-}
-.portfolio-item__panel h3 {
-  margin: 0;
-}
-.portfolio__github {
+/* ------------------------------------------------------------ github --- */
+.github-section {
   padding-top: var(--sc-4);
 }
 .github-stats {

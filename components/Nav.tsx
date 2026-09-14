@@ -8,7 +8,7 @@ const CHAPTERS: { id: string; label: string }[] = [
   { id: "chapter-hero", label: "" },
   { id: "chapter-services", label: "Services" },
   { id: "chapter-about", label: "About" },
-  { id: "chapter-portfolio", label: "Portfolio" },
+  { id: "chapter-github", label: "GitHub" },
   { id: "chapter-contact", label: "Contact" },
 ];
 
