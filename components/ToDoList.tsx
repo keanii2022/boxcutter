@@ -24,12 +24,14 @@ export default function ToDoList() {
     const contactEl = document.getElementById("chapter-contact");
     if (!servicesEl) return;
 
-    // Full detail only while Services (building the list) or Contact
-    // (totalling it) is actually on screen; a minimised badge the rest of
-    // the way so the panel never sits on top of About/GitHub's own text.
-    const expandTargets = [servicesEl, contactEl].filter(
-      (el): el is HTMLElement => Boolean(el)
-    );
+    // Full detail only while Services (building the list) is on screen —
+    // that section already reserves room for this panel (TaskMarquee's own
+    // `right: 24rem` clearance). Contact stays in the minimised, single-
+    // line form the rest of the page already uses: at typical viewport
+    // heights this panel's full (expanded) height doesn't fit any gap in
+    // Contact's own copy or its social-proof video without overlapping
+    // one of them, in either corner. The minimised badge is short enough
+    // to clear both, and still shows the final tally in Contact.
     // A pinned section's own box extends a viewport before and after its
     // pin, per devices.md's "clip time is not cue time" note, so plain
     // isIntersecting stays true well into the next chapter's own content.
@@ -41,11 +43,11 @@ export default function ToDoList() {
           if (e.isIntersecting) onScreen.add(e.target);
           else onScreen.delete(e.target);
         });
-        setExpanded(onScreen.size > 0);
+        setExpanded(onScreen.has(servicesEl));
       },
       { threshold: 0, rootMargin: "-50% 0px -50% 0px" }
     );
-    expandTargets.forEach((el) => expandObserver.observe(el));
+    expandObserver.observe(servicesEl);
 
     const readP = (el: Element) => {
       const raw = getComputedStyle(el).getPropertyValue("--sc-p").trim();

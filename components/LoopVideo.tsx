@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
@@ -26,6 +26,11 @@ function getServerSnapshot(): boolean {
  * value flips true→false right after hydration, so the declarative
  * attribute would silently no-op. Plays imperatively instead, with a
  * visibilitychange retry for a tab that's backgrounded right as it mounts.
+ *
+ * `src` is withheld from the element until it's within a viewport of
+ * scroll — same IntersectionObserver idiom as TerminalLine's typing
+ * trigger — so a below-fold instance (Contact's SocialClip) doesn't fetch
+ * its whole file on initial load alongside the hero's own video.
  */
 export default function LoopVideo({
   src,
@@ -40,10 +45,27 @@ export default function LoopVideo({
     getServerSnapshot
   );
   const ref = useRef<HTMLVideoElement>(null);
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return;
+        setInView(true);
+        observer.disconnect();
+      },
+      { rootMargin: "200px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !inView) return;
 
     const tryPlay = () => {
       if (reduced || document.hidden) return;
@@ -55,13 +77,14 @@ export default function LoopVideo({
 
     document.addEventListener("visibilitychange", tryPlay);
     return () => document.removeEventListener("visibilitychange", tryPlay);
-  }, [reduced]);
+  }, [reduced, inView]);
 
   return (
     <video
       ref={ref}
       className={className}
-      src={src}
+      src={inView ? src : undefined}
+      preload="none"
       loop={!reduced}
       muted
       playsInline

@@ -414,7 +414,14 @@
 
 /* ------------------------------------------------------------ github --- */
 .github-section {
-  padding-top: var(--sc-4);
+  /* The standard --sc-section clamp can resolve as low as 4.5rem, which
+     isn't enough clearance for this section's own first line: unlike
+     About's heading (pushed down further by a leading <hr> plus its own
+     h2 margin), this is a bare label that lands right where ToDoList's
+     fixed "N steps checked off" badge sits once it's traveled here from
+     Services — confirmed by measuring the badge's box (top 72px, ~49px
+     tall) against the label's rendered position. */
+  padding-top: max(var(--sc-section), 9rem);
 }
 .github-stats {
   display: grid;
