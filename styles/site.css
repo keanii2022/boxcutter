@@ -395,22 +395,22 @@
   margin-top: var(--sc-6);
   display: flex;
   flex-direction: column;
+  gap: var(--sc-8);
 }
+/* Reads as a single confident statement, not a list row waiting on more
+   siblings — this grid holds one entry today; a second principle can join
+   later as another full-width item in the same flow (PLAN.md Step 6). */
 .principles__item {
-  padding-block: var(--sc-6);
-  border-top: 1px solid var(--sc-hairline);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--sc-2);
-  max-width: 60ch;
+  max-width: 40rem;
 }
-@media (min-width: 860px) {
-  .principles__item {
-    grid-template-columns: minmax(14rem, 22ch) minmax(0, 46ch);
-    max-width: none;
-    gap: var(--sc-7);
-    align-items: baseline;
-  }
+.principles__item h3 {
+  max-width: 16ch;
+}
+.principles__body {
+  margin-top: var(--sc-4);
+  font-size: var(--sc-t-lg);
+  color: var(--sc-ink-soft);
+  max-width: 52ch;
 }
 
 /* ------------------------------------------------------------ github --- */

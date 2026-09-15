@@ -46,8 +46,8 @@ export default function AboutChapter() {
           <div className="principles" data-sc-in data-sc-stagger="60">
             {PRINCIPLES.map((p) => (
               <div className="principles__item" key={p.title}>
-                <h3 className="sc-display sc-display--sm">{p.title}</h3>
-                <p className="sc-body">{p.body}</p>
+                <h3 className="sc-display sc-display--md">{p.title}</h3>
+                <p className="sc-body principles__body">{p.body}</p>
               </div>
             ))}
           </div>
