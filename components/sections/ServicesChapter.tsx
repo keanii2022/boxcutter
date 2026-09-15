@@ -7,7 +7,7 @@ export default function ServicesChapter() {
       id="chapter-services"
       data-chapter="Services"
       data-sc-act="pin"
-      data-sc-span="6"
+      data-sc-span="4.5"
       className="services"
     >
       <div data-sc-stage className="services__stage">

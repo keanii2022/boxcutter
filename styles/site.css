@@ -44,8 +44,8 @@
 }
 .oa-nav__icon {
   display: block;
-  width: 1.5em;
-  height: 1.5em;
+  width: 2rem;
+  height: 2rem;
   /* box.png is black line art on transparent — reads as-is on this site's
      white canvas (see html { color-scheme: light } in app/globals.css). No
      filter needed now that the canvas is light, not dark. */
@@ -96,7 +96,7 @@
   /* Source is a square 1440x1440 export — matching it rather than forcing
      a phone-shaped crop keeps the cascade composition intact. */
   aspect-ratio: 1 / 1;
-  max-width: 24rem;
+  max-width: 36rem;
   margin-inline: auto;
   width: 100%;
   border-radius: var(--sc-r-lg);
@@ -116,11 +116,12 @@
    opening — see components/SplineWorld.tsx for why it's gated the way it
    is (reduced-motion / data-saver visitors never fetch the iframe). */
 .world {
+  /* No card chrome (was: rounded corners + clipped + a canvas-colored
+     backdrop) — the scene should read as a free-floating object, not
+     UI inside a bounded box. Slightly taller than square so less of the
+     bridge/tower geometry gets cropped at the top/bottom edge. */
   position: relative;
-  aspect-ratio: 1 / 1;
-  border-radius: var(--sc-r-lg);
-  overflow: hidden;
-  background: var(--sc-canvas);
+  aspect-ratio: 4 / 5;
 }
 .world__frame {
   position: absolute;
@@ -372,7 +373,7 @@
 }
 @media (min-width: 860px) {
   .about__story-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 30rem);
     gap: var(--sc-8);
   }
 }
@@ -439,6 +440,13 @@
   font-size: var(--sc-t-3xl);
   color: var(--sc-ink-soft);
   margin: 0;
+}
+.github-contributions {
+  display: block;
+  width: 100%;
+  max-width: 44rem;
+  height: auto;
+  margin-top: var(--sc-6);
 }
 .github-stats__note {
   margin-top: var(--sc-2);
@@ -515,12 +523,6 @@
 }
 .contact__cta:active {
   transform: scale(0.98);
-}
-.contact__cta-note {
-  font-family: var(--sc-font-mono);
-  font-size: var(--sc-t-xs);
-  color: var(--sc-ink-soft);
-  text-decoration: none;
 }
 .terminal-line {
   margin-top: var(--sc-6);

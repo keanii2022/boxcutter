@@ -6,13 +6,17 @@ const GITHUB_USERNAME = "keanii2022";
 
 type Stats = {
   publicRepos: number;
-  stars: number;
   recentPushes: number;
 };
 
 type GithubUser = { public_repos?: number };
-type GithubRepo = { stargazers_count?: number };
 type GithubEvent = { type?: string };
+
+// Renders the classic green contribution heatmap from public profile data —
+// no auth token needed (unlike GitHub's own GraphQL contributions API).
+// Third-party (unofficial) service; swap for GitHub's real API if this ever
+// goes down or the user gets a token for the real thing.
+const CONTRIBUTIONS_CHART_SRC = `https://ghchart.rshah.org/${GITHUB_USERNAME}`;
 
 export default function GithubStatsChapter() {
   const [stats, setStats] = useState<Stats | null>(null);
@@ -23,34 +27,25 @@ export default function GithubStatsChapter() {
 
     async function load() {
       try {
-        const [userRes, reposRes, eventsRes] = await Promise.all([
+        const [userRes, eventsRes] = await Promise.all([
           fetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
-          fetch(
-            `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`
-          ),
           fetch(
             `https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=100`
           ),
         ]);
-        if (!userRes.ok || !reposRes.ok || !eventsRes.ok) {
+        if (!userRes.ok || !eventsRes.ok) {
           throw new Error("GitHub API error");
         }
 
         const user = (await userRes.json()) as GithubUser;
-        const repos = (await reposRes.json()) as GithubRepo[];
         const events = (await eventsRes.json()) as GithubEvent[];
 
-        const stars = repos.reduce(
-          (sum, repo) => sum + (repo.stargazers_count ?? 0),
-          0
-        );
         const recentPushes = events.filter((e) => e.type === "PushEvent")
           .length;
 
         if (!cancelled) {
           setStats({
             publicRepos: user.public_repos ?? 0,
-            stars,
             recentPushes,
           });
         }
@@ -67,7 +62,6 @@ export default function GithubStatsChapter() {
 
   const metrics: { label: string; value: number | undefined }[] = [
     { label: "Public repos", value: stats?.publicRepos },
-    { label: "Stars earned", value: stats?.stars },
     { label: "Recent pushes", value: stats?.recentPushes },
   ];
 
@@ -95,6 +89,15 @@ export default function GithubStatsChapter() {
             </div>
           ))}
         </div>
+        {!error && (
+          // eslint-disable-next-line @next/next/no-img-element -- external, dynamically-sized SVG
+          <img
+            src={CONTRIBUTIONS_CHART_SRC}
+            alt={`${GITHUB_USERNAME}'s GitHub contribution graph`}
+            className="github-contributions"
+            loading="lazy"
+          />
+        )}
         <p className="sc-body github-stats__note">
           {error
             ? "GitHub’s API didn’t answer just now — real numbers, when it does."

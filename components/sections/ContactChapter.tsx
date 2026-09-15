@@ -1,13 +1,15 @@
 import TerminalLine from "../TerminalLine";
 import SocialClip from "../SocialClip";
 
+const CALENDLY_URL = "https://calendly.com/outside-ai-keani/30min";
+
 export default function ContactChapter() {
   return (
     <section
       id="chapter-contact"
       data-chapter="Contact"
       data-sc-act="pin"
-      data-sc-span="3.8"
+      data-sc-span="2.8"
       className="contact"
     >
       <div data-sc-stage className="contact__stage">
@@ -25,10 +27,15 @@ export default function ContactChapter() {
               Twenty minutes is usually enough to know if I&rsquo;m the right
               one to solve it.
             </p>
-            <p className="contact__cta" data-sc-cue="0.55">
+            <a
+              className="contact__cta"
+              data-sc-cue="0.55"
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Book a call →
-              <span className="contact__cta-note">(Calendly link coming soon)</span>
-            </p>
+            </a>
             <TerminalLine text="> ready when you are_" />
           </div>
           <SocialClip />

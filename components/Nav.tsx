@@ -53,8 +53,8 @@ export default function Nav() {
         <Image
           src="/brand/box.png"
           alt=""
-          width={20}
-          height={20}
+          width={40}
+          height={40}
           className="oa-nav__icon"
           priority
         />
