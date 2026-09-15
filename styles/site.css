@@ -589,6 +589,21 @@
   }
 }
 
+/* Bottom-edge companion to the frame pulse above: intensity tracks how far
+   down the page the viewer has scrolled (0 at the top, brightest at the
+   bottom), independent of the frame's own scrolling-right-now blink. No
+   animation of its own — it only ever reflects scroll position, so it needs
+   no prefers-reduced-motion override. */
+.scroll-pulse-gradient {
+  position: fixed;
+  inset: auto 0 0 0;
+  height: 45vh;
+  z-index: var(--sc-z-chrome);
+  pointer-events: none;
+  background: linear-gradient(to top, var(--oa-pulse-bright), transparent);
+  opacity: calc(var(--scroll-progress, 0) * 0.65);
+}
+
 /* Hover's own sister pulse — same breathing rhythm, triggered per-element
    instead of by scroll. A ring via box-shadow (not border-color) so it
    never assumes the element already carries a visible border. Pointer-only,

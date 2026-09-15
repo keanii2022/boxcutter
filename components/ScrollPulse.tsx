@@ -8,13 +8,20 @@ import { useEffect, useRef } from "react";
  * scroll event — a wayfinding cue that something is happening, standing in
  * for the missing "next section" affordance. Not tied to scroll-craft's own
  * progress pipeline; this only cares whether the page is moving right now.
+ *
+ * A second, independent layer — the bottom gradient — tracks overall scroll
+ * progress (scrollY / scrollable height) instead of the active/inactive
+ * blink above, so it reads as "how far down the page you are" rather than
+ * "the page is moving right now."
  */
 export default function ScrollPulse() {
   const ref = useRef<HTMLDivElement>(null);
+  const gradientRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    const gradientEl = gradientRef.current;
+    if (!el || !gradientEl) return;
 
     let hideTimer: number;
     const onScroll = () => {
@@ -23,8 +30,16 @@ export default function ScrollPulse() {
       hideTimer = window.setTimeout(() => {
         el.classList.remove("scroll-pulse--active");
       }, 220);
+
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+      gradientEl.style.setProperty(
+        "--scroll-progress",
+        String(Math.min(1, Math.max(0, progress)))
+      );
     };
 
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -32,5 +47,10 @@ export default function ScrollPulse() {
     };
   }, []);
 
-  return <div ref={ref} className="scroll-pulse" aria-hidden="true" />;
+  return (
+    <>
+      <div ref={ref} className="scroll-pulse" aria-hidden="true" />
+      <div ref={gradientRef} className="scroll-pulse-gradient" aria-hidden="true" />
+    </>
+  );
 }
