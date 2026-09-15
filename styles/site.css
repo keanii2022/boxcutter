@@ -85,7 +85,7 @@
 }
 @media (min-width: 860px) {
   .opening__inner {
-    grid-template-columns: minmax(0, 1fr) minmax(14rem, 20rem);
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 44rem);
     gap: var(--sc-8);
   }
 }
@@ -97,7 +97,7 @@
   /* Source is a square 1440x1440 export — matching it rather than forcing
      a phone-shaped crop keeps the cascade composition intact. */
   aspect-ratio: 1 / 1;
-  max-width: 36rem;
+  max-width: 44rem;
   margin-inline: auto;
   width: 100%;
   border-radius: var(--sc-r-lg);
