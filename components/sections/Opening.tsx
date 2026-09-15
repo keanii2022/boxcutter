@@ -7,15 +7,13 @@ import LoopVideo from "../LoopVideo";
  * not inviting. This is the "do you have a problem?" hook paired with a
  * screen recording of scrolling through DIY-business-ops videos, standing
  * in for the visitor's own late-night research habit.
- *
- * Headline copy is a placeholder pending the real content pass.
  */
 export default function Opening() {
   return (
     <section id="chapter-hero" className="opening" aria-label="outside.ai">
       <div className="opening__inner">
         <h1 className="opening__headline sc-display sc-display--lg">
-          Do you have a problem?
+          Don&apos;t have the time?
         </h1>
         <div
           className="opening__video"
