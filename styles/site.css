@@ -44,13 +44,14 @@
 }
 .oa-nav__icon {
   display: block;
-  width: 2rem;
-  height: 2rem;
+  width: 3.5rem;
+  height: 3.5rem;
   /* box.png is black line art on transparent — reads as-is on this site's
      white canvas (see html { color-scheme: light } in app/globals.css). No
      filter needed now that the canvas is light, not dark. */
 }
 .oa-nav__type.terminal-line {
+  margin-top: 0;
   color: var(--sc-accent);
 }
 .oa-nav__type .terminal-line__cursor {
