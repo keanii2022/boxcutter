@@ -132,6 +132,16 @@
   border: 0;
   opacity: 0;
   transition: opacity 0.6s var(--sc-ease-out);
+  /* The embed ships with Spline's own orbit/zoom controls live, which
+     steals drag and wheel input from the page (grabbing the scene instead
+     of scrolling, and zooming/rotating it instead of the viewport
+     scrolling) — this diorama is meant to be a passive, autoplaying
+     spin (see PLAN.md Step 4: "Not scroll-driven"), not interactive, and
+     there's no way to disable those controls from outside the cross-origin
+     iframe. Blocking pointer events on the element itself is the only
+     lever available: it lets clicks/drags/wheel pass through to the page
+     underneath instead of being captured by the scene. */
+  pointer-events: none;
 }
 .world__frame--visible {
   opacity: 1;
@@ -374,7 +384,7 @@
 }
 @media (min-width: 860px) {
   .about__story-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 30rem);
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 42rem);
     gap: var(--sc-8);
   }
 }
@@ -473,7 +483,7 @@
 }
 @media (min-width: 860px) {
   .contact__grid {
-    grid-template-columns: minmax(0, 1fr) minmax(14rem, 20rem);
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 48rem);
     gap: var(--sc-8);
   }
 }
@@ -483,13 +493,17 @@
   gap: var(--sc-4);
 }
 .social-clip {
-  width: 100%;
-  max-width: 22rem;
+  /* No card chrome (was: rounded corners + a hairline outline) — same
+     de-boxing treatment as .world, so the clip reads as a free-floating
+     object rather than UI inside a bounded box. The 46vh term is what
+     actually guards the fixed top-right todo badge on short viewports
+     (checked empirically down to 1400x700) — the 48rem term is just a
+     ceiling for very tall windows and rarely binds in practice, so raise
+     it freely without re-opening the overlap question. */
+  width: min(100%, 48rem, 46vh);
   aspect-ratio: 1 / 1;
   margin-inline: auto;
-  border-radius: var(--sc-r-lg);
   object-fit: cover;
-  box-shadow: 0 0 0 1px var(--sc-hairline-strong);
 }
 .contact__rule {
   max-width: 6rem;
