@@ -46,32 +46,24 @@ export type StoryStep = {
   cueTo: number;
 };
 
-// The open-ended version of the pitch: not four fixed specialist roles,
-// but the actual arc from idea to client. Step 2 is the DIY-video's
-// counterpart — having the resources but not knowing how to use them.
+// The three real offerings, not a fixed idea-to-client story arc.
 export const STORY_STEPS: StoryStep[] = [
   {
-    label: "Business idea",
-    line: "You have a business idea and no map for turning it into something real.",
+    label: "Website & ads",
+    line: "A website that works and ads that bring people to it — built and kept running, every month, priced for a small business.",
     cueFrom: 0.41,
-    cueTo: 0.58,
+    cueTo: 0.66,
   },
   {
-    label: "Research",
-    line: "You search “how to run a business” at midnight instead of running one.",
-    cueFrom: 0.54,
-    cueTo: 0.71,
+    label: "Startup support",
+    line: "Starting from nothing? We help you build the business itself, not just the site.",
+    cueFrom: 0.61,
+    cueTo: 0.86,
   },
   {
-    label: "outside.ai",
-    line: "outside.ai takes it from there and builds the thing itself.",
-    cueFrom: 0.67,
-    cueTo: 0.84,
-  },
-  {
-    label: "Clientele",
-    line: "You go from an idea to a business with actual clients.",
-    cueFrom: 0.8,
+    label: "Custom work",
+    line: "Need something nobody else offers? Get on a call and we'll build exactly that.",
+    cueFrom: 0.81,
     cueTo: 1,
   },
 ];
