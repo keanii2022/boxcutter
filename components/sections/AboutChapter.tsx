@@ -1,4 +1,4 @@
-import SplineWorld from "../SplineWorld";
+import Bridge from "../Bridge";
 
 const PRINCIPLES = [
   {
@@ -14,13 +14,16 @@ export default function AboutChapter() {
         <div className="sc-wrap about__story-inner">
           <div className="sc-stack" data-sc-in data-sc-stagger="70">
             <hr className="sc-rule about__rule" data-sc-reveal="up" data-sc-reveal-at="0.1 0.6" />
-            <h2 className="sc-display sc-display--md">I am the entity outside.ai.</h2>
+            <h2 className="sc-display sc-display--md">
+              I&rsquo;m the bridge between you and the machine.
+            </h2>
             <p className="sc-body about__lede">
-              I know what it&rsquo;s like to have an idea and never get to
-              build it.
+              You don&rsquo;t need to understand how any of this works. You
+              just need someone who does &mdash; and who&rsquo;ll explain it
+              like a person, not a manual.
             </p>
             <p className="sc-body about__lede">
-              outside.ai is Hispanic-owned, built in San Francisco, and priced
+              BoxCutter is Hispanic-owned, built in San Francisco, and priced
               for people who don&rsquo;t have big-tech budgets &mdash;
               individuals and small businesses. I&rsquo;ve seen a solution I
               couldn&rsquo;t afford. Had an idea I never got to execute. Found
@@ -29,13 +32,14 @@ export default function AboutChapter() {
               just stay stuck there.
             </p>
             <p className="sc-body about__lede">
-              I got out of that. And now I build for the people still in it
-              &mdash; not to be the next big AI giant, but to help people
-              think outside the box.
+              I got out of that. Now I meet people where they are &mdash; no
+              jargon, one phone call to start, pricing that fits what
+              you&rsquo;ve actually got &mdash; and build the bridge the rest
+              of the way myself.
             </p>
           </div>
-          <div className="about__world">
-            <SplineWorld />
+          <div className="about__bridge">
+            <Bridge />
           </div>
         </div>
       </section>
