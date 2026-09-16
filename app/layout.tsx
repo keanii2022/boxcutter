@@ -25,9 +25,9 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "outside.ai: Keani Antezana",
+  title: "BoxCutter: Keani Antezana",
   description:
-    "outside.ai: automated solutions and robotics consulting from Keani Antezana. One conversation instead of five hires.",
+    "BoxCutter: think outside the box. Plainspoken, no-jargon help with AI and tech for small businesses and solo founders, from Keani Antezana.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

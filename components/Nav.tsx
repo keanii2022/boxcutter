@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import BoxCutterLogo from "./BoxCutterLogo";
 import TerminalLine from "./TerminalLine";
 
 const CHAPTERS: { id: string; label: string }[] = [
@@ -48,17 +48,30 @@ export default function Nav() {
       <a
         className="oa-nav__mark pulse-hover"
         href="#chapter-hero"
-        aria-label="outside.ai"
+        aria-label="BoxCutter"
       >
-        <Image
-          src="/brand/box.png"
-          alt=""
-          width={64}
-          height={64}
-          className="oa-nav__icon"
-          priority
-        />
-        <TerminalLine text="outside.ai" className="oa-nav__type" />
+        <span className="oa-nav__lockup">
+          <BoxCutterLogo className="oa-nav__icon" />
+          <span className="oa-nav__word">
+            <span className="oa-nav__word-a">box</span>
+            <svg
+              className="oa-nav__word-crack"
+              viewBox="0 0 10 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M5 0 L8 6 L2 10 L9 16 L4 24"
+                fill="none"
+                stroke="var(--sc-accent)"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="oa-nav__word-b">Cutter</span>
+          </span>
+        </span>
+        <TerminalLine text="think outside the box" className="oa-nav__tagline" />
       </a>
       <span className="oa-nav__folio" aria-live="polite">
         {active}

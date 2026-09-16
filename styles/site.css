@@ -38,24 +38,61 @@
 .oa-nav__mark {
   color: var(--sc-ink);
   display: inline-flex;
-  align-items: center;
-  gap: 0.5em;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15em;
   text-decoration: none;
+}
+.oa-nav__lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: var(--sc-t-lg);
 }
 .oa-nav__icon {
   display: block;
-  width: 3.5rem;
-  height: 3.5rem;
-  /* box.png is black line art on transparent — reads as-is on this site's
-     white canvas (see html { color-scheme: light } in app/globals.css). No
-     filter needed now that the canvas is light, not dark. */
+  width: 1.5em;
+  height: 1.5em;
+  flex-shrink: 0;
 }
-.oa-nav__type.terminal-line {
-  margin-top: 0;
+.oa-nav__word {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--sc-font-text);
+  font-weight: 700;
+  letter-spacing: var(--sc-track-snug);
+  line-height: 1;
+  /* Overrides .oa-nav__mark's uppercase/wide-tracking mono treatment
+     (right for the tiny pill labels, wrong for an actual logotype) — the
+     wordmark's casing is deliberate styling, not a label. */
+  text-transform: none;
+}
+.oa-nav__word-a {
+  color: var(--sc-ink);
+}
+.oa-nav__word-b {
   color: var(--sc-accent);
+  display: inline-block;
+  /* The crack "shifts" this half of the word slightly, as if the cut
+     didn't leave the two pieces perfectly lined back up. */
+  transform: translateY(0.09em) rotate(-3deg);
 }
-.oa-nav__type .terminal-line__cursor {
-  background: var(--sc-accent);
+.oa-nav__word-crack {
+  width: 0.42em;
+  height: 1.15em;
+  margin-inline: 0.02em;
+  flex-shrink: 0;
+}
+/* Smaller/quieter than the wordmark itself — the tagline is texture, not
+   the headline. Overrides terminal-line's default section-level spacing
+   and full-strength accent color for a muted, secondary treatment. */
+.oa-nav__tagline.terminal-line {
+  margin-top: 0;
+  font-size: var(--sc-t-xs);
+  color: var(--sc-ink-soft);
+}
+.oa-nav__tagline .terminal-line__cursor {
+  background: var(--sc-ink-soft);
 }
 .oa-nav__folio {
   color: var(--sc-ink-soft);

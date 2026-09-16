@@ -1,10 +1,11 @@
 /* ============================================================================
    outsideAI.site — brand tokens
    ----------------------------------------------------------------------------
-   Real brand palette (PLAN.md Step 5, 2026-09-14): white canvas, black ink,
-   the black box.png line-mark, neon orange for type/links/the typed wordmark,
-   neon green as a second accent for buttons. Replaces the Spline-palette
-   placeholder that stood in from Step 3 through the first half of Step 5.
+   Real brand palette (PLAN.md Step 5, 2026-09-14; wordmark colors reused
+   as-is for the BoxCutter rebrand, PLAN.md Step 19): white canvas, black
+   ink, neon orange for type/links/the wordmark's cut half, neon green as a
+   second accent for buttons. Replaces the Spline-palette placeholder that
+   stood in from Step 3 through the first half of Step 5.
    Everything under the first blank line is exactly the set scrollcraft.css
    asks a brand to override: six colour roles and two font families. Below
    that are outsideAI's own site-specific additions — outside scrollcraft's
