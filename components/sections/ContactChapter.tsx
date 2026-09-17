@@ -1,5 +1,6 @@
 import TerminalLine from "../TerminalLine";
 import SocialClip from "../SocialClip";
+import Bridge from "../Bridge";
 import { BOOKING_URL } from "../../lib/content";
 
 export default function ContactChapter() {
@@ -26,15 +27,19 @@ export default function ContactChapter() {
               What&rsquo;s got you stuck. What you&rsquo;re trying to get
               done. Twenty minutes is enough to start.
             </p>
-            <a
-              className="contact__cta"
-              data-sc-cue="0.55"
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Book a call →
-            </a>
+            <div className="contact__cta-row" data-sc-cue="0.55">
+              <a
+                className="contact__cta"
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Book a call →
+              </a>
+              <div className="contact__bridge">
+                <Bridge />
+              </div>
+            </div>
             <TerminalLine text="> ready when you are_" />
           </div>
           <SocialClip />

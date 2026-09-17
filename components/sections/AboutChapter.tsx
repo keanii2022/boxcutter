@@ -1,5 +1,3 @@
-import Bridge from "../Bridge";
-
 const PRINCIPLES = [
   {
     title: "One conversation, not five hires.",
@@ -37,9 +35,6 @@ export default function AboutChapter() {
               you&rsquo;ve actually got &mdash; and build the bridge the rest
               of the way myself.
             </p>
-          </div>
-          <div className="about__bridge">
-            <Bridge />
           </div>
         </div>
       </section>

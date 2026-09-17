@@ -33,7 +33,14 @@
   text-transform: uppercase;
   padding: 0.4em 0.75em;
   border-radius: var(--sc-r-pill);
-  background: color-mix(in oklab, var(--sc-canvas) 55%, transparent);
+  /* Deliberately NOT var(--sc-canvas): data-sc-drift overwrites that variable
+     on the document root as the page scrolls through dark sections (see
+     scrollcraft.js's mixColor/setProperty on --sc-canvas), so mixing against
+     it made the pill go dark right along with the page — the opposite of
+     what a fixed nav chrome chip should do. white/oa-ink here are the
+     literal, drift-immune colors so the pill (and --sc-ink's near-black
+     logo/wordmark on top of it) stay legible over every section. */
+  background: color-mix(in oklab, white 92%, transparent);
   backdrop-filter: blur(6px);
 }
 .oa-nav__right {
@@ -490,15 +497,6 @@
   gap: var(--sc-7);
   align-items: center;
 }
-@media (min-width: 860px) {
-  .about__story-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 42rem);
-    gap: var(--sc-8);
-  }
-}
-.about__bridge {
-  width: 100%;
-}
 .about__rule {
   margin-bottom: var(--sc-6);
   max-width: 6rem;
@@ -591,7 +589,12 @@
 }
 @media (min-width: 860px) {
   .contact__grid {
-    grid-template-columns: minmax(0, 1fr) minmax(16rem, 48rem);
+    /* The image column's old 48rem ceiling could out-compete the copy
+       column for space at moderate desktop widths (~1024-1200px) — SocialClip
+       itself never renders past 46vh anyway, so the track never needed to
+       reserve that much. Copy's floor is wide enough to hold the CTA row
+       (link + bridge icon, ~29rem of real content) on one line. */
+    grid-template-columns: minmax(30rem, 1fr) minmax(16rem, 34rem);
     gap: var(--sc-8);
   }
 }
@@ -652,6 +655,22 @@
 .opening__cta:active,
 .services__cta:active {
   transform: scale(0.98);
+}
+.contact__cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sc-4);
+  margin-top: var(--sc-5);
+}
+.contact__cta-row .contact__cta {
+  margin-top: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.contact__bridge {
+  flex: 0 0 14rem;
+  width: 14rem;
 }
 .terminal-line {
   margin-top: var(--sc-6);
@@ -729,7 +748,7 @@
   z-index: var(--sc-z-chrome);
   pointer-events: none;
   background: linear-gradient(to top, var(--oa-pulse-bright), transparent);
-  opacity: calc(var(--scroll-progress, 0) * 0.65);
+  opacity: calc(var(--scroll-progress, 0) * 0.32);
 }
 
 /* Hover's own sister pulse — same breathing rhythm, triggered per-element
