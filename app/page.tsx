@@ -1,6 +1,7 @@
 import Nav from "../components/Nav";
 import ToDoList from "../components/ToDoList";
 import Opening from "../components/sections/Opening";
+import BridgeChapter from "../components/sections/BridgeChapter";
 import ServicesChapter from "../components/sections/ServicesChapter";
 import AboutChapter from "../components/sections/AboutChapter";
 import GithubStatsChapter from "../components/sections/GithubStatsChapter";
@@ -13,6 +14,7 @@ export default function Home() {
       <ToDoList />
       <main id="top">
         <Opening />
+        <BridgeChapter />
         <ServicesChapter />
         <AboutChapter />
         <GithubStatsChapter />

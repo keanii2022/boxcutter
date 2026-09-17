@@ -11,6 +11,21 @@
   letter-spacing: var(--sc-track-snug);
 }
 
+/* ------------------------------------------------------------- bridge --- */
+/* data-sc-drift only interpolates --sc-canvas (see the nav-pill fix below
+   for why) — it never touches --sc-ink, so text left on the brand's default
+   near-black ink goes invisible against this section's near-black drift
+   target. Re-point ink at scroll-craft's own light-on-dark defaults for the
+   life of this section only. The explicit `color` here (not just the custom
+   properties) matters: .sc-display never sets its own `color`, so without
+   this it inherits body's already-resolved dark value instead of
+   re-evaluating var(--sc-ink) against this scope. */
+#chapter-bridge {
+  --sc-ink: #f4f2ef;
+  --sc-ink-soft: #9a9ba1;
+  color: var(--sc-ink);
+}
+
 /* --------------------------------------------------------------- nav ---- */
 .oa-nav {
   position: fixed;
@@ -313,6 +328,35 @@
 }
 .services__line--question {
   max-width: 30ch;
+}
+/* Each of the six crossfading lines gets its own typographic identity —
+   font family plus a style or weight twist — so the reveal has rhythm
+   instead of six copies of the same sentence shape. */
+.services__line--serif-italic {
+  font-style: italic;
+}
+.services__line--serif-bold {
+  font-weight: 600;
+}
+.services__line--sans {
+  font-family: var(--sc-font-text);
+  font-style: normal;
+  font-weight: 400;
+}
+.services__line--sans-italic {
+  font-family: var(--sc-font-text);
+  font-style: italic;
+}
+.services__line--mono {
+  font-family: var(--sc-font-mono);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.services__line--mono-bold {
+  font-family: var(--sc-font-mono);
+  font-weight: 700;
+  letter-spacing: 0;
 }
 .services__cta {
   /* .services__stage's own flex gap already spaces this from the argument
