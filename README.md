@@ -28,4 +28,4 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Status
 
-The main scroll experience (Opening → Services → About → GitHub → Contact) is finished and live on `main`. A video-scrub hero experiment lives on the `wip/video-scrub-test` branch — not merged, not final copy or placement, kept separate on purpose.
+The full scroll experience (Opening → Services → About → GitHub → Contact) is finished and live on `main`.
