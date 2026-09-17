@@ -399,7 +399,10 @@
   opacity: 0;
   transform: translate3d(0, 12px, 0);
   transition: opacity var(--sc-d-slow) var(--sc-ease-out),
-    transform var(--sc-d-slow) var(--sc-ease-out);
+    transform var(--sc-d-slow) var(--sc-ease-out),
+    top var(--sc-d-slow) var(--sc-ease-drawer),
+    right var(--sc-d-slow) var(--sc-ease-drawer),
+    padding var(--sc-d-base) var(--sc-ease-out);
   pointer-events: none;
 }
 .todo--visible {
@@ -413,6 +416,34 @@
      under the nav rather than fighting either for the same corner. */
   top: calc(var(--sc-8) + var(--sc-2));
   bottom: auto;
+}
+/* Full detail (Services) gets the reserved 24rem corridor to itself — sized
+   up and centred in it, rather than pinned to the bottom-right corner. The
+   corridor is defined once, on .task-marquee's own `right: 24rem` above. */
+@media (min-width: 860px) {
+  .todo--expanded {
+    width: 23rem;
+    right: calc((24rem - 23rem) / 2);
+    top: 50%;
+    bottom: auto;
+    padding: var(--sc-6);
+    transform: translate3d(0, calc(-50% + 12px), 0);
+  }
+  .todo--expanded.todo--visible {
+    transform: translate3d(0, -50%, 0);
+  }
+  .todo--expanded .todo__label {
+    font-size: var(--sc-t-sm);
+  }
+  .todo--expanded .todo__line {
+    font-size: var(--sc-t-sm);
+  }
+  .todo--expanded .todo__list {
+    gap: var(--sc-3);
+  }
+  .todo--expanded .todo__total {
+    font-size: var(--sc-t-lg);
+  }
 }
 .todo:not(.todo--expanded) .todo__list,
 .todo:not(.todo--expanded) .todo__label {
@@ -454,12 +485,16 @@
   text-decoration: line-through;
   text-decoration-color: var(--sc-ink-soft);
 }
+.todo__strike {
+  transition: color var(--sc-d-base) var(--sc-ease-out);
+}
 .todo__handled {
+  display: inline-block;
   color: var(--sc-accent);
   opacity: 0;
-  transform: translate3d(0, 4px, 0);
-  transition: opacity var(--sc-d-base) var(--sc-ease-out),
-    transform var(--sc-d-base) var(--sc-ease-out);
+  transform: translate3d(0, 4px, 0) scale(0.7);
+  transition: opacity var(--sc-d-base) var(--sc-ease-drawer),
+    transform var(--sc-d-slow) var(--sc-ease-drawer);
 }
 .todo__line--done .todo__handled {
   opacity: 1;
@@ -472,11 +507,29 @@
   font-family: var(--sc-font-display);
   font-size: var(--sc-t-base);
   color: var(--sc-ink-soft);
-  transition: color var(--sc-d-base) var(--sc-ease-out);
+  transition: color var(--sc-d-base) var(--sc-ease-out),
+    transform var(--sc-d-slow) var(--sc-ease-drawer);
 }
 .todo--final .todo__total {
   color: var(--sc-accent);
   font-weight: 500;
+  animation: todo-final-pulse var(--sc-d-slow) var(--sc-ease-drawer);
+}
+@keyframes todo-final-pulse {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .todo--final .todo__total {
+    animation: none;
+  }
 }
 @media (max-width: 640px) {
   .todo__list {
