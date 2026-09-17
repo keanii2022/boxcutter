@@ -1,6 +1,11 @@
 // Shared, real data — not lorem. Single source so the Services chapter's
 // cue windows and the ToDoList's check-off thresholds can't drift apart.
 
+// One link, used by every CTA site-wide (Nav, Opening, Services, Contact).
+// Still the outside-ai-keani-branded Calendly link — swap this one constant
+// once a BoxCutter-branded booking link exists.
+export const BOOKING_URL = "https://calendly.com/outside-ai-keani/30min";
+
 // The opening build-up, ahead of the specific jobs below. Same crossfading
 // argument, same pin, just the first three beats.
 export type CueLine = {

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import BoxCutterLogo from "./BoxCutterLogo";
 import TerminalLine from "./TerminalLine";
+import { BOOKING_URL } from "../lib/content";
 
 const CHAPTERS: { id: string; label: string }[] = [
   { id: "chapter-hero", label: "" },
@@ -73,8 +74,18 @@ export default function Nav() {
         </span>
         <TerminalLine text="think outside the box" className="oa-nav__tagline" />
       </a>
-      <span className="oa-nav__folio" aria-live="polite">
-        {active}
+      <span className="oa-nav__right">
+        <a
+          className="oa-nav__cta pulse-hover"
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Book a call
+        </a>
+        <span className="oa-nav__folio" aria-live="polite">
+          {active}
+        </span>
       </span>
     </nav>
   );

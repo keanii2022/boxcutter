@@ -24,7 +24,8 @@
   pointer-events: none;
 }
 .oa-nav__mark,
-.oa-nav__folio {
+.oa-nav__folio,
+.oa-nav__cta {
   pointer-events: auto;
   font-family: var(--sc-font-mono);
   font-size: var(--sc-t-xs);
@@ -34,6 +35,22 @@
   border-radius: var(--sc-r-pill);
   background: color-mix(in oklab, var(--sc-canvas) 55%, transparent);
   backdrop-filter: blur(6px);
+}
+.oa-nav__right {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-3);
+}
+.oa-nav__cta {
+  color: var(--sc-accent);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform var(--sc-d-fast) var(--sc-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .oa-nav__cta:hover {
+    transform: translate3d(2px, 0, 0);
+  }
 }
 .oa-nav__mark {
   color: var(--sc-ink);
@@ -125,6 +142,12 @@
     grid-template-columns: minmax(0, 1fr) minmax(14rem, 44rem);
     gap: var(--sc-8);
   }
+}
+.opening__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sc-5);
 }
 .opening__headline {
   max-width: 14ch;
@@ -283,6 +306,12 @@
 }
 .services__line--question {
   max-width: 30ch;
+}
+.services__cta {
+  /* .services__stage's own flex gap already spaces this from the argument
+     block above — the shared margin-top (right for Contact/Opening's
+     tighter local stacks) would double up here. */
+  margin-top: 0;
 }
 
 /* endless, borderless ticker of scattered tasks under the argument */
@@ -596,7 +625,9 @@
   max-width: 46ch;
   color: var(--sc-ink-soft);
 }
-.contact__cta {
+.contact__cta,
+.opening__cta,
+.services__cta {
   margin-top: var(--sc-5);
   display: inline-flex;
   align-items: baseline;
@@ -611,11 +642,15 @@
   transition: transform var(--sc-d-fast) var(--sc-ease-out);
 }
 @media (hover: hover) and (pointer: fine) {
-  .contact__cta:hover {
+  .contact__cta:hover,
+  .opening__cta:hover,
+  .services__cta:hover {
     transform: translate3d(4px, 0, 0);
   }
 }
-.contact__cta:active {
+.contact__cta:active,
+.opening__cta:active,
+.services__cta:active {
   transform: scale(0.98);
 }
 .terminal-line {

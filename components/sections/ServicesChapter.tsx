@@ -1,4 +1,4 @@
-import { OVERWHELM_LINES, STORY_STEPS } from "../../lib/content";
+import { BOOKING_URL, OVERWHELM_LINES, STORY_STEPS } from "../../lib/content";
 import TaskMarquee from "../TaskMarquee";
 
 export default function ServicesChapter() {
@@ -36,6 +36,15 @@ export default function ServicesChapter() {
             </p>
           ))}
         </div>
+        <a
+          className="services__cta"
+          data-sc-cue="0.9"
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Get on a call →
+        </a>
         <TaskMarquee />
       </div>
     </section>

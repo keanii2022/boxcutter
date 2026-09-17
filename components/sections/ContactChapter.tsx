@@ -1,7 +1,6 @@
 import TerminalLine from "../TerminalLine";
 import SocialClip from "../SocialClip";
-
-const CALENDLY_URL = "https://calendly.com/outside-ai-keani/30min";
+import { BOOKING_URL } from "../../lib/content";
 
 export default function ContactChapter() {
   return (
@@ -21,16 +20,16 @@ export default function ContactChapter() {
               data-sc-cue="0.08"
               data-sc-kinetic="lines"
             >
-              Tell me the problem once.
+              Tell us where you&rsquo;re at.
             </h2>
             <p className="sc-body contact__sub" data-sc-cue="0.22">
-              Twenty minutes is usually enough to know if I&rsquo;m the right
-              one to solve it.
+              What&rsquo;s got you stuck. What you&rsquo;re trying to get
+              done. Twenty minutes is enough to start.
             </p>
             <a
               className="contact__cta"
               data-sc-cue="0.55"
-              href={CALENDLY_URL}
+              href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
             >
