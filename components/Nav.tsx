@@ -46,34 +46,41 @@ export default function Nav() {
 
   return (
     <nav className="oa-nav" aria-label="Page section">
-      <a
-        className="oa-nav__mark pulse-hover"
-        href="#chapter-hero"
-        aria-label="BoxCutter"
-      >
-        <span className="oa-nav__lockup">
-          <BoxCutterLogo className="oa-nav__icon" />
-          <span className="oa-nav__word">
-            <span className="oa-nav__word-a">box</span>
-            <svg
-              className="oa-nav__word-crack"
-              viewBox="0 0 10 24"
-              aria-hidden="true"
-            >
-              <path
-                d="M5 0 L8 6 L2 10 L9 16 L4 24"
-                fill="none"
-                stroke="var(--sc-accent)"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="oa-nav__word-b">Cutter</span>
+      <div className="oa-nav__mark">
+        <a
+          className="oa-nav__lockup-link pulse-hover"
+          href="#chapter-hero"
+          aria-label="BoxCutter"
+        >
+          <span className="oa-nav__lockup">
+            <BoxCutterLogo className="oa-nav__icon" />
+            <span className="oa-nav__word">
+              <span className="oa-nav__word-a">box</span>
+              <svg
+                className="oa-nav__word-crack"
+                viewBox="0 0 10 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M5 0 L8 6 L2 10 L9 16 L4 24"
+                  fill="none"
+                  stroke="var(--sc-accent)"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span className="oa-nav__word-b">Cutter</span>
+            </span>
           </span>
-        </span>
+        </a>
+        {/* Outside the link on purpose: this is a looping typing animation
+            (see TerminalLine), so its visible text never holds still long
+            enough to match any static aria-label on a wrapping link —
+            axe's label-content-name-mismatch check compares against
+            whatever's on screen at that instant, aria-hidden or not. */}
         <TerminalLine text="think outside the box" className="oa-nav__tagline" />
-      </a>
+      </div>
       <span className="oa-nav__right">
         <a
           className="oa-nav__cta pulse-hover"

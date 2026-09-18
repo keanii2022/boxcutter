@@ -80,6 +80,9 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.15em;
+}
+.oa-nav__lockup-link {
+  color: inherit;
   text-decoration: none;
 }
 .oa-nav__lockup {

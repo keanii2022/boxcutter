@@ -70,7 +70,11 @@ export default function TerminalLine({
   }, [text]);
 
   return (
-    <span className={`terminal-line${className ? ` ${className}` : ""}`} ref={ref}>
+    <span
+      className={`terminal-line${className ? ` ${className}` : ""}`}
+      ref={ref}
+      aria-hidden="true"
+    >
       <span className="terminal-line__text">{shown}</span>
       <span className="terminal-line__cursor" aria-hidden="true" />
     </span>

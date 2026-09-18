@@ -37,6 +37,7 @@ export default function Opening() {
         </div>
         <div
           className="opening__video"
+          role="img"
           aria-label="A cascade of late-night searches: how to run a small business without hiring five people"
         >
           <LoopVideo
