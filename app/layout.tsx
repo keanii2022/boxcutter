@@ -24,10 +24,27 @@ const spaceMono = Space_Mono({
   weight: ["400", "700"],
 });
 
+const SITE_URL = "https://boxcuttersf.com";
+const SITE_TITLE = "BoxCutter: Keani Antezana";
+const SITE_DESCRIPTION =
+  "BoxCutter: think outside the box. Plainspoken, no-jargon help with AI and tech for small businesses and solo founders, from Keani Antezana.";
+
 export const metadata: Metadata = {
-  title: "BoxCutter: Keani Antezana",
-  description:
-    "BoxCutter: think outside the box. Plainspoken, no-jargon help with AI and tech for small businesses and solo founders, from Keani Antezana.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: "BoxCutter",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

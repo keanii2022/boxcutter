@@ -1,6 +1,6 @@
 # BoxCutter
 
-**Live:** [boxcutter-xi.vercel.app](https://boxcutter-xi.vercel.app)
+**Live:** [boxcuttersf.com](https://boxcuttersf.com)
 
 A scroll-driven landing page for BoxCutter — plainspoken, no-jargon help with AI and tech for small businesses and solo founders. Built as a single cinematic scroll rather than a stack of sections: a typing wordmark, a pinned "to-do list" that checks itself off as you scroll through the services pitch, a live GitHub activity chart, and a booking CTA that follows you to Contact.
 
