@@ -1,25 +1,14 @@
-// Shared, real data — not lorem. Single source so the Services chapter's
-// cue windows and the ToDoList's check-off thresholds can't drift apart.
+// Shared, real data — not lorem. Single source so ToDoList's labels and the
+// Services carousel's cards can't drift out of copy sync.
 
 // One link, used by every CTA site-wide (Nav, Opening, Services, Contact).
 export const BOOKING_URL = "https://calendly.com/keani-boxcutter/30min";
 
-// The opening build-up, ahead of the specific jobs below. Same crossfading
-// argument, same pin, just the first three beats.
-export type CueLine = {
-  text: string;
-  cueFrom: number;
-  cueTo: number;
-};
-
-export const OVERWHELM_LINES: CueLine[] = [
-  { text: "Are you overwhelmed?", cueFrom: 0, cueTo: 0.17 },
-  { text: "Running operations on your own?", cueFrom: 0.13, cueTo: 0.31 },
-  {
-    text: "Trying to figure out how to do the following tasks without spreading yourself too thin?",
-    cueFrom: 0.27,
-    cueTo: 0.47,
-  },
+// The opening build-up, ahead of the specific offerings below.
+export const OVERWHELM_LINES: string[] = [
+  "Are you overwhelmed?",
+  "Running operations on your own?",
+  "Trying to figure out how to do the following tasks without spreading yourself too thin?",
 ];
 
 // Endless, borderless ticker running underneath the argument once the
@@ -39,34 +28,33 @@ export const TASK_WORDS: string[] = [
   "Ops",
 ];
 
+export type ServiceIconName = "website" | "startup" | "custom";
+
 export type StoryStep = {
-  /** short to-do label for the ToDoList checkoff */
+  /** short to-do label for the ToDoList checkoff, and the carousel card's title */
   label: string;
-  /** the sentence shown in the Services chapter's crossfading argument */
+  /** the fuller description shown in the carousel card's dropdown */
   line: string;
-  /** act progress (0-1) window this line is fully readable in */
-  cueFrom: number;
-  cueTo: number;
+  icon: ServiceIconName;
 };
 
-// The three real offerings, not a fixed idea-to-client story arc.
+// The three real offerings, ordered start-to-scale: nothing yet (Startup
+// support) → up and running (Website & ads) → outgrowing the basics
+// (Custom work) — not a fixed idea-to-client story arc.
 export const STORY_STEPS: StoryStep[] = [
-  {
-    label: "Website & ads",
-    line: "A website that works and ads that bring people to it — built and kept running, every month, priced for a small business.",
-    cueFrom: 0.41,
-    cueTo: 0.66,
-  },
   {
     label: "Startup support",
     line: "Starting from nothing? We help you build the business itself, not just the site.",
-    cueFrom: 0.61,
-    cueTo: 0.86,
+    icon: "startup",
+  },
+  {
+    label: "Website & ads",
+    line: "A website that works and ads that bring people to it — built and kept running, every month, priced for a small business.",
+    icon: "website",
   },
   {
     label: "Custom work",
     line: "Need something nobody else offers? Get on a call and we'll build exactly that.",
-    cueFrom: 0.81,
-    cueTo: 1,
+    icon: "custom",
   },
 ];

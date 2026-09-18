@@ -2,13 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { STORY_STEPS } from "../lib/content";
+import { SERVICE_OPENED_EVENT } from "../lib/serviceEvents";
 
 /**
- * The signature move: a fixed to-do list that watches the Services chapter's
- * own --sc-p (published by the engine on its act element) and checks off a
- * real story step as the reader passes it. It rides quietly through About
- * and GitHub, then totals up in Contact. Bespoke JS reading --sc-p, per
- * uniqueness.md §3 — no engine edit, no kit device.
+ * The signature move: a fixed to-do list that checks off a real story step
+ * the moment the reader opens that service's card in the carousel — earned
+ * by interaction, not a guessed scroll fraction. Visibility/expansion still
+ * watch the Services chapter's own --sc-p (published by the engine on its
+ * act element). It rides quietly through About and GitHub, then totals up
+ * in Contact. Bespoke JS + a DOM CustomEvent, per uniqueness.md §3 — no
+ * engine edit, no kit device.
  */
 export default function ToDoList() {
   const [checked, setChecked] = useState<boolean[]>(() =>
@@ -55,22 +58,20 @@ export default function ToDoList() {
       return Number.isFinite(p) ? p : 0;
     };
 
+    const onServiceOpened = (e: Event) => {
+      const i = (e as CustomEvent<number>).detail;
+      setChecked((prev) => {
+        if (prev[i]) return prev;
+        const next = [...prev];
+        next[i] = true;
+        return next;
+      });
+    };
+    window.addEventListener(SERVICE_OPENED_EVENT, onServiceOpened);
+
     const tick = () => {
       const servicesP = readP(servicesEl);
       setVisible(servicesP > 0);
-
-      setChecked((prev) => {
-        let changed = false;
-        const next = prev.map((was, i) => {
-          const threshold =
-            STORY_STEPS[i].cueFrom +
-            (STORY_STEPS[i].cueTo - STORY_STEPS[i].cueFrom) * 0.5;
-          const now = servicesP >= threshold;
-          if (now !== was) changed = true;
-          return now;
-        });
-        return changed ? next : prev;
-      });
 
       if (contactEl) {
         const contactP = readP(contactEl);
@@ -84,6 +85,7 @@ export default function ToDoList() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       expandObserver.disconnect();
+      window.removeEventListener(SERVICE_OPENED_EVENT, onServiceOpened);
     };
   }, []);
 

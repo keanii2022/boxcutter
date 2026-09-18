@@ -178,6 +178,10 @@
   max-width: 14ch;
   text-wrap: pretty;
 }
+.opening__sub {
+  max-width: 34ch;
+  font-size: var(--sc-t-lg);
+}
 .opening__video {
   /* Source is a square 1440x1440 export — matching it rather than forcing
      a phone-shaped crop keeps the cascade composition intact. */
@@ -309,71 +313,140 @@
 .services {
   background: var(--sc-surface);
 }
-.services__stage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--sc-7);
-  padding-inline: var(--sc-gutter);
+.services__intro {
+  padding-top: var(--sc-10);
+  padding-bottom: var(--sc-8);
 }
-.services__argument {
-  display: grid;
-  max-width: min(52rem, 84vw);
+.services__headline {
+  max-width: 20ch;
 }
-.services__line {
-  grid-area: 1 / 1;
-  font-size: var(--sc-t-2xl);
-  line-height: var(--sc-leading-tight);
-  color: var(--sc-ink);
-  max-width: 16ch;
-  text-wrap: pretty;
-  margin: 0;
-}
-.services__line--question {
-  max-width: 30ch;
-}
-/* Each of the six crossfading lines gets its own typographic identity —
-   font family plus a style or weight twist — so the reveal has rhythm
-   instead of six copies of the same sentence shape. */
-.services__line--serif-italic {
-  font-style: italic;
-}
-.services__line--serif-bold {
-  font-weight: 600;
-}
-.services__line--sans {
-  font-family: var(--sc-font-text);
-  font-style: normal;
-  font-weight: 400;
-}
-.services__line--sans-italic {
-  font-family: var(--sc-font-text);
-  font-style: italic;
-}
-.services__line--mono {
-  font-family: var(--sc-font-mono);
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: 0;
-}
-.services__line--mono-bold {
-  font-family: var(--sc-font-mono);
-  font-weight: 700;
-  letter-spacing: 0;
-}
-.services__cta {
-  /* .services__stage's own flex gap already spaces this from the argument
-     block above — the shared margin-top (right for Contact/Opening's
-     tighter local stacks) would double up here. */
-  margin-top: 0;
+.services__intro-line {
+  max-width: 34ch;
 }
 
-/* endless, borderless ticker of scattered tasks under the argument */
+/* service card icon — hand-drawn line art, same idiom as BoxCutterLogo/Bridge */
+.service-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+}
+.service-icon__shape {
+  fill: none;
+  stroke: var(--sc-ink);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.service-icon__accent {
+  fill: none;
+  stroke: var(--sc-accent);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* services carousel — a wrapping grid, not a horizontal scroller: the page
+   only ever scrolls vertically, so this just fits whatever width it has
+   (fewer columns, then a single stacked column on narrow viewports) rather
+   than opening its own sideways-scroll region. */
+.services-carousel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: var(--sc-6);
+  align-items: start;
+  margin-top: var(--sc-7);
+}
+/* Clear the to-do list's expanded, vertically-centred corridor (see
+   .task-marquee above — same 24rem corridor, same reason) so a card's
+   detail never opens in behind it. */
+@media (min-width: 860px) {
+  .services-carousel {
+    width: calc(100% - 24rem);
+  }
+}
+.service-card {
+  border: 1px solid var(--sc-hairline);
+  border-radius: var(--sc-r-lg);
+  background: var(--sc-canvas);
+  overflow: hidden;
+  transition: border-color var(--sc-d-base) var(--sc-ease-out),
+    box-shadow var(--sc-d-base) var(--sc-ease-out);
+}
+.service-card[data-open="true"] {
+  border-color: var(--sc-hairline-strong);
+  box-shadow: var(--sc-e1);
+}
+.service-card__toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sc-4);
+  width: 100%;
+  padding: var(--sc-5);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+.service-card__headtext {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-2);
+  /* nudge the multi-line teaser back up to sit level with the icon's
+     visual centre, since the toggle row no longer centres items */
+  padding-top: 0.3rem;
+}
+.service-card__name {
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-lg);
+  color: var(--sc-ink);
+}
+.service-card__teaser {
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft);
+  text-wrap: pretty;
+}
+.service-card__chevron {
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 0.6rem;
+  border-right: 2px solid var(--sc-ink-soft);
+  border-bottom: 2px solid var(--sc-ink-soft);
+  transform: rotate(45deg);
+  transition: transform var(--sc-d-base) var(--sc-ease-out);
+  flex-shrink: 0;
+}
+.service-card[data-open="true"] .service-card__chevron {
+  transform: rotate(-135deg);
+}
+.service-card__detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--sc-d-slow) var(--sc-ease-out);
+}
+.service-card[data-open="true"] .service-card__detail {
+  grid-template-rows: 1fr;
+}
+.service-card__detail-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.service-card__cta {
+  display: inline-flex;
+  margin: 0 var(--sc-5) var(--sc-5);
+  color: var(--sc-accent);
+  font-family: var(--sc-font-mono);
+  text-transform: uppercase;
+  letter-spacing: var(--sc-track-wide);
+  font-size: var(--sc-t-sm);
+}
+/* endless, borderless ticker of scattered tasks under the intro copy —
+   fades in as one more member of the intro's own data-sc-stagger group. */
 .task-marquee {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: var(--sc-9);
+  position: relative;
+  margin-top: var(--sc-6);
   overflow: hidden;
   mask-image: linear-gradient(
     90deg,
@@ -383,19 +456,15 @@
     transparent
   );
 }
-/* clear the to-do list's own footprint rather than running under it */
 @media (min-width: 860px) {
   .task-marquee {
-    right: 24rem;
+    width: calc(100% - 24rem);
     mask-image: linear-gradient(90deg, transparent, black var(--sc-gutter), black 100%);
   }
 }
-/* Below 860px the to-do list has no reserved side corridor to sit in — it
-   falls back to its own bottom-right corner instead, which lands right in
-   this band. Clear it vertically instead of horizontally. */
 @media (max-width: 640px) {
   .task-marquee {
-    bottom: var(--sc-11);
+    margin-top: var(--sc-8);
   }
 }
 .task-marquee__track {
@@ -747,8 +816,7 @@
   color: var(--sc-ink-soft);
 }
 .contact__cta,
-.opening__cta,
-.services__cta {
+.opening__cta {
   margin-top: var(--sc-5);
   display: inline-flex;
   align-items: baseline;
@@ -764,14 +832,12 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .contact__cta:hover,
-  .opening__cta:hover,
-  .services__cta:hover {
+  .opening__cta:hover {
     transform: translate3d(4px, 0, 0);
   }
 }
 .contact__cta:active,
-.opening__cta:active,
-.services__cta:active {
+.opening__cta:active {
   transform: scale(0.98);
 }
 .contact__cta-row {

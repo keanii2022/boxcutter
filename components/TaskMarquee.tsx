@@ -17,11 +17,7 @@ export default function TaskMarquee() {
   ));
 
   return (
-    <div
-      className="task-marquee"
-      data-sc-cue="0.28 1"
-      aria-hidden="true"
-    >
+    <div className="task-marquee" aria-hidden="true">
       <div className="task-marquee__track">
         <div className="task-marquee__set">{track}</div>
         <div className="task-marquee__set">{track}</div>

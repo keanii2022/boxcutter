@@ -9,7 +9,7 @@ export default function ContactChapter() {
       id="chapter-contact"
       data-chapter="Contact"
       data-sc-act="pin"
-      data-sc-span="2.8"
+      data-sc-span="2"
       className="contact"
     >
       <div data-sc-stage className="contact__stage">

@@ -26,6 +26,10 @@ export default function Opening() {
           <h1 className="opening__headline sc-display sc-display--lg">
             Don&apos;t have the time?
           </h1>
+          <p className="sc-body opening__sub">
+            Solutions for small businesses and individuals. Let me handle
+            the hard work.
+          </p>
           <a
             className="opening__cta"
             href={BOOKING_URL}
