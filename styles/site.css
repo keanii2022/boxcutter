@@ -387,6 +387,14 @@
     mask-image: linear-gradient(90deg, transparent, black var(--sc-gutter), black 100%);
   }
 }
+/* Below 860px the to-do list has no reserved side corridor to sit in — it
+   falls back to its own bottom-right corner instead, which lands right in
+   this band. Clear it vertically instead of horizontally. */
+@media (max-width: 640px) {
+  .task-marquee {
+    bottom: var(--sc-11);
+  }
+}
 .task-marquee__track {
   display: flex;
   width: max-content;
@@ -460,6 +468,16 @@
      under the nav rather than fighting either for the same corner. */
   top: calc(var(--sc-8) + var(--sc-2));
   bottom: auto;
+}
+@media (max-width: 640px) {
+  /* This offset clears a single-line desktop nav. Below 640px the nav's
+     own mark stacks logo+wordmark over a tagline line, and the "Book a
+     call" pill wraps to two lines too, so the nav itself runs taller than
+     this badge's desktop clearance — without more room here the badge
+     lands on top of the nav (and whatever heading sits just below it). */
+  .todo:not(.todo--expanded) {
+    top: var(--sc-11);
+  }
 }
 /* Full detail (Services) gets the reserved 24rem corridor to itself — sized
    up and centred in it, rather than pinned to the bottom-right corner. The
