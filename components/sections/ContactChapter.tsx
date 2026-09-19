@@ -9,7 +9,7 @@ export default function ContactChapter() {
       id="chapter-contact"
       data-chapter="Contact"
       data-sc-act="pin"
-      data-sc-span="2"
+      data-sc-span="1.3"
       className="contact"
     >
       <div data-sc-stage className="contact__stage">
@@ -29,6 +29,7 @@ export default function ContactChapter() {
             </p>
             <div className="contact__cta-row" data-sc-cue="0.55">
               <a
+                id="contact-cta"
                 className="contact__cta"
                 href={BOOKING_URL}
                 target="_blank"

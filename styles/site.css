@@ -785,6 +785,12 @@
      Services — confirmed by measuring the badge's box (top 72px, ~49px
      tall) against the label's rendered position. */
   padding-top: max(var(--sc-section), 9rem);
+  /* This is the last flow section before Contact locks into its pin, so its
+     own bottom padding is the only thing standing between the contributions
+     graph and the next thing the reader sees. The shared --sc-section value
+     is tuned for sections with more room to give (it clamps up to 11rem on
+     a wide viewport); here it just reads as dead air. */
+  padding-bottom: clamp(2rem, 4vw, 4rem);
 }
 .github-stats {
   display: grid;

@@ -2,18 +2,13 @@
 
 import { useState } from "react";
 import { BOOKING_URL, STORY_STEPS } from "../lib/content";
-import { SERVICE_OPENED_EVENT } from "../lib/serviceEvents";
 import ServiceIcon from "./ServiceIcon";
 
 export default function ServicesCarousel() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   function toggle(i: number) {
-    const opening = openIndex !== i;
-    setOpenIndex(opening ? i : null);
-    if (opening) {
-      window.dispatchEvent(new CustomEvent(SERVICE_OPENED_EVENT, { detail: i }));
-    }
+    setOpenIndex(openIndex !== i ? i : null);
   }
 
   return (

@@ -2,16 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 import { STORY_STEPS } from "../lib/content";
-import { SERVICE_OPENED_EVENT } from "../lib/serviceEvents";
 
 /**
- * The signature move: a fixed to-do list that checks off a real story step
- * the moment the reader opens that service's card in the carousel — earned
- * by interaction, not a guessed scroll fraction. Visibility/expansion still
- * watch the Services chapter's own --sc-p (published by the engine on its
- * act element). It rides quietly through About and GitHub, then totals up
- * in Contact. Bespoke JS + a DOM CustomEvent, per uniqueness.md §3 — no
- * engine edit, no kit device.
+ * The signature move: a fixed to-do list that checks off as the reader
+ * physically arrives at each milestone — not as a reward for interacting
+ * with something unrelated (this used to check "Idea" off from opening a
+ * carousel card, which had nothing to do with what "Idea" represents).
+ *
+ *   Idea          — Bridge's scrub video (the lightbulb-passing clip) has
+ *                   scrolled fully past, i.e. it's played to its last frame.
+ *   Box Cutter SF — the Services chapter (intro + the dropdown cards) has
+ *                   scrolled fully past.
+ *   Execute       — the Book a call CTA in Contact has entered view.
+ *
+ * Visibility/expansion still watch the Services chapter's own --sc-p
+ * (published by the engine on its act element). Bespoke JS, no engine edit,
+ * no kit device, per uniqueness.md §3.
  */
 export default function ToDoList() {
   const [checked, setChecked] = useState<boolean[]>(() =>
@@ -23,8 +29,10 @@ export default function ToDoList() {
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
+    const bridgeEl = document.getElementById("chapter-bridge");
     const servicesEl = document.getElementById("chapter-services");
     const contactEl = document.getElementById("chapter-contact");
+    const ctaEl = document.getElementById("contact-cta");
     if (!servicesEl) return;
 
     // Full detail only while Services (building the list) is on screen —
@@ -58,17 +66,6 @@ export default function ToDoList() {
       return Number.isFinite(p) ? p : 0;
     };
 
-    const onServiceOpened = (e: Event) => {
-      const i = (e as CustomEvent<number>).detail;
-      setChecked((prev) => {
-        if (prev[i]) return prev;
-        const next = [...prev];
-        next[i] = true;
-        return next;
-      });
-    };
-    window.addEventListener(SERVICE_OPENED_EVENT, onServiceOpened);
-
     const tick = () => {
       const servicesP = readP(servicesEl);
       // >0 fires the instant Services' box starts entering the viewport —
@@ -76,6 +73,22 @@ export default function ToDoList() {
       // viewport before its own content is actually on screen (the scrub
       // stage takes that long to slide away). Wait for real content.
       setVisible(servicesP > 0.08);
+
+      // A section's own bottom edge scrolling past the top of the viewport
+      // is the same moment as a pinned act's clip finishing its full
+      // on-screen life (Bridge has no exit slide left once its box has
+      // cleared the viewport) or a flow act's raw progress hitting 1 — both
+      // just "has this element's box gone by".
+      const bridgeDone = !bridgeEl || bridgeEl.getBoundingClientRect().bottom <= 0;
+      const servicesDone = servicesP >= 0.999;
+      const ctaReached = !!ctaEl && ctaEl.getBoundingClientRect().top < innerHeight;
+
+      setChecked((prev) => {
+        const next = [prev[0] || bridgeDone, prev[1] || servicesDone, prev[2] || ctaReached];
+        return next[0] === prev[0] && next[1] === prev[1] && next[2] === prev[2]
+          ? prev
+          : next;
+      });
 
       if (contactEl) {
         const contactP = readP(contactEl);
@@ -89,7 +102,6 @@ export default function ToDoList() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       expandObserver.disconnect();
-      window.removeEventListener(SERVICE_OPENED_EVENT, onServiceOpened);
     };
   }, []);
 
