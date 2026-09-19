@@ -18,7 +18,7 @@ export default function ServicesCarousel() {
         const open = openIndex === i;
         return (
           <div
-            className="service-card"
+            className={`service-card${step.icon === "custom" ? " service-card--wide" : ""}`}
             data-open={open ? "true" : undefined}
             key={step.label}
           >
