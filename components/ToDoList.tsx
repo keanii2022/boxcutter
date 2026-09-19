@@ -26,6 +26,7 @@ export default function ToDoList() {
   const [visible, setVisible] = useState(false);
   const [finalized, setFinalized] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [inContact, setInContact] = useState(false);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -35,14 +36,12 @@ export default function ToDoList() {
     const ctaEl = document.getElementById("contact-cta");
     if (!servicesEl) return;
 
-    // Full detail only while Services (building the list) is on screen —
-    // that section already reserves room for this panel (TaskMarquee's own
-    // `right: 24rem` clearance). Contact stays in the minimised, single-
-    // line form the rest of the page already uses: at typical viewport
-    // heights this panel's full (expanded) height doesn't fit any gap in
-    // Contact's own copy or its social-proof video without overlapping
-    // one of them, in either corner. The minimised badge is short enough
-    // to clear both, and still shows the final tally in Contact.
+    // Full detail from Services on: that section reserves room for this
+    // panel (TaskMarquee's own `right: 24rem` clearance) with the panel
+    // vertically centred in it. Contact has no such corridor to give — its
+    // image column runs nearly the full height of the viewport — so once
+    // there the panel drops to the same bottom-right corner its minimised
+    // form always used (see .todo--in-contact), short enough to clear it.
     // A pinned section's own box extends a viewport before and after its
     // pin, per devices.md's "clip time is not cue time" note, so plain
     // isIntersecting stays true well into the next chapter's own content.
@@ -54,7 +53,11 @@ export default function ToDoList() {
           if (e.isIntersecting) onScreen.add(e.target);
           else onScreen.delete(e.target);
         });
-        setExpanded(onScreen.has(servicesEl));
+        // One-way: once the reader's reached Services, the panel stays in
+        // full-list form for the rest of the page. The three lines ARE the
+        // site's own idea -> Box Cutter SF -> execute arc, so collapsing it
+        // partway through reads as abandoning the story mid-sentence.
+        setExpanded((prev) => prev || onScreen.has(servicesEl));
       },
       { threshold: 0, rootMargin: "-50% 0px -50% 0px" }
     );
@@ -93,6 +96,7 @@ export default function ToDoList() {
       if (contactEl) {
         const contactP = readP(contactEl);
         setFinalized(contactP >= 0.5);
+        setInContact(contactP > 0);
       }
 
       rafRef.current = requestAnimationFrame(tick);
@@ -111,7 +115,9 @@ export default function ToDoList() {
     <aside
       className={`todo${visible ? " todo--visible" : ""}${
         finalized ? " todo--final" : ""
-      }${expanded ? " todo--expanded" : ""}`}
+      }${expanded ? " todo--expanded" : ""}${
+        inContact ? " todo--in-contact" : ""
+      }`}
       aria-live="polite"
       aria-label="Running list of steps from idea to client"
     >
