@@ -433,6 +433,30 @@
   overflow: hidden;
   min-height: 0;
 }
+.service-card__examples {
+  list-style: none;
+  margin: 0 var(--sc-5) var(--sc-4);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-2);
+}
+.service-card__examples li {
+  position: relative;
+  padding-left: var(--sc-4);
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft);
+}
+.service-card__examples li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--sc-accent);
+}
 .service-card__cta {
   display: inline-flex;
   margin: 0 var(--sc-5) var(--sc-5);
@@ -551,43 +575,81 @@
     top: var(--sc-11);
   }
 }
+/* Below the corridor breakpoint the engine can still flag the panel
+   --expanded (that flag tracks scroll position, not viewport width) —
+   without this, `.todo:not(.todo--expanded)`'s minimised position above
+   simply fails to match and the panel falls back to the base `.todo`
+   rule's bottom-right corner, with none of the corridor reservation that
+   only exists at >=860px. Force the same minimised corner here regardless
+   of the class, since there is no full layout below this width. */
+@media (max-width: 859.98px) {
+  .todo {
+    padding: var(--sc-3) var(--sc-4);
+    top: calc(var(--sc-8) + var(--sc-2));
+    bottom: auto;
+  }
+}
+@media (max-width: 640px) {
+  .todo {
+    top: var(--sc-11);
+  }
+}
 /* Full detail (Services) gets the reserved 24rem corridor to itself — sized
    up and centred in it, rather than pinned to the bottom-right corner. The
-   corridor is defined once, on .task-marquee's own `right: 24rem` above. */
+   corridor is defined once, on .task-marquee's own `right: 24rem` above.
+   Mobile-first: the list/label stay hidden and the total stays in its
+   compact single-line form by default, and only the >=860px block below
+   switches a .todo--expanded panel into the full layout. Below 860px the
+   engine can still add the --expanded class (it's driven by scroll
+   position, not viewport width), but with no matching rule to act on, it
+   correctly falls through to this same minimised badge — the corridor
+   reservation on .task-marquee/.services-carousel only exists at that same
+   860px breakpoint, so showing full detail any narrower had nothing to
+   keep it clear of the page's own text and cards. */
+.todo__list,
+.todo__label {
+  display: none;
+}
+.todo__total {
+  margin: 0;
+  padding-top: 0;
+  border-top: none;
+  font-size: var(--sc-t-sm);
+}
 @media (min-width: 860px) {
   .todo--expanded {
-    width: 23rem;
-    right: calc((24rem - 23rem) / 2);
+    width: 19rem;
+    right: calc((24rem - 19rem) / 2);
     top: 50%;
     bottom: auto;
-    padding: var(--sc-6);
+    padding: var(--sc-5);
     transform: translate3d(0, calc(-50% + 12px), 0);
   }
   .todo--expanded.todo--visible {
     transform: translate3d(0, -50%, 0);
   }
-  .todo--expanded .todo__label {
-    font-size: var(--sc-t-sm);
-  }
-  .todo--expanded .todo__line {
-    font-size: var(--sc-t-sm);
+  .todo--expanded .todo__label,
+  .todo--expanded .todo__list {
+    display: block;
   }
   .todo--expanded .todo__list {
-    gap: var(--sc-3);
+    display: flex;
+  }
+  .todo--expanded .todo__label {
+    font-size: var(--sc-t-xs);
+  }
+  .todo--expanded .todo__line {
+    font-size: var(--sc-t-xs);
+  }
+  .todo--expanded .todo__list {
+    gap: var(--sc-2);
   }
   .todo--expanded .todo__total {
-    font-size: var(--sc-t-lg);
+    margin: var(--sc-4) 0 0;
+    padding-top: var(--sc-3);
+    border-top: 1px solid var(--sc-hairline);
+    font-size: var(--sc-t-base);
   }
-}
-.todo:not(.todo--expanded) .todo__list,
-.todo:not(.todo--expanded) .todo__label {
-  display: none;
-}
-.todo:not(.todo--expanded) .todo__total {
-  margin: 0;
-  padding-top: 0;
-  border-top: none;
-  font-size: var(--sc-t-sm);
 }
 .todo__label {
   font-family: var(--sc-font-mono);
@@ -601,7 +663,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
   flex-direction: column;
   gap: var(--sc-2);
 }
@@ -666,9 +727,6 @@
   }
 }
 @media (max-width: 640px) {
-  .todo__list {
-    display: none;
-  }
   .todo {
     width: auto;
     padding: var(--sc-3) var(--sc-4);
@@ -776,12 +834,12 @@
 }
 @media (min-width: 860px) {
   .contact__grid {
-    /* The image column's old 48rem ceiling could out-compete the copy
-       column for space at moderate desktop widths (~1024-1200px) — SocialClip
-       itself never renders past 46vh anyway, so the track never needed to
-       reserve that much. Copy's floor is wide enough to hold the CTA row
-       (link + bridge icon, ~29rem of real content) on one line. */
-    grid-template-columns: minmax(30rem, 1fr) minmax(16rem, 34rem);
+    /* Copy's floor is wide enough to hold the CTA row (link + bridge icon,
+       ~29rem of real content) on one line. The image column's ceiling was
+       raised alongside .social-clip's own width below — give it the room
+       to actually reach its new, larger cap instead of being throttled by
+       a narrow column first. */
+    grid-template-columns: minmax(26rem, 1fr) minmax(20rem, 40rem);
     gap: var(--sc-8);
   }
 }
@@ -793,12 +851,16 @@
 .social-clip {
   /* No card chrome (was: rounded corners + a hairline outline) — same
      de-boxing treatment as .world, so the clip reads as a free-floating
-     object rather than UI inside a bounded box. The 46vh term is what
-     actually guards the fixed top-right todo badge on short viewports
-     (checked empirically down to 1400x700) — the 48rem term is just a
-     ceiling for very tall windows and rarely binds in practice, so raise
-     it freely without re-opening the overlap question. */
-  width: min(100%, 48rem, 46vh);
+     object rather than UI inside a bounded box. The 58vh term is what
+     guards the fixed top-right todo badge on short viewports (checked
+     empirically down to 1400x700 — the badge itself is now a compact
+     single line at this breakpoint, never the full list, so it needs far
+     less clearance than it used to) — the 54rem term is just a ceiling
+     for very tall windows and rarely binds in practice.
+     Reveals with the rest of Contact's copy (data-sc-cue on the element
+     itself, in SocialClip.tsx) instead of popping in at full opacity the
+     moment the section scrolls into range, ahead of everything else. */
+  width: min(100%, 54rem, 58vh);
   aspect-ratio: 1 / 1;
   margin-inline: auto;
   object-fit: cover;

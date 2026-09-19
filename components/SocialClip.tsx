@@ -6,5 +6,11 @@ import LoopVideo from "./LoopVideo";
  * proof the "automated content" pitch isn't hypothetical.
  */
 export default function SocialClip() {
-  return <LoopVideo src="/media/box-socials.mp4" className="social-clip" />;
+  return (
+    <LoopVideo
+      src="/media/box-socials.mp4"
+      className="social-clip"
+      cue="0.15"
+    />
+  );
 }

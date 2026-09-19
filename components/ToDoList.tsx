@@ -71,7 +71,11 @@ export default function ToDoList() {
 
     const tick = () => {
       const servicesP = readP(servicesEl);
-      setVisible(servicesP > 0);
+      // >0 fires the instant Services' box starts entering the viewport —
+      // which, for a section right after a pinned scrub act, is a full
+      // viewport before its own content is actually on screen (the scrub
+      // stage takes that long to slide away). Wait for real content.
+      setVisible(servicesP > 0.08);
 
       if (contactEl) {
         const contactP = readP(contactEl);
@@ -106,13 +110,13 @@ export default function ToDoList() {
             key={step.label}
             className={`todo__line${checked[i] ? " todo__line--done" : ""}`}
           >
-            <span className="todo__strike">{step.label}</span>
+            <span className="todo__strike">{step.todoLabel}</span>
             <span className="todo__handled">done</span>
           </li>
         ))}
       </ul>
       <p className="todo__total">
-        {total} {total === 1 ? "step" : "steps"} checked off. One conversation.
+        {total} {total === 1 ? "step" : "steps"}, one conversation.
       </p>
     </aside>
   );

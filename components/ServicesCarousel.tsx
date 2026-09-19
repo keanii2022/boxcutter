@@ -41,6 +41,11 @@ export default function ServicesCarousel() {
             </button>
             <div className="service-card__detail" inert={!open}>
               <div className="service-card__detail-inner">
+                <ul className="service-card__examples">
+                  {step.examples.map((example) => (
+                    <li key={example}>{example}</li>
+                  ))}
+                </ul>
                 <a
                   className="service-card__cta"
                   href={BOOKING_URL}

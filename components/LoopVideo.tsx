@@ -35,9 +35,13 @@ function getServerSnapshot(): boolean {
 export default function LoopVideo({
   src,
   className,
+  cue,
 }: {
   src: string;
   className?: string;
+  /** optional data-sc-cue value, for a clip whose entrance should fade in
+      with the rest of its act's copy instead of popping in unanimated */
+  cue?: string;
 }) {
   const reduced = useSyncExternalStore(
     subscribe,
@@ -89,6 +93,7 @@ export default function LoopVideo({
       muted
       playsInline
       aria-hidden="true"
+      data-sc-cue={cue}
     />
   );
 }

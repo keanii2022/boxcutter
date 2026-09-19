@@ -35,7 +35,11 @@ export type StoryStep = {
   label: string;
   /** the fuller description shown in the carousel card's dropdown */
   line: string;
+  /** short, concrete examples shown as bullets in the carousel card's dropdown */
+  examples: string[];
   icon: ServiceIconName;
+  /** the label ToDoList itself shows — the idea-to-execution arc, not the service name */
+  todoLabel: string;
 };
 
 // The three real offerings, ordered start-to-scale: nothing yet (Startup
@@ -45,16 +49,34 @@ export const STORY_STEPS: StoryStep[] = [
   {
     label: "Startup support",
     line: "Starting from nothing? We help you build the business itself, not just the site.",
+    examples: [
+      "Business & legal setup — LLC, contracts, compliance",
+      "First website, brand, and messaging",
+      "Picking the right tools instead of guessing",
+    ],
     icon: "startup",
+    todoLabel: "Idea",
   },
   {
     label: "Website & ads",
     line: "A website that works and ads that bring people to it — built and kept running, every month, priced for a small business.",
+    examples: [
+      "Website design, build, and hosting",
+      "Ad campaigns that actually convert",
+      "Ongoing maintenance & updates, monthly",
+    ],
     icon: "website",
+    todoLabel: "Box Cutter SF",
   },
   {
     label: "Custom work",
     line: "Need something nobody else offers? Get on a call and we'll build exactly that.",
+    examples: [
+      "Internal tools & automations",
+      "Backend, integrations, and APIs",
+      "Anything else — just ask",
+    ],
     icon: "custom",
+    todoLabel: "Execute",
   },
 ];
