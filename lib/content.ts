@@ -18,17 +18,17 @@ export const OVERWHELM_LINES: string[] = [
 // question lands — the scattered version of the specific jobs below.
 export const TASK_WORDS: string[] = [
   "SEO",
-  "Bookkeeping",
-  "Hiring",
+  "Finances",
+  "Team",
   "Legal",
-  "Backend",
+  "Systems",
   "Analytics",
   "Support",
   "Marketing",
   "Design",
-  "Compliance",
-  "Integrations",
-  "Ops",
+  "Branding",
+  "Automation",
+  "Strategy",
 ];
 
 export type ServiceIconName = "website" | "startup" | "custom";

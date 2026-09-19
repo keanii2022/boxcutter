@@ -461,6 +461,12 @@
   grid-template-rows: 1fr;
 }
 .service-card__detail-inner {
+  /* A grid item's default stretch to fill its column only applies when its
+     own overflow is visible — with overflow:hidden here (needed for the
+     collapse animation) it falls back to shrink-to-content instead, which
+     is what left the custom-work-form's fields sized to their intrinsic
+     control width rather than the card's full width. Force the stretch. */
+  width: 100%;
   overflow: hidden;
   min-height: 0;
 }

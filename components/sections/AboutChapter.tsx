@@ -1,7 +1,7 @@
 const PRINCIPLES = [
   {
-    title: "One conversation, not five hires.",
-    body: "You describe the problem once. I figure out what it actually needs (design, backend, automation, analytics) and handle the parts myself or bring in the right piece. No project managers relaying between five different vendors, no re-explaining your business from scratch on every call — just one person who already has the context, moving it forward.",
+    title: "One conversation, start to finish.",
+    body: "You describe the problem once. I figure out what it actually needs (design, backend, automation, analytics) and handle the parts myself or bring in the right piece. No project managers relaying between vendors, no re-explaining your business from scratch on every call — just one person who already has the context, moving it forward.",
   },
 ];
 

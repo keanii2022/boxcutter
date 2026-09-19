@@ -21,8 +21,8 @@ const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
  * list: a client explains what they need directly instead of picking from
  * bullets that can't cover a one-off. The textarea's border pulses with the
  * writer's own typing speed (logic ported from the wpm-fidget project's
- * useWpmPulse, restyled to this site's single accent instead of that
- * project's tiered palette).
+ * useWpmPulse, with its own orange/green/purple/red keystroke cycle and
+ * blue-on-space override, per useWpmPulse.ts).
  *
  * The 15-word floor on the message is enforced here, not just with
  * `required` — a one-word message defeats the point of asking someone to
@@ -33,13 +33,13 @@ export default function CustomWorkForm() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [touched, setTouched] = useState(false);
-  const { wpm, pulse, onValueChange } = useWpmPulse();
+  const { wpm, pulse, pulseColor, onValueChange } = useWpmPulse();
 
   const words = wordCount(message);
   const tooShort = words < MIN_WORDS;
 
   const glow = pulse
-    ? `0 0 ${(6 + Math.min(wpm, 90) * 0.35).toFixed(1)}px color-mix(in oklab, var(--sc-accent) 70%, transparent)`
+    ? `0 0 ${(6 + Math.min(wpm, 90) * 0.35).toFixed(1)}px color-mix(in oklab, ${pulseColor} 70%, transparent)`
     : "none";
 
   async function handleSubmit(e: React.FormEvent) {
