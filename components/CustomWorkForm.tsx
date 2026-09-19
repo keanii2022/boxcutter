@@ -6,6 +6,12 @@ import { useWpmPulse } from "./useWpmPulse";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
+const MIN_WORDS = 15;
+
+function wordCount(s: string): number {
+  return s.trim().split(/\s+/).filter(Boolean).length;
+}
+
 // Public by design — Web3Forms access keys are meant to be embedded in
 // client code (they identify where a submission gets routed, not a secret).
 const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
@@ -17,12 +23,20 @@ const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
  * writer's own typing speed (logic ported from the wpm-fidget project's
  * useWpmPulse, restyled to this site's single accent instead of that
  * project's tiered palette).
+ *
+ * The 15-word floor on the message is enforced here, not just with
+ * `required` — a one-word message defeats the point of asking someone to
+ * actually describe what they need instead of picking from a bullet list.
  */
 export default function CustomWorkForm() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<Status>("idle");
+  const [touched, setTouched] = useState(false);
   const { wpm, pulse, onValueChange } = useWpmPulse();
+
+  const words = wordCount(message);
+  const tooShort = words < MIN_WORDS;
 
   const glow = pulse
     ? `0 0 ${(6 + Math.min(wpm, 90) * 0.35).toFixed(1)}px color-mix(in oklab, var(--sc-accent) 70%, transparent)`
@@ -30,7 +44,8 @@ export default function CustomWorkForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email.trim() || !message.trim() || status === "sending") return;
+    setTouched(true);
+    if (!email.trim() || tooShort || status === "sending") return;
 
     if (!WEB3FORMS_KEY) {
       // No backend configured yet — hand off to the visitor's own mail
@@ -70,7 +85,7 @@ export default function CustomWorkForm() {
   }
 
   return (
-    <form className="custom-work-form" onSubmit={handleSubmit}>
+    <form className="custom-work-form" onSubmit={handleSubmit} noValidate>
       <div className="custom-work-form__field">
         <label className="custom-work-form__label" htmlFor="custom-work-email">
           Your email
@@ -99,6 +114,13 @@ export default function CustomWorkForm() {
             onValueChange(e.target.value);
           }}
         />
+        <p
+          className={`custom-work-form__count${
+            touched && tooShort ? " custom-work-form__count--short" : ""
+          }`}
+        >
+          {words}/{MIN_WORDS} words minimum
+        </p>
       </div>
       <button
         type="submit"

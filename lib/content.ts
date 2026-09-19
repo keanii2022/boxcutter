@@ -73,7 +73,7 @@ export const STORY_STEPS: StoryStep[] = [
   },
   {
     label: "Custom work",
-    line: "Need something nobody else offers? Get on a call and we'll build exactly that.",
+    line: "Don't know exactly what you need, but you've got an idea? Give it to me how it lives in your head and I'll make it come to life. This goes straight to my email and I'll get back to you ASAP.",
     examples: [
       "Internal tools & automations",
       "Backend, integrations, and APIs",

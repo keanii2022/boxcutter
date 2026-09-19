@@ -388,7 +388,7 @@
 }
 .service-card--wide .service-card__toggle,
 .service-card--wide .service-card__detail-inner {
-  max-width: 34rem;
+  max-width: 42rem;
   margin-inline: auto;
 }
 .service-card[data-open="true"] {
@@ -523,8 +523,17 @@
   border-color: var(--sc-accent);
 }
 .custom-work-form__textarea {
-  min-height: 6.5rem;
+  min-height: 8rem;
   resize: vertical;
+}
+.custom-work-form__count {
+  margin: 0;
+  font-size: var(--sc-t-xs);
+  color: var(--sc-ink-soft);
+  text-align: right;
+}
+.custom-work-form__count--short {
+  color: var(--sc-accent);
 }
 .custom-work-form__submit {
   align-self: flex-start;
