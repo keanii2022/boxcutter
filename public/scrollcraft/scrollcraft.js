@@ -53,9 +53,15 @@
                               data-sc-lead="0.15" holds it on frame one for
                               that leading fraction of vp (a clip that starts
                               moving the instant its stage is visible can read
-                              as rushed), then scrubs the remainder across
-                              what's left, so it still lands on its last frame
-                              at vp=1.
+                              as rushed); data-sc-settle="0.15" holds it on
+                              its last frame for that trailing fraction
+                              instead (a clip that reaches its payoff frame
+                              exactly at vp=1 gets one instant of it before
+                              the exit slide sweeps it away). Either or both:
+                              the scrub always still spans the full range
+                              between them, so it reaches frame one exactly
+                              at the end of the lead and its last frame
+                              exactly at the start of the settle.
      data-sc-sequence="a/{i}.webp:120:1"
                               on <canvas>. vp scrubs an image sequence
                               (path template : frameCount : startIndex).
@@ -321,16 +327,19 @@
     // this one list, so an act clip and a worldflight leg get the same playhead.
     function makeClip(v, host) {
       var lead = parseFloat(v.getAttribute('data-sc-lead'));
+      var settle = parseFloat(v.getAttribute('data-sc-settle'));
       var rec = {
         el: v, host: host || v,
         ready: false, loading: false, painted: false,
         cur: 0, target: 0, live: false, stuckAt: 0,
         lerp: lerpRate(v) || LERP,
-        // Holds the clip at its first frame for this fraction of vp, then
-        // scrubs the rest across what's left — so the same clip finishes at
-        // the same vp=1 it always did, just starting later and covering the
-        // remaining ground a little quicker to make up for the delay.
-        lead: isNaN(lead) ? 0 : clamp(lead, 0, 0.9)
+        // Hold the clip at its first/last frame for these fractions of vp,
+        // scrubbing the rest across whatever's between them — so it always
+        // still reaches frame one and its last frame, just later on one end
+        // and/or earlier on the other, covering the remaining ground a
+        // little quicker to make up for it.
+        lead: isNaN(lead) ? 0 : clamp(lead, 0, 0.9),
+        settle: isNaN(settle) ? 0 : clamp(settle, 0, 0.9)
       };
       v.muted = true; v.playsInline = true; v.preload = 'none';
       v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
@@ -896,9 +905,8 @@
         if (a.video) {
           a.video.live = a.live;
           if (a.video.ready) {
-            a.video.target = a.video.lead
-              ? clamp01((a.vp - a.video.lead) / Math.max(1 - a.video.lead, 0.001))
-              : a.vp;
+            var vSpan = Math.max(1 - a.video.lead - a.video.settle, 0.001);
+            a.video.target = clamp01((a.vp - a.video.lead) / vSpan);
           }
         }
 

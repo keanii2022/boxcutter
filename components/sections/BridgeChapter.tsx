@@ -12,6 +12,7 @@ export default function BridgeChapter() {
         <video
           data-sc-scrub
           data-sc-lead="0.15"
+          data-sc-settle="0.25"
           data-sc-src="/media/bridge-scrub.mp4"
           data-sc-src-mobile="/media/bridge-scrub-m.mp4"
           muted
