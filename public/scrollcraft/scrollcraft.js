@@ -15,48 +15,59 @@
      <section data-sc-act="pin" data-sc-span="2.5"> ... </section>
 
      data-sc-act   scrub | pin | pan | flow   (default: flow)
-     data-sc-clip-map="travel" opts a pinned act OUT of full-life clip mapping.
-                   By DEFAULT a scrub clip is mapped across the stage's entire
+     data-sc-clip-map="travel" opts a pinned act OUT of full-life mapping, for
+                   its clip AND every cue/reveal/parallax/counter inside it.
+                   By DEFAULT all of that is mapped across the stage's entire
                    on-screen life, not across its pinned travel, because a pinned
                    stage is visible for a viewport BEFORE the pin begins (sliding
                    up into view) and a viewport AFTER it ends (sliding off the
-                   top). Mapped to pinned travel, the clip sits on its first
-                   frame through the whole entry and its last frame through the
-                   whole exit: the reader watches a still photograph while the
-                   page moves. Pair it with data-sc-dwell, which moves quickly at
-                   the edges and settles in the middle, so the fast motion lands
-                   on the two slides and the settle lands inside the pin where
-                   the copy is. data-sc-runout is accepted and ignored; it named
-                   the old opt-in for the exit half of this.
+                   top). Mapped to pinned travel instead, everything sits at its
+                   rest state through the whole entry and its end state through
+                   the whole exit: a still photograph, and copy that simply
+                   isn't there yet, moving up the screen while nothing the
+                   reader can see is happening. Pair it with data-sc-dwell,
+                   which moves quickly at the edges and settles in the middle,
+                   so the fast motion lands on the two slides and the settle
+                   lands inside the pin where the copy is. data-sc-runout is
+                   accepted and ignored; it named the old opt-in for the exit
+                   half of this.
      data-sc-span  viewport-heights of scroll this act owns. Pinned devices only
                    (scrub/pin/pan). Default 1.5. The engine sets the outer
                    height and sticks the first .sc-stage / [data-sc-stage] child.
 
-     Every act exposes a normalized progress p (0..1):
-       pinned  p = (y - top) / (height - vh)
-       flow    p = (y + vh - top) / (height + vh)
-     and publishes it as --sc-p on the act element, so CSS can read it too.
+     Every act exposes two normalized progress values, 0..1:
+       p   the pin window alone: pinned p = (y - top) / (height - vh),
+           flow p = (y + vh - top) / (height + vh). Published as --sc-p on the
+           act element (so CSS can read it too) and used for `live` gating.
+       vp  the stage's entire on-screen life (entry slide + pin + exit slide)
+           for a pinned act; equal to p for a flow act, which has no separate
+           slide phase. This is what every device below actually reads, so an
+           act's clip and its copy move together. clip-map="travel" collapses
+           vp back to p for one act.
 
    ---------------------------------------------------------------------------
-   DEVICES: what p drives
+   DEVICES: what vp drives
    ---------------------------------------------------------------------------
-     data-sc-scrub            on <video>. p scrubs currentTime. Blob-loaded, so
-                              it seeks without needing HTTP range support.
+     data-sc-scrub            on <video>. vp scrubs currentTime. Blob-loaded,
+                              so it seeks without needing HTTP range support.
      data-sc-sequence="a/{i}.webp:120:1"
-                              on <canvas>. p scrubs an image sequence
+                              on <canvas>. vp scrubs an image sequence
                               (path template : frameCount : startIndex).
-     data-sc-pan="0.6"        on a wide rail inside data-sc-act="pan". p drives
+     data-sc-pan="0.6"        on a wide rail inside data-sc-act="pan". p (the
+                              pin window, not vp — a rail is meant to be
+                              scrubbed in place, not mid-slide) drives
                               horizontal travel. Value = extra travel multiplier.
-     data-sc-parallax="-0.2"  translateY by rate * act-progress * viewport.
+     data-sc-parallax="-0.2"  translateY by rate * vp * viewport.
                               Negative = moves up faster than scroll (recedes).
-     data-sc-cue="0.1 0.5"    opacity/rise keyed to p. One value = enter+hold.
+     data-sc-cue="0.1 0.5"    opacity/rise keyed to vp. One value = enter+hold.
                               Two = enter..leave. Add a third for the hold point.
      data-sc-kinetic="lines"  lines | words | chars. Splits the element and
                               staggers its reveal across the cue window.
-     data-sc-reveal="up"      up | down | left | right | iris. clip-path wipe.
-     data-sc-count="0 4200"   number bloom across the cue window. Outside any
-                              act it ticks up once on entry instead, over
-                              data-sc-count-ms (default 1400).
+     data-sc-reveal="up"      up | down | left | right | iris. clip-path wipe,
+                              keyed to vp.
+     data-sc-count="0 4200"   number bloom across the cue window, keyed to vp.
+                              Outside any act it ticks up once on entry instead,
+                              over data-sc-count-ms (default 1400).
      data-sc-in               flow-section reveal, fires once on entry via
                               IntersectionObserver (cheaper, and content that
                               re-hides on scroll-up is a defect, not an effect).
@@ -831,18 +842,26 @@
         a.raw = raw;
         a.p = a.dwell ? dwell(raw, a.dwell) : raw;
 
-        // Clip time is NOT cue time. Cues belong to the pin, so they keep using
-        // `p`. The clip belongs to the stage, and the stage is on screen for one
-        // viewport before the pin starts and one after it ends. Driving the clip
-        // from `p` therefore parks it on frame one for the whole entry slide and
-        // on its last frame for the whole exit slide, which is a still
-        // photograph moving up the screen under the reader's hand.
+        // `p` is the strict pin window: 0 at the moment the stage locks, 1 at
+        // the moment it unlocks. That is the right clock for `live`/`--sc-p`,
+        // but the wrong one for anything the reader is meant to watch happen,
+        // because a pinned stage is on screen for one viewport before the pin
+        // starts and one after it ends. Driving a clip, a cue, a reveal, a
+        // parallax offset or a counter from `p` parks it at its rest state
+        // (frame one, opacity 0, un-revealed, zero) for the whole entry slide
+        // and at its end state for the whole exit slide — a still photograph,
+        // or a headline that simply isn't there yet, moving up the screen
+        // under the reader's hand while nothing they can see is happening.
         //
-        // So map the clip across the stage's entire visible life instead. Both
-        // ends are clamped to scroll that actually exists: an act at the top of
-        // the document has no entry slide and must still start on frame one, and
-        // an act near the bottom must still reach its last frame while the page
-        // can still scroll.
+        // So map all of it across the stage's entire visible life instead,
+        // via `vp`. Both ends are clamped to scroll that actually exists: an
+        // act at the top of the document has no entry slide and must still
+        // start at rest, and an act near the bottom must still reach its end
+        // state while the page can still scroll. `clip-map="travel"` opts an
+        // act back out of this — pinning its clip AND its cues/reveals/
+        // parallax/counters to the pin window alone — for the rare case where
+        // riding the full life is wrong for everything in the act, not just
+        // the clip.
         a.vp = a.p;
         if (a.pinned && !a.clipTravel) {
           var startY = a.top - Math.min(vh, a.top);
@@ -898,14 +917,14 @@
           var q = a.cues[c];
           var vis;
           if (q.to === null) {
-            vis = smooth((a.p - q.from) / 0.18);
+            vis = smooth((a.vp - q.from) / 0.18);
           } else {
             var win = Math.max(q.to - q.from, 0.001);
             var inEnd = q.from + win * q.rIn;        // full opacity from here
             var outStart = q.to - win * q.rOut;      // starts leaving here
-            if (a.p < inEnd) vis = smooth((a.p - q.from) / Math.max(inEnd - q.from, 0.001));
-            else if (a.p <= outStart) vis = 1;       // the plateau
-            else vis = smooth(1 - (a.p - outStart) / Math.max(q.to - outStart, 0.001));
+            if (a.vp < inEnd) vis = smooth((a.vp - q.from) / Math.max(inEnd - q.from, 0.001));
+            else if (a.vp <= outStart) vis = 1;       // the plateau
+            else vis = smooth(1 - (a.vp - outStart) / Math.max(q.to - outStart, 0.001));
           }
           vis = clamp01(vis);
 
@@ -937,14 +956,14 @@
         if (!reduce) {
           for (var pz = 0; pz < a.parallax.length; pz++) {
             var pp = a.parallax[pz];
-            pp.el.style.transform = 'translate3d(0,' + (pp.rate * (a.p - 0.5) * 100).toFixed(2) + 'px,0)';
+            pp.el.style.transform = 'translate3d(0,' + (pp.rate * (a.vp - 0.5) * 100).toFixed(2) + 'px,0)';
           }
         }
 
         // reveals
         for (var rv = 0; rv < a.reveals.length; rv++) {
           var R = a.reveals[rv];
-          var t = smooth((a.p - R.from) / Math.max(R.to - R.from, 0.001));
+          var t = smooth((a.vp - R.from) / Math.max(R.to - R.from, 0.001));
           var pct = ((1 - t) * 100).toFixed(2);
           R.el.style.clipPath =
             R.dir === 'down' ? 'inset(' + pct + '% 0 0 0)' :
@@ -957,7 +976,7 @@
         // counters
         for (var ct = 0; ct < a.counts.length; ct++) {
           var K = a.counts[ct];
-          var kt = smooth((a.p - K.from) / Math.max(K.to - K.from, 0.001));
+          var kt = smooth((a.vp - K.from) / Math.max(K.to - K.from, 0.001));
           var val = lerp(K.a, K.b, kt);
           var out = formatNum(val, K.tpl);
           if (out !== K.last) { K.el.textContent = out; K.last = out; }

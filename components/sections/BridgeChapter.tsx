@@ -4,8 +4,7 @@ export default function BridgeChapter() {
       id="chapter-bridge"
       data-chapter="Bridge"
       data-sc-act="scrub"
-      data-sc-span="2.2"
-      data-sc-clip-map="travel"
+      data-sc-span="1.6"
       data-sc-drift="#08090b"
     >
       <div data-sc-stage>
