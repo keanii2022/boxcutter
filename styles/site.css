@@ -466,6 +466,73 @@
   letter-spacing: var(--sc-track-wide);
   font-size: var(--sc-t-sm);
 }
+
+/* Custom Work's dropdown swaps the other cards' bullet list + link for an
+   inquiry field — same detail-inner wrapper, so it inherits the same width
+   as the other two cards rather than needing its own. */
+.custom-work-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-4);
+  margin: 0 var(--sc-5) var(--sc-5);
+}
+.custom-work-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-2);
+}
+.custom-work-form__label {
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft);
+}
+.custom-work-form__input,
+.custom-work-form__textarea {
+  width: 100%;
+  font: inherit;
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink);
+  background: transparent;
+  border: 1px solid var(--sc-hairline);
+  border-radius: var(--sc-r-md);
+  padding: var(--sc-3);
+  transition: border-color var(--sc-d-fast) var(--sc-ease-out),
+    box-shadow 140ms ease;
+}
+.custom-work-form__input:focus,
+.custom-work-form__textarea:focus {
+  outline: none;
+  border-color: var(--sc-accent);
+}
+.custom-work-form__textarea {
+  min-height: 6.5rem;
+  resize: vertical;
+}
+.custom-work-form__submit {
+  align-self: flex-start;
+  padding: var(--sc-3) var(--sc-5);
+  background: var(--sc-accent);
+  color: var(--sc-accent-ink);
+  border: none;
+  border-radius: var(--sc-r-pill);
+  font-family: var(--sc-font-mono);
+  text-transform: uppercase;
+  letter-spacing: var(--sc-track-wide);
+  font-size: var(--sc-t-sm);
+  cursor: pointer;
+  transition: opacity var(--sc-d-fast) var(--sc-ease-out);
+}
+.custom-work-form__submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.custom-work-form__status {
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft);
+}
+.custom-work-form__status--sent {
+  color: var(--sc-accent);
+}
+
 /* endless, borderless ticker of scattered tasks under the intro copy —
    fades in as one more member of the intro's own data-sc-stagger group. */
 .task-marquee {

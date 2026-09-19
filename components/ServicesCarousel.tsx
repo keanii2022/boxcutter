@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { BOOKING_URL, STORY_STEPS } from "../lib/content";
+import CustomWorkForm from "./CustomWorkForm";
 import ServiceIcon from "./ServiceIcon";
 
 export default function ServicesCarousel() {
@@ -36,19 +37,25 @@ export default function ServicesCarousel() {
             </button>
             <div className="service-card__detail" inert={!open}>
               <div className="service-card__detail-inner">
-                <ul className="service-card__examples">
-                  {step.examples.map((example) => (
-                    <li key={example}>{example}</li>
-                  ))}
-                </ul>
-                <a
-                  className="service-card__cta"
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  I need this →
-                </a>
+                {step.icon === "custom" ? (
+                  <CustomWorkForm />
+                ) : (
+                  <>
+                    <ul className="service-card__examples">
+                      {step.examples.map((example) => (
+                        <li key={example}>{example}</li>
+                      ))}
+                    </ul>
+                    <a
+                      className="service-card__cta"
+                      href={BOOKING_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      I need this →
+                    </a>
+                  </>
+                )}
               </div>
             </div>
           </div>

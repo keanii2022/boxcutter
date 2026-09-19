@@ -4,6 +4,9 @@
 // One link, used by every CTA site-wide (Nav, Opening, Services, Contact).
 export const BOOKING_URL = "https://calendly.com/keani-boxcuttersf/30min";
 
+// Where the Custom Work card's inquiry field routes to.
+export const CONTACT_EMAIL = "keani@boxcutter.com";
+
 // The opening build-up, ahead of the specific offerings below.
 export const OVERWHELM_LINES: string[] = [
   "Are you overwhelmed?",
