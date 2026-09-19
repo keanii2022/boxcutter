@@ -11,6 +11,18 @@
   letter-spacing: var(--sc-track-snug);
 }
 
+/* --------------------------------------------------------------- cursor --- */
+/* Site-wide brand cursor. Author-origin rules always beat the UA stylesheet
+   regardless of selector specificity, so a plain `*` here is enough to
+   override every native default (pointer on links/buttons, text-select
+   I-beam, etc.) without needing !important anywhere. The 44 21 hotspot is
+   the blade's own tip in cursor-boxcutter-64.png, not the image's corner —
+   without it the cutting edge would be well below-right of the actual
+   click point. */
+* {
+  cursor: url("/media/cursor-boxcutter-64.png") 44 21, auto;
+}
+
 /* ------------------------------------------------------------- bridge --- */
 /* data-sc-drift only interpolates --sc-canvas (see the nav-pill fix below
    for why) — it never touches --sc-ink, so text left on the brand's default
@@ -1072,6 +1084,7 @@
 }
 .contact__cta,
 .opening__cta {
+  position: relative;
   margin-top: var(--sc-5);
   display: inline-flex;
   align-items: baseline;
@@ -1094,6 +1107,34 @@
 .contact__cta:active,
 .opening__cta:active {
   transform: scale(0.98);
+}
+/* Hidden until hover/focus — the box-cutter cursor "opens" it. Absolutely
+   positioned so it doesn't reserve layout space (and so it can't shift the
+   text) while at opacity 0. */
+.cta-box-icon {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-left: var(--sc-2);
+  width: 1.6em;
+  height: 1.6em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) scale(0.4) rotate(-14deg);
+  transition: opacity var(--sc-d-base) var(--sc-ease-out),
+    transform var(--sc-d-slow) var(--sc-ease-drawer);
+}
+@media (hover: hover) and (pointer: fine) {
+  .contact__cta:hover .cta-box-icon,
+  .opening__cta:hover .cta-box-icon {
+    opacity: 1;
+    transform: translateY(-50%) scale(1) rotate(0deg);
+  }
+}
+.contact__cta:focus-visible .cta-box-icon,
+.opening__cta:focus-visible .cta-box-icon {
+  opacity: 1;
+  transform: translateY(-50%) scale(1) rotate(0deg);
 }
 .contact__cta-row {
   display: flex;

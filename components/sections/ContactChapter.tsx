@@ -1,6 +1,7 @@
 import TerminalLine from "../TerminalLine";
 import SocialClip from "../SocialClip";
 import Bridge from "../Bridge";
+import CtaBoxIcon from "../CtaBoxIcon";
 import { BOOKING_URL } from "../../lib/content";
 
 export default function ContactChapter() {
@@ -36,6 +37,7 @@ export default function ContactChapter() {
                 rel="noopener noreferrer"
               >
                 Book a call →
+                <CtaBoxIcon />
               </a>
               <div className="contact__bridge">
                 <Bridge />

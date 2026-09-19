@@ -1,4 +1,5 @@
 import LoopVideo from "../LoopVideo";
+import CtaBoxIcon from "../CtaBoxIcon";
 import { BOOKING_URL } from "../../lib/content";
 
 /**
@@ -37,6 +38,7 @@ export default function Opening() {
             rel="noopener noreferrer"
           >
             Book a call →
+            <CtaBoxIcon />
           </a>
         </div>
         <div
