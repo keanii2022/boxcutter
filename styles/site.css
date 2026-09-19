@@ -164,7 +164,13 @@
 }
 @media (min-width: 860px) {
   .opening__inner {
-    grid-template-columns: minmax(0, 1fr) minmax(14rem, 44rem);
+    /* A bare `minmax(0, 1fr)` loses to the video column's own minmax(…,
+       44rem): grid grows a track with a definite max to that max before an
+       `fr` track gets any of the leftover space, so the video claims its
+       full 44rem first and the text column is left with whatever's left —
+       at some widths, less than its own content needs, which overflows
+       underneath the video. Give it a floor so it holds its ground first. */
+    grid-template-columns: minmax(18rem, 1fr) minmax(14rem, 44rem);
     gap: var(--sc-8);
   }
 }
