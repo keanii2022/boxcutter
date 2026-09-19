@@ -1,14 +1,11 @@
-"use client";
-
-import { useRef } from "react";
 import { BOOKING_URL } from "../lib/content";
 
-// Evenly spread around the icon's centre; each becomes a CSS custom
+// Evenly spread around the link's own centre; each becomes a CSS custom
 // property so the scattered starting position is plain arithmetic instead
 // of relying on CSS trig functions (cos()/sin() in calc()), which not every
 // browser this site targets supports consistently yet.
 const PARTICLE_COUNT = 6;
-const PARTICLE_RADIUS = 22;
+const PARTICLE_RADIUS = 26;
 const PARTICLES = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
   const angle = (i / PARTICLE_COUNT) * Math.PI * 2;
   return {
@@ -18,13 +15,11 @@ const PARTICLES = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
 });
 
 /**
- * The "Book a call" link, everywhere it appears. Hovering (or focusing) it
- * plays out the same beat the box-cutter cursor implies: a handful of
- * little pieces fly inward and land as a box, which the cursor is already
- * mid-cut on — the video is the real about-github-scrub clip, not a
- * separate asset, so the cut itself is the same animation, not a mimic of
- * it. Leaving resets it (pause + rewind) so hovering again replays the
- * whole thing rather than resuming mid-cut.
+ * The "Book a call" link, everywhere it appears. Hovering/focusing it packs
+ * the words themselves away: the label shrinks into the link's own centre
+ * while a few pieces fly inward from around it, and a box fades in over the
+ * exact same spot — the box replaces the words in place, it doesn't sit
+ * beside them. Pure CSS (:hover / :focus-visible), no JS state.
  */
 export default function BookCallLink({
   className,
@@ -33,22 +28,6 @@ export default function BookCallLink({
   className: string;
   id?: string;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  function handleEnter() {
-    const v = videoRef.current;
-    if (!v) return;
-    v.currentTime = 0;
-    v.play().catch(() => {});
-  }
-
-  function handleLeave() {
-    const v = videoRef.current;
-    if (!v) return;
-    v.pause();
-    v.currentTime = 0;
-  }
-
   return (
     <a
       id={id}
@@ -56,12 +35,8 @@ export default function BookCallLink({
       href={BOOKING_URL}
       target="_blank"
       rel="noopener noreferrer"
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      onFocus={handleEnter}
-      onBlur={handleLeave}
     >
-      Book a call →
+      <span className="cta-label">Book a call →</span>
       <span className="cta-box-anim" aria-hidden="true">
         {PARTICLES.map((p, i) => (
           <span
@@ -70,14 +45,7 @@ export default function BookCallLink({
             style={{ "--dx": `${p.dx}px`, "--dy": `${p.dy}px` } as React.CSSProperties}
           />
         ))}
-        <video
-          ref={videoRef}
-          className="cta-box-anim__video"
-          src="/media/about-github-scrub.mp4"
-          muted
-          playsInline
-          preload="auto"
-        />
+        <img src="/media/cta-box-open.png" alt="" className="cta-box-anim__box" />
       </span>
     </a>
   );

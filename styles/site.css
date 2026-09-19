@@ -1108,18 +1108,20 @@
 .opening__cta:active {
   transform: scale(0.98);
 }
-/* The hover payoff: a handful of pieces fly inward and land as a box, which
-   the cursor is already mid-cut on (the video is the real
-   about-github-scrub clip — see BookCallLink.tsx). Absolutely positioned so
-   none of it reserves layout space or shifts the link's text at rest. */
+/* The hover payoff: the words themselves shrink away while a few pieces fly
+   inward from around them, and a box fades in over that exact same spot —
+   replacing the label in place, not sitting beside it. .cta-box-anim is
+   absolutely positioned to cover the whole link so its centre lines up with
+   the label's own centre regardless of how long "Book a call" renders. */
+.cta-label {
+  transition: opacity 200ms var(--sc-ease-out), transform 260ms var(--sc-ease-drawer);
+}
 .cta-box-anim {
   position: absolute;
-  left: 100%;
-  top: 50%;
-  margin-left: var(--sc-2);
-  width: 1.6em;
-  height: 1.6em;
-  transform: translateY(-50%);
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
 }
 .cta-box-anim__particle {
@@ -1135,37 +1137,44 @@
   transition: opacity 220ms var(--sc-ease-out),
     transform 280ms var(--sc-ease-drawer);
 }
-.cta-box-anim__video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
+.cta-box-anim__box {
+  width: 1.5em;
+  height: 1.5em;
+  object-fit: contain;
   opacity: 0;
-  transform: scale(0.4) rotate(-14deg);
-  transition: opacity 200ms var(--sc-ease-out) 160ms,
-    transform 320ms var(--sc-ease-drawer) 160ms;
+  transform: scale(0.3) rotate(-10deg);
+  transition: opacity 200ms var(--sc-ease-out) 140ms,
+    transform 300ms var(--sc-ease-drawer) 140ms;
 }
 @media (hover: hover) and (pointer: fine) {
+  .contact__cta:hover .cta-label,
+  .opening__cta:hover .cta-label {
+    opacity: 0;
+    transform: scale(0.6);
+  }
   .contact__cta:hover .cta-box-anim__particle,
   .opening__cta:hover .cta-box-anim__particle {
     opacity: 1;
     transform: translate(-50%, -50%);
   }
-  .contact__cta:hover .cta-box-anim__video,
-  .opening__cta:hover .cta-box-anim__video {
+  .contact__cta:hover .cta-box-anim__box,
+  .opening__cta:hover .cta-box-anim__box {
     opacity: 1;
     transform: scale(1) rotate(0deg);
   }
+}
+.contact__cta:focus-visible .cta-label,
+.opening__cta:focus-visible .cta-label {
+  opacity: 0;
+  transform: scale(0.6);
 }
 .contact__cta:focus-visible .cta-box-anim__particle,
 .opening__cta:focus-visible .cta-box-anim__particle {
   opacity: 1;
   transform: translate(-50%, -50%);
 }
-.contact__cta:focus-visible .cta-box-anim__video,
-.opening__cta:focus-visible .cta-box-anim__video {
+.contact__cta:focus-visible .cta-box-anim__box,
+.opening__cta:focus-visible .cta-box-anim__box {
   opacity: 1;
   transform: scale(1) rotate(0deg);
 }
