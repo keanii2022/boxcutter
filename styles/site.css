@@ -932,7 +932,12 @@
 .thin-scrub__video {
   display: block;
   width: 100%;
-  height: clamp(200px, 32vw, 440px);
+  /* The source clip is 1280x770; at the old clamp (200-440px) object-fit:
+     cover's width-driven scale blew the video up past 2x on wide viewports,
+     cropping enough off the top and bottom to clip the box's open flaps and
+     its base — visibly "cut off" rather than a deliberate close crop.
+     Taller here keeps the crop within the clip's actual subject. */
+  height: clamp(260px, 46vw, 620px);
   object-fit: cover;
   /* Placeholder tone until the real clip lands at data-sc-src — a plain
      strip, not a broken-image flash, while that fetch 404s. */
@@ -955,6 +960,40 @@
      is tuned for sections with more room to give (it clamps up to 11rem on
      a wide viewport); here it just reads as dead air. */
   padding-bottom: clamp(2rem, 4vw, 4rem);
+}
+.github-live {
+  display: flex;
+  align-items: baseline;
+  margin: var(--sc-2) 0 0;
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  color: var(--sc-accent);
+}
+.github-live__dots {
+  display: inline-flex;
+  margin-left: 0.15em;
+}
+.github-live__dots span {
+  animation: github-live-dot 1.4s infinite;
+  opacity: 0.2;
+}
+.github-live__dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.github-live__dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes github-live-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
 }
 .github-stats {
   display: grid;

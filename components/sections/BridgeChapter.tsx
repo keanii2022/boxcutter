@@ -23,7 +23,7 @@ export default function BridgeChapter() {
           <h2 className="sc-display sc-display--lg" data-sc-kinetic="lines">
             People have ideas. I have solutions.
           </h2>
-          <p className="sc-body">You don&rsquo;t have to.</p>
+          <p className="sc-body">I have solutions.</p>
         </div>
       </div>
     </section>

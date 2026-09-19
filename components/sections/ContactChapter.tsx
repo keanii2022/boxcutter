@@ -25,7 +25,7 @@ export default function ContactChapter() {
             </h2>
             <p className="sc-body contact__sub" data-sc-cue="0.22">
               What&rsquo;s got you stuck. What you&rsquo;re trying to get
-              done. Twenty minutes is enough to start.
+              done. Thirty minutes is enough to start.
             </p>
             <div className="contact__cta-row" data-sc-cue="0.55">
               <BookCallLink id="contact-cta" className="contact__cta" />

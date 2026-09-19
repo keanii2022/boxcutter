@@ -8,6 +8,11 @@ type Status = "idle" | "sending" | "sent" | "error";
 
 const MIN_WORDS = 15;
 
+// name@domain.tld — deliberately not restricted to a host allowlist: this
+// form exists for individuals and small businesses alike, so a personal
+// gmail address and a custom business domain both need to pass.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 function wordCount(s: string): number {
   return s.trim().split(/\s+/).filter(Boolean).length;
 }
@@ -37,6 +42,7 @@ export default function CustomWorkForm() {
 
   const words = wordCount(message);
   const tooShort = words < MIN_WORDS;
+  const emailValid = EMAIL_RE.test(email.trim());
 
   const glow = pulse
     ? `0 0 ${(6 + Math.min(wpm, 90) * 0.35).toFixed(1)}px color-mix(in oklab, ${pulseColor} 70%, transparent)`
@@ -45,7 +51,7 @@ export default function CustomWorkForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setTouched(true);
-    if (!email.trim() || tooShort || status === "sending") return;
+    if (!emailValid || tooShort || status === "sending") return;
 
     if (!WEB3FORMS_KEY) {
       // No backend configured yet — hand off to the visitor's own mail
@@ -98,6 +104,11 @@ export default function CustomWorkForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        {touched && !emailValid && (
+          <p className="custom-work-form__count custom-work-form__count--short">
+            Enter a valid email address.
+          </p>
+        )}
       </div>
       <div className="custom-work-form__field">
         <label className="custom-work-form__label" htmlFor="custom-work-message">
