@@ -7,10 +7,10 @@
  * problem this is here to close. A flow act's video already scrubs across
  * its own natural scroll-through life with no pin needed.
  *
- * Waiting on the actual clip — data-sc-src points at a file that doesn't
- * exist yet. Until it's added at that path the band just shows as a plain
- * canvas-toned strip (the engine fails the fetch silently and leaves the
- * poster/background in place), not a broken image.
+ * The clip: box-cutter slices the tape, box opens — trimmed from the
+ * supplied export down to just that ~5s (the source ran 187s but everything
+ * past ~5s was blank white, clearly unintentional export padding) and
+ * re-encoded smaller (1280w, no audio, ~700KB).
  */
 export default function AboutGithubScrub() {
   return (
