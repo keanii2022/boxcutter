@@ -2,7 +2,7 @@
 // Services carousel's cards can't drift out of copy sync.
 
 // One link, used by every CTA site-wide (Nav, Opening, Services, Contact).
-export const BOOKING_URL = "https://calendly.com/keani-boxcutter/30min";
+export const BOOKING_URL = "https://calendly.com/keani-boxcuttersf/30min";
 
 // The opening build-up, ahead of the specific offerings below.
 export const OVERWHELM_LINES: string[] = [

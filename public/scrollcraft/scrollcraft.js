@@ -50,6 +50,12 @@
    ---------------------------------------------------------------------------
      data-sc-scrub            on <video>. vp scrubs currentTime. Blob-loaded,
                               so it seeks without needing HTTP range support.
+                              data-sc-lead="0.15" holds it on frame one for
+                              that leading fraction of vp (a clip that starts
+                              moving the instant its stage is visible can read
+                              as rushed), then scrubs the remainder across
+                              what's left, so it still lands on its last frame
+                              at vp=1.
      data-sc-sequence="a/{i}.webp:120:1"
                               on <canvas>. vp scrubs an image sequence
                               (path template : frameCount : startIndex).
@@ -314,11 +320,17 @@
     // Every scrub clip on the page lives here, whatever drives it. tick() walks
     // this one list, so an act clip and a worldflight leg get the same playhead.
     function makeClip(v, host) {
+      var lead = parseFloat(v.getAttribute('data-sc-lead'));
       var rec = {
         el: v, host: host || v,
         ready: false, loading: false, painted: false,
         cur: 0, target: 0, live: false, stuckAt: 0,
-        lerp: lerpRate(v) || LERP
+        lerp: lerpRate(v) || LERP,
+        // Holds the clip at its first frame for this fraction of vp, then
+        // scrubs the rest across what's left — so the same clip finishes at
+        // the same vp=1 it always did, just starting later and covering the
+        // remaining ground a little quicker to make up for the delay.
+        lead: isNaN(lead) ? 0 : clamp(lead, 0, 0.9)
       };
       v.muted = true; v.playsInline = true; v.preload = 'none';
       v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
@@ -881,7 +893,14 @@
           if (a.seq) loadSeq(a);
         }
         if (a.live && a.seq) drawSeq(a);
-        if (a.video) { a.video.live = a.live; if (a.video.ready) a.video.target = a.vp; }
+        if (a.video) {
+          a.video.live = a.live;
+          if (a.video.ready) {
+            a.video.target = a.video.lead
+              ? clamp01((a.vp - a.video.lead) / Math.max(1 - a.video.lead, 0.001))
+              : a.vp;
+          }
+        }
 
         // horizontal rail
         if (a.rail) {

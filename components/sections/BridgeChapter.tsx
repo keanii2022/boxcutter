@@ -11,6 +11,7 @@ export default function BridgeChapter() {
         <img className="sc-stage__poster" src="/media/bridge-scrub-poster.jpg" alt="" />
         <video
           data-sc-scrub
+          data-sc-lead="0.15"
           data-sc-src="/media/bridge-scrub.mp4"
           data-sc-src-mobile="/media/bridge-scrub-m.mp4"
           muted
