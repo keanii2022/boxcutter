@@ -1108,33 +1108,66 @@
 .opening__cta:active {
   transform: scale(0.98);
 }
-/* Hidden until hover/focus — the box-cutter cursor "opens" it. Absolutely
-   positioned so it doesn't reserve layout space (and so it can't shift the
-   text) while at opacity 0. */
-.cta-box-icon {
+/* The hover payoff: a handful of pieces fly inward and land as a box, which
+   the cursor is already mid-cut on (the video is the real
+   about-github-scrub clip — see BookCallLink.tsx). Absolutely positioned so
+   none of it reserves layout space or shifts the link's text at rest. */
+.cta-box-anim {
   position: absolute;
   left: 100%;
   top: 50%;
   margin-left: var(--sc-2);
   width: 1.6em;
   height: 1.6em;
-  opacity: 0;
+  transform: translateY(-50%);
   pointer-events: none;
-  transform: translateY(-50%) scale(0.4) rotate(-14deg);
-  transition: opacity var(--sc-d-base) var(--sc-ease-out),
-    transform var(--sc-d-slow) var(--sc-ease-drawer);
+}
+.cta-box-anim__particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.22em;
+  height: 0.22em;
+  border-radius: 50%;
+  background: var(--sc-accent);
+  opacity: 0;
+  transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)));
+  transition: opacity 220ms var(--sc-ease-out),
+    transform 280ms var(--sc-ease-drawer);
+}
+.cta-box-anim__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.4) rotate(-14deg);
+  transition: opacity 200ms var(--sc-ease-out) 160ms,
+    transform 320ms var(--sc-ease-drawer) 160ms;
 }
 @media (hover: hover) and (pointer: fine) {
-  .contact__cta:hover .cta-box-icon,
-  .opening__cta:hover .cta-box-icon {
+  .contact__cta:hover .cta-box-anim__particle,
+  .opening__cta:hover .cta-box-anim__particle {
     opacity: 1;
-    transform: translateY(-50%) scale(1) rotate(0deg);
+    transform: translate(-50%, -50%);
+  }
+  .contact__cta:hover .cta-box-anim__video,
+  .opening__cta:hover .cta-box-anim__video {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
   }
 }
-.contact__cta:focus-visible .cta-box-icon,
-.opening__cta:focus-visible .cta-box-icon {
+.contact__cta:focus-visible .cta-box-anim__particle,
+.opening__cta:focus-visible .cta-box-anim__particle {
   opacity: 1;
-  transform: translateY(-50%) scale(1) rotate(0deg);
+  transform: translate(-50%, -50%);
+}
+.contact__cta:focus-visible .cta-box-anim__video,
+.opening__cta:focus-visible .cta-box-anim__video {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
 }
 .contact__cta-row {
   display: flex;

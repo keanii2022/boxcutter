@@ -1,6 +1,5 @@
 import LoopVideo from "../LoopVideo";
-import CtaBoxIcon from "../CtaBoxIcon";
-import { BOOKING_URL } from "../../lib/content";
+import BookCallLink from "../BookCallLink";
 
 /**
  * The page's opening beat: the "do you have a problem?" hook paired with a
@@ -31,15 +30,7 @@ export default function Opening() {
             Solutions for small businesses and individuals. Let me handle
             the hard work.
           </p>
-          <a
-            className="opening__cta"
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Book a call →
-            <CtaBoxIcon />
-          </a>
+          <BookCallLink className="opening__cta" />
         </div>
         <div
           className="opening__video"

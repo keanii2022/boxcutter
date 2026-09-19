@@ -1,8 +1,7 @@
 import TerminalLine from "../TerminalLine";
 import SocialClip from "../SocialClip";
 import Bridge from "../Bridge";
-import CtaBoxIcon from "../CtaBoxIcon";
-import { BOOKING_URL } from "../../lib/content";
+import BookCallLink from "../BookCallLink";
 
 export default function ContactChapter() {
   return (
@@ -29,16 +28,7 @@ export default function ContactChapter() {
               done. Twenty minutes is enough to start.
             </p>
             <div className="contact__cta-row" data-sc-cue="0.55">
-              <a
-                id="contact-cta"
-                className="contact__cta"
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Book a call →
-                <CtaBoxIcon />
-              </a>
+              <BookCallLink id="contact-cta" className="contact__cta" />
               <div className="contact__bridge">
                 <Bridge />
               </div>
