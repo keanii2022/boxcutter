@@ -617,8 +617,8 @@
 }
 .estimator-modal__panel {
   position: relative;
-  width: min(100%, 32rem);
-  max-height: min(90vh, 40rem);
+  width: min(100%, 36rem);
+  max-height: min(90vh, 44rem);
   overflow-y: auto;
   padding: var(--sc-7) var(--sc-6);
   background: var(--sc-canvas);
@@ -646,6 +646,227 @@
   font-size: var(--sc-t-xl);
   color: var(--sc-ink);
   margin: var(--sc-2) 0 var(--sc-3);
+}
+
+/* Cost Estimator's own node diagram, controls, and running total
+   (PLAN.md Step 26) — rebuilt entirely from tokens.css's real palette/type,
+   not a reskin of the reference screenshot's dark-blue theme. */
+.cost-estimator {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-6);
+}
+.cost-estimator__diagram-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.cost-estimator__wire {
+  fill: none;
+  stroke: var(--sc-hairline-strong);
+  stroke-width: 1.5;
+  transition: stroke var(--sc-d-base) var(--sc-ease-out);
+}
+.cost-estimator__wire--active {
+  stroke: var(--sc-accent);
+}
+.cost-estimator__pulse {
+  fill: var(--oa-green);
+  filter: drop-shadow(0 0 4px var(--oa-green));
+  offset-rotate: 0deg;
+  animation: cost-estimator-travel 2.2s ease-in-out infinite alternate;
+}
+@keyframes cost-estimator-travel {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+.cost-estimator__node circle {
+  fill: var(--sc-canvas);
+  stroke: var(--sc-hairline-strong);
+  stroke-width: 2;
+  transition: fill var(--sc-d-base) var(--sc-ease-out),
+    stroke var(--sc-d-base) var(--sc-ease-out);
+}
+.cost-estimator__node text {
+  fill: var(--sc-ink-soft);
+  font-family: var(--sc-font-mono);
+  font-size: 12px;
+  text-anchor: middle;
+  transition: fill var(--sc-d-base) var(--sc-ease-out);
+}
+.cost-estimator__node--active circle {
+  fill: var(--sc-accent);
+  stroke: var(--sc-accent);
+}
+.cost-estimator__node--active text {
+  fill: var(--sc-ink);
+}
+.cost-estimator__hub circle {
+  fill: var(--sc-ink);
+  stroke: var(--sc-ink);
+  transition: fill var(--sc-d-base) var(--sc-ease-out);
+}
+.cost-estimator__hub text {
+  fill: var(--sc-canvas);
+  font-family: var(--sc-font-mono);
+  font-size: 13px;
+  text-anchor: middle;
+  text-transform: uppercase;
+  letter-spacing: var(--sc-track-wide);
+}
+.cost-estimator__hub--active circle {
+  fill: var(--oa-green-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cost-estimator__pulse {
+    animation: none;
+    offset-distance: 50%;
+  }
+}
+
+.cost-estimator__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-3);
+  padding: 0;
+  border: none;
+}
+.cost-estimator__group legend {
+  padding: 0 0 var(--sc-1);
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  color: var(--sc-ink-soft);
+}
+.cost-estimator__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-2);
+}
+.cost-estimator__pill {
+  padding: 0.4em 0.9em;
+  background: none;
+  border: 1px solid var(--sc-hairline-strong);
+  border-radius: var(--sc-r-pill);
+  color: var(--sc-ink);
+  font-family: var(--sc-font-text);
+  font-size: var(--sc-t-sm);
+  cursor: pointer;
+  transition: background var(--sc-d-fast) var(--sc-ease-out),
+    color var(--sc-d-fast) var(--sc-ease-out),
+    border-color var(--sc-d-fast) var(--sc-ease-out);
+}
+.cost-estimator__pill--active {
+  background: var(--sc-accent);
+  border-color: var(--sc-accent);
+  color: var(--sc-accent-ink);
+}
+.cost-estimator__note {
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft);
+  text-wrap: pretty;
+}
+.cost-estimator__slider {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-3);
+}
+.cost-estimator__slider input[type="range"] {
+  flex: 1;
+  accent-color: var(--sc-accent);
+}
+.cost-estimator__slider output {
+  min-width: 4.5em;
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink);
+  text-align: right;
+}
+.cost-estimator__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-2);
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink);
+  cursor: pointer;
+}
+.cost-estimator__toggle input {
+  accent-color: var(--sc-accent);
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.cost-estimator__select-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-3);
+}
+.cost-estimator__select-label {
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft);
+}
+.cost-estimator__select {
+  flex: 1;
+  padding: var(--sc-2) var(--sc-3);
+  border: 1px solid var(--sc-hairline-strong);
+  border-radius: var(--sc-r-sm);
+  background: var(--sc-canvas);
+  color: var(--sc-ink);
+  font-family: var(--sc-font-text);
+  font-size: var(--sc-t-sm);
+}
+
+.cost-estimator__summary {
+  padding: var(--sc-5);
+  border-radius: var(--sc-r-md);
+  background: var(--sc-surface);
+  transition: background var(--sc-d-base) var(--sc-ease-out);
+}
+/* A soft, one-off warning tint — not promoted to tokens.css since no other
+   surface in the page needs a "warning" role; deliberately gentle (a pale
+   wash, not a saturated alert) per the non-intimidating framing this state
+   is required to have. */
+.cost-estimator__summary--warn {
+  background: color-mix(in oklab, #f5c344 30%, var(--sc-canvas));
+}
+.cost-estimator__totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-6);
+  margin-bottom: var(--sc-3);
+}
+.cost-estimator__stat {
+  display: flex;
+  flex-direction: column;
+}
+.cost-estimator__stat-value {
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-2xl);
+  color: var(--sc-ink);
+  line-height: 1;
+}
+.cost-estimator__stat-label {
+  margin-top: 0.3em;
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  color: var(--sc-ink-soft);
+}
+.cost-estimator__disclaimer {
+  font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft);
+  text-wrap: pretty;
+}
+.cost-estimator__warning {
+  font-size: var(--sc-t-sm);
+  font-weight: 700;
+  color: #7a5b00;
+  text-wrap: pretty;
 }
 .estimator-modal__body {
   font-size: var(--sc-t-base);

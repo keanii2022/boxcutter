@@ -2,14 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ESTIMATOR_TRIGGER_COPY } from "../lib/content";
+import CostEstimator from "./CostEstimator";
 
 /**
  * The Services-section estimator entry point (PLAN.md Step 25): a trigger
  * that opens an attached modal rather than a new top-level chapter or a
  * separate /pricing route — the estimator should cost no scroll real estate.
  * This component owns its own open/close state, same self-contained pattern
- * as ServicesCarousel's toggle. The panel is a shell for now; its controls
- * and running-total calculation land in the next step (CostEstimator).
+ * as ServicesCarousel's toggle. The panel is chrome only — CostEstimator
+ * (Step 26) supplies the actual controls and running total.
  */
 export default function CostEstimatorModal() {
   const [open, setOpen] = useState(false);
@@ -66,11 +67,7 @@ export default function CostEstimatorModal() {
             <h2 id="estimator-modal-title" className="estimator-modal__title">
               Rough numbers, no pressure
             </h2>
-            <p className="estimator-modal__body">
-              Pick what you need and watch the total move — it&rsquo;s a starting
-              point, not a bill, and whatever you choose, you get the solution
-              you actually need. The calculator itself is landing here next.
-            </p>
+            <CostEstimator />
           </div>
         </div>
       )}
