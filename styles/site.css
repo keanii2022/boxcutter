@@ -198,6 +198,92 @@
   z-index: var(--sc-z-chrome);
 }
 
+/* ------------------------------------------------------- mobile nav ---- */
+/* Mobile-composed nav (PLAN.md Step 30, components/mobile/Nav.tsx): brand
+   identity stays in a slim top bar (reuses .oa-nav/.oa-nav__mark's own
+   pill/blur treatment — only the folio moves to sit directly in that bar
+   instead of alongside a CTA), while the "Book a call"/"Token$" actions
+   move to a bottom bar, in the zone a thumb actually reaches one-handed. */
+.m-nav-top .oa-nav__lockup-link {
+  /* Bumps the logo's own tap target toward a comfortable touch size
+     without changing its visual footprint — extra hit area via padding,
+     offset back out with a matching negative margin. */
+  display: inline-flex;
+  padding: 0.5rem;
+  margin: -0.5rem;
+}
+.m-nav-bottom {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--sc-z-chrome);
+  display: flex;
+  align-items: center;
+  gap: var(--sc-3);
+  padding: var(--sc-3) var(--sc-gutter);
+  padding-bottom: calc(var(--sc-3) + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in oklab, white 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--sc-hairline-strong);
+}
+.m-nav-bottom__cta {
+  flex: 1;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sc-accent);
+  color: var(--sc-accent-ink);
+  font-family: var(--sc-font-mono);
+  font-weight: 700;
+  font-size: var(--sc-t-sm);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--sc-r-pill);
+  transition: transform var(--sc-d-fast) var(--sc-ease-out);
+}
+.m-nav-bottom__cta:active {
+  transform: scale(0.97);
+}
+.m-nav-bottom__token-wrap {
+  position: relative;
+  display: inline-flex;
+}
+.m-nav-bottom__token {
+  min-height: 44px;
+  min-width: 44px;
+  padding-inline: var(--sc-4);
+  border: none;
+  border-radius: var(--sc-r-pill);
+  background: var(--oa-green);
+  color: var(--oa-green-ink);
+  font-family: var(--sc-font-mono);
+  font-weight: 700;
+  font-size: var(--sc-t-sm);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform var(--sc-d-fast) var(--sc-ease-out);
+}
+.m-nav-bottom__token:active {
+  transform: scale(0.97);
+}
+.m-nav-bottom__token-popup {
+  position: absolute;
+  bottom: calc(100% + var(--sc-2));
+  right: 0;
+  padding: var(--sc-2) var(--sc-3);
+  background: var(--sc-canvas);
+  border: 1px solid var(--sc-hairline-strong);
+  border-radius: var(--sc-r-md);
+  box-shadow: var(--sc-e1);
+  color: var(--sc-ink);
+  font-size: var(--sc-t-sm);
+  white-space: nowrap;
+  z-index: var(--sc-z-chrome);
+}
+
 /* ---------------------------------------------------------- opening ---- */
 /* The page's opening beat: a hook line + a (pending) screen recording of
    the visitor's own late-night "how do I run this business" research. Not
@@ -262,6 +348,62 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* ------------------------------------------------------- mobile hero --- */
+/* Mobile-composed opening beat (PLAN.md Step 30, components/mobile/
+   Opening.tsx): a single centred column, sized and ordered for a phone on
+   its own terms rather than the desktop grid's single-column fallback.
+   Vertical padding clears the fixed top brand bar and bottom action bar
+   (components/mobile/Nav.tsx) — both float over content by the same
+   translucent-pill convention the desktop nav already uses site-wide, but
+   the hero's own headline/CTA still need real breathing room on first
+   paint instead of starting flush under/over either one. */
+.m-opening {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  background: var(--sc-canvas);
+  padding-top: var(--sc-10);
+  padding-bottom: var(--sc-10);
+}
+.m-opening__inner {
+  width: 100%;
+  max-width: 26rem;
+  margin-inline: auto;
+  padding-inline: var(--sc-gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sc-5);
+}
+.m-opening__headline {
+  max-width: 12ch;
+  text-wrap: pretty;
+}
+.m-opening__video {
+  /* Same square 1440x1440 export the desktop Opening uses — see its own
+     .opening__video comment. */
+  aspect-ratio: 1 / 1;
+  width: min(100%, 19rem);
+  border-radius: var(--sc-r-lg);
+  overflow: hidden;
+  background: var(--sc-surface);
+  box-shadow: 0 0 0 1px var(--sc-hairline-strong);
+}
+.m-opening__video-clip {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.m-opening__sub {
+  max-width: 30ch;
+}
+.m-opening__cta {
+  margin-top: 0;
 }
 
 /* ------------------------------------------------------------ bridge --- */
