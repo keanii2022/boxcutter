@@ -83,3 +83,85 @@ export const STORY_STEPS: StoryStep[] = [
     todoLabel: "Execute",
   },
 ];
+
+// Pricing & Cost Estimator — real numbers, confirmed 2026-09-19. Feeds the
+// Services-section estimator trigger (Step 25) and CostEstimator (Step 26).
+
+export type PricingTier = {
+  label: string;
+  price: string;
+  description: string;
+};
+
+export const STARTER_TIER: PricingTier = {
+  label: "Starter",
+  price: "$150–$300",
+  description: "A first website, brand, and messaging — everything you need to go live.",
+};
+
+export const FULL_LAUNCH_TIER: PricingTier = {
+  label: "Full Launch",
+  price: "$400–$800",
+  description: "Everything in Starter, built out further, plus 2 free months of Full Launch Management included.",
+};
+
+export const MOBILE_UX_ADDON: PricingTier = {
+  label: "Mobile UX Site",
+  price: "$60",
+  description: "A site built specifically for how people use it on their phone — not your desktop site shrunk down, a separate mobile experience in the same brand.",
+};
+
+export const FULL_LAUNCH_MANAGEMENT: PricingTier = {
+  label: "Full Launch Management",
+  price: "$100–$300/mo",
+  description: "Unlimited, 24/7 access, no credits to track — free for your first 2 months with Full Launch, then paid month to month.",
+};
+
+export type CreditPack = {
+  price: string;
+  credits: number;
+  bonus?: number;
+};
+
+// $ → credits, with the bonus credits included at the higher tiers.
+export const CREDIT_PACKS: CreditPack[] = [
+  { price: "$30", credits: 30 },
+  { price: "$60", credits: 60, bonus: 20 },
+  { price: "$90", credits: 90, bonus: 30 },
+];
+
+export type CreditCost = {
+  credits: number;
+  label: string;
+};
+
+export const CREDIT_COSTS: CreditCost[] = [
+  { credits: 10, label: "A 20-minute 1-on-1 — questions, prompt and agent suggestions" },
+  { credits: 20, label: "Debugging, polishing, or adding one feature" },
+  { credits: 30, label: "Tell me the problem, I'll research and fix it myself" },
+];
+
+export const GENERAL_MANAGEMENT: PricingTier = {
+  label: "General Management",
+  price: "$80–$300/mo",
+  description:
+    "Buy-as-you-go access to me with credits, open to any client. Turnaround is a bit slower than Full Launch Management, and cost can flex with the job — Full Launch Management is flat and fast, credits are pay-as-you-go.",
+};
+
+export const SOLUTION_TRAINING: PricingTier = {
+  label: "AI → Human Solution Training",
+  price: "$200 total ($100/week, 2 weeks)",
+  description: "Two weeks, project-led and hands-on, until you can run what we built yourself.",
+};
+
+// Services-section estimator trigger (Step 25).
+export const ESTIMATOR_TRIGGER_COPY =
+  "Got an idea of what you can spend already? Check out my cost estimator";
+
+// Custom Work card's budget-friendly label (Step 24).
+export const CUSTOM_WORK_BUDGET_LABEL =
+  "On a budget? Tell me what's on your mind and we can go from there";
+
+// What credits can buy, beyond web builds — shown near the token marketplace entry point.
+export const CREDIT_MARKETPLACE_DESCRIPTION =
+  "Credits aren't just for web work — use them for 1-on-1s, debugging and feature work, hands-off fixes, email management, customer service support, graphic design, logo creation, or talking through your branding.";
