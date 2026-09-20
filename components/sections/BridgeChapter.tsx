@@ -21,7 +21,7 @@ export default function BridgeChapter() {
         <div className="sc-scrim sc-scrim--lead" aria-hidden="true" />
         <div className="sc-copy sc-copy--lead" data-sc-cue="0 0.8 0">
           <h2 className="sc-display sc-display--lg" data-sc-kinetic="lines">
-            People have ideas. I have solutions.
+            People have ideas.
           </h2>
           <p className="sc-body">I have solutions.</p>
         </div>
