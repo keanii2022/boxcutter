@@ -153,6 +153,51 @@
   min-height: 1.6em;
 }
 
+/* Token marketplace entry point (PLAN.md Step 27) — a solid green fill, not
+   the translucent-white/orange `.oa-nav__cta` pill, so it reads as its own
+   distinct action next to "Book a call" rather than a second primary CTA.
+   Green as a button fill with dark ink text on top, per tokens.css's own
+   --oa-green/--oa-green-ink pairing (first real use of that pairing as an
+   actual button — Bridge/CostEstimator only ever used --oa-green as a glow). */
+.oa-nav__token-wrap {
+  position: relative;
+  display: inline-flex;
+  pointer-events: auto;
+}
+.oa-nav__token {
+  padding: 0.4em 0.75em;
+  border: none;
+  border-radius: var(--sc-r-pill);
+  background: var(--oa-green);
+  color: var(--oa-green-ink);
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  font-weight: 700;
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform var(--sc-d-fast) var(--sc-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .oa-nav__token:hover {
+    transform: translate3d(2px, 0, 0);
+  }
+}
+.oa-nav__token-popup {
+  position: absolute;
+  top: calc(100% + var(--sc-2));
+  right: 0;
+  padding: var(--sc-2) var(--sc-3);
+  background: var(--sc-canvas);
+  border: 1px solid var(--sc-hairline-strong);
+  border-radius: var(--sc-r-md);
+  box-shadow: var(--sc-e1);
+  color: var(--sc-ink);
+  font-size: var(--sc-t-sm);
+  white-space: nowrap;
+  z-index: var(--sc-z-chrome);
+}
+
 /* ---------------------------------------------------------- opening ---- */
 /* The page's opening beat: a hook line + a (pending) screen recording of
    the visitor's own late-night "how do I run this business" research. Not

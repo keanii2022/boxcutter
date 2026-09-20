@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BoxCutterLogo from "./BoxCutterLogo";
 import TerminalLine from "./TerminalLine";
 import { BOOKING_URL } from "../lib/content";
@@ -12,6 +12,54 @@ const CHAPTERS: { id: string; label: string }[] = [
   { id: "chapter-github", label: "GitHub" },
   { id: "chapter-contact", label: "Contact" },
 ];
+
+/**
+ * Nav's second CTA (PLAN.md Step 27): the token/credit marketplace's entry
+ * point, live before the marketplace itself is — just a "coming soon" note
+ * for now, no purchase flow and no link out to the estimator or a checkout.
+ * Green fill (`--oa-green`/`--oa-green-ink`), not the orange `.oa-nav__cta`
+ * treatment, so it reads as a distinct, secondary action next to "Book a
+ * call" rather than a second copy of the primary CTA.
+ */
+function TokenButton() {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    const onClickAway = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClickAway);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClickAway);
+    };
+  }, [open]);
+
+  return (
+    <span className="oa-nav__token-wrap" ref={wrapRef}>
+      <button
+        type="button"
+        className="oa-nav__token pulse-hover"
+        aria-expanded={open}
+        aria-label="Token marketplace — coming soon"
+        onClick={() => setOpen((o) => !o)}
+      >
+        Token$
+      </button>
+      {open && (
+        <span className="oa-nav__token-popup" role="status">
+          Coming soon :)
+        </span>
+      )}
+    </span>
+  );
+}
 
 /**
  * Chaptered editorial's nav treatment: no fixed marketing bar, a folio
@@ -90,6 +138,7 @@ export default function Nav() {
         >
           Book a call
         </a>
+        <TokenButton />
         <span className="oa-nav__folio" aria-live="polite">
           {active}
         </span>
