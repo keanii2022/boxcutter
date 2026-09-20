@@ -579,6 +579,80 @@
   color: var(--sc-accent);
 }
 
+/* Services-section cost-estimator entry point + attached modal shell
+   (PLAN.md Step 25). The trigger sits under the offering cards; the panel
+   is a plain overlay dialog — no route change, no scroll real estate spent
+   on a new chapter. Controls/calculation land in Step 26. */
+.estimator-trigger {
+  display: block;
+  margin: var(--sc-6) auto 0;
+  padding: var(--sc-3) var(--sc-5);
+  background: none;
+  border: 1px solid var(--sc-hairline-strong);
+  border-radius: var(--sc-r-pill);
+  color: var(--sc-ink);
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--sc-track-wide);
+  cursor: pointer;
+  transition: border-color var(--sc-d-fast) var(--sc-ease-out),
+    color var(--sc-d-fast) var(--sc-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .estimator-trigger:hover {
+    border-color: var(--sc-accent);
+    color: var(--sc-accent);
+  }
+}
+.estimator-modal__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sc-gutter);
+  background: color-mix(in oklab, var(--sc-ink) 55%, transparent);
+}
+.estimator-modal__panel {
+  position: relative;
+  width: min(100%, 32rem);
+  max-height: min(90vh, 40rem);
+  overflow-y: auto;
+  padding: var(--sc-7) var(--sc-6);
+  background: var(--sc-canvas);
+  border-radius: var(--sc-r-lg);
+  box-shadow: var(--sc-e3);
+}
+.estimator-modal__close {
+  position: absolute;
+  top: var(--sc-4);
+  right: var(--sc-4);
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 1px solid var(--sc-hairline);
+  border-radius: 50%;
+  color: var(--sc-ink-soft);
+  font-size: var(--sc-t-lg);
+  line-height: 1;
+  cursor: pointer;
+}
+.estimator-modal__title {
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-xl);
+  color: var(--sc-ink);
+  margin: var(--sc-2) 0 var(--sc-3);
+}
+.estimator-modal__body {
+  font-size: var(--sc-t-base);
+  color: var(--sc-ink-soft);
+  text-wrap: pretty;
+}
+
 /* endless, borderless ticker of scattered tasks under the intro copy —
    fades in as one more member of the intro's own data-sc-stagger group. */
 .task-marquee {

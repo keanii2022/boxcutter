@@ -1,6 +1,7 @@
 import { OVERWHELM_LINES } from "../../lib/content";
 import TaskMarquee from "../TaskMarquee";
 import ServicesCarousel from "../ServicesCarousel";
+import CostEstimatorModal from "../CostEstimatorModal";
 
 export default function ServicesChapter() {
   const [headline, ...rest] = OVERWHELM_LINES;
@@ -30,6 +31,7 @@ export default function ServicesChapter() {
         <div className="sc-wrap">
           <p className="sc-label">what we do</p>
           <ServicesCarousel />
+          <CostEstimatorModal />
         </div>
       </section>
     </div>
