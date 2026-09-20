@@ -1388,6 +1388,19 @@
 .about__principles {
   padding-top: var(--sc-4);
 }
+@media (max-width: 640px) {
+  /* Below 640px ToDoList's fixed badge moves to top: var(--sc-11) (192px,
+     sized for the taller stacked mobile nav — see .todo:not(.todo--expanded)
+     and its 640px override) instead of the >640px value the github-section
+     fix above was measured against. Both of About's own sections land their
+     heading right in that band otherwise, confirmed live at 375x812. Placed
+     after the base .about__principles rule so it wins the cascade at equal
+     specificity. */
+  .about__story,
+  .about__principles {
+    padding-top: max(var(--sc-section), 19rem);
+  }
+}
 .principles {
   margin-top: var(--sc-6);
   display: flex;
