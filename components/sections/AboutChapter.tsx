@@ -1,7 +1,7 @@
 const PRINCIPLES = [
   {
     title: "One conversation, start to finish.",
-    body: "You describe the problem once. I figure out what it actually needs (design, backend, automation, analytics) and handle the parts myself or bring in the right piece. No project managers relaying between vendors, no re-explaining your business from scratch on every call — just one person who already has the context, moving it forward.",
+    body: "You tell me what's going on once. I figure out what it actually takes to fix it and get it done — no re-explaining yourself on every call, no getting passed around to someone else. Just one person who already knows what you need, seeing it through.",
   },
 ];
 
