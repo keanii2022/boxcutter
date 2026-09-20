@@ -31,6 +31,11 @@ export const TASK_WORDS: string[] = [
   "Strategy",
 ];
 
+// Custom Work card's budget-friendly framing — the soft, name-your-own-budget
+// path (Custom Work's email+message form) vs. the Cost Estimator's real numbers.
+export const CUSTOM_WORK_BUDGET_LABEL =
+  "On a budget? Tell me what's on your mind and we can go from there";
+
 export type ServiceIconName = "website" | "startup" | "custom";
 
 export type StoryStep = {
@@ -73,7 +78,7 @@ export const STORY_STEPS: StoryStep[] = [
   },
   {
     label: "Custom work",
-    line: "Don't know exactly what you need, but you've got an idea? Give it to me how it lives in your head and I'll make it come to life. This goes straight to my email and I'll get back to you ASAP.",
+    line: CUSTOM_WORK_BUDGET_LABEL,
     examples: [
       "Internal tools & automations",
       "Backend, integrations, and APIs",
@@ -157,10 +162,6 @@ export const SOLUTION_TRAINING: PricingTier = {
 // Services-section estimator trigger (Step 25).
 export const ESTIMATOR_TRIGGER_COPY =
   "Got an idea of what you can spend already? Check out my cost estimator";
-
-// Custom Work card's budget-friendly label (Step 24).
-export const CUSTOM_WORK_BUDGET_LABEL =
-  "On a budget? Tell me what's on your mind and we can go from there";
 
 // What credits can buy, beyond web builds — shown near the token marketplace entry point.
 export const CREDIT_MARKETPLACE_DESCRIPTION =
