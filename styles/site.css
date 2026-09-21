@@ -528,6 +528,16 @@
 .services__intro-line {
   max-width: 34ch;
 }
+@media (max-width: 640px) {
+  /* Same ToDoList-badge clearance bug fixed for About (Step 31) — below
+     640px the badge sits at top: var(--sc-11) (192px) and this section's
+     fixed --sc-10 (128px) top padding isn't enough to clear it before the
+     headline starts. Confirmed live at 375x812 on the mobile Services
+     chapter (Step 32). */
+  .services__intro {
+    padding-top: max(var(--sc-10), 19rem);
+  }
+}
 
 /* service card icon — hand-drawn line art, same idiom as BoxCutterLogo/Bridge */
 .service-icon {
@@ -1059,6 +1069,182 @@
   font-size: var(--sc-t-base);
   color: var(--sc-ink-soft);
   text-wrap: pretty;
+}
+
+/* ---------------------------------------------- mobile cost estimator --- */
+/* Full-screen step wizard (PLAN.md Step 32) — a genuine takeover, not the
+   desktop centered panel shrunk down, so a slider's drag gesture never has
+   to fight the page's own vertical scroll. Sits above everything, including
+   the mobile nav bars and ToDoList badge. */
+.m-estimator-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  background: var(--sc-canvas);
+}
+.m-estimator-screen__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sc-4);
+  padding: var(--sc-6) var(--sc-gutter) var(--sc-4);
+  border-bottom: 1px solid var(--sc-hairline);
+}
+.m-estimator-screen__title {
+  margin: var(--sc-1) 0 0;
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-xl);
+  color: var(--sc-ink);
+}
+.m-estimator-screen__close {
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 1px solid var(--sc-hairline);
+  border-radius: 50%;
+  color: var(--sc-ink-soft);
+  font-size: var(--sc-t-lg);
+  line-height: 1;
+  cursor: pointer;
+}
+.m-estimator {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+/* Stands in for the desktop diagram's decorative full node graph — that
+   needs horizontal room a phone screen doesn't have. One dot per step,
+   including the closing "Total" screen. */
+.m-estimator__spine {
+  display: flex;
+  justify-content: center;
+  gap: var(--sc-3);
+  padding: var(--sc-5) var(--sc-gutter);
+}
+.m-estimator__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--sc-hairline-strong);
+  transition: background var(--sc-d-base) var(--sc-ease-out),
+    transform var(--sc-d-base) var(--sc-ease-out);
+}
+.m-estimator__dot--done {
+  background: var(--sc-accent);
+}
+.m-estimator__dot--active {
+  background: var(--sc-accent);
+  transform: scale(1.4);
+}
+.m-estimator__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 var(--sc-gutter) var(--sc-6);
+}
+.m-estimator__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-4);
+  padding: 0;
+  border: none;
+}
+.m-estimator__legend {
+  padding: 0;
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-xl);
+  color: var(--sc-ink);
+}
+.m-estimator__summary {
+  padding-top: var(--sc-4);
+  text-align: center;
+  align-items: center;
+}
+.m-estimator__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 var(--sc-6);
+  background: var(--sc-accent);
+  color: var(--sc-accent-ink);
+  font-family: var(--sc-font-mono);
+  font-weight: 700;
+  font-size: var(--sc-t-sm);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--sc-r-pill);
+}
+.m-estimator__footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sc-4);
+  padding: var(--sc-4) var(--sc-gutter);
+  padding-bottom: calc(var(--sc-4) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--sc-hairline-strong);
+  background: color-mix(in oklab, white 92%, transparent);
+  backdrop-filter: blur(6px);
+}
+.m-estimator__total {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 var(--sc-3);
+}
+.m-estimator__total-value {
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-lg);
+  color: var(--sc-ink);
+}
+.m-estimator__total-label {
+  margin-right: var(--sc-2);
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  color: var(--sc-ink-soft);
+}
+.m-estimator__nav {
+  flex-shrink: 0;
+  display: flex;
+  gap: var(--sc-2);
+}
+.m-estimator__back,
+.m-estimator__next {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 var(--sc-5);
+  border-radius: var(--sc-r-pill);
+  font-family: var(--sc-font-mono);
+  font-weight: 700;
+  font-size: var(--sc-t-sm);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.m-estimator__back {
+  background: none;
+  border: 1px solid var(--sc-hairline-strong);
+  color: var(--sc-ink);
+}
+.m-estimator__next {
+  background: var(--sc-accent);
+  border: none;
+  color: var(--sc-accent-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-estimator__dot {
+    transition: none;
+  }
 }
 
 /* endless, borderless ticker of scattered tasks under the intro copy —
