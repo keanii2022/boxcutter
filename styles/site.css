@@ -1642,6 +1642,17 @@
      a wide viewport); here it just reads as dead air. */
   padding-bottom: clamp(2rem, 4vw, 4rem);
 }
+@media (max-width: 640px) {
+  /* Same ToDoList-badge clearance bug fixed for About/Services (Steps 31/32)
+     — below 640px the badge sits at top: var(--sc-11) (192px), taller than
+     the 9rem floor above (measured against the desktop badge position).
+     Flagged in Step 32's note to check here; confirmed live at 375x812: the
+     "live from GitHub" label landed directly under the badge without this.
+     Placed after the base rule so it wins the cascade at equal specificity. */
+  .github-section {
+    padding-top: max(var(--sc-section), 19rem);
+  }
+}
 .github-live {
   display: flex;
   align-items: baseline;
@@ -1682,6 +1693,17 @@
   gap: var(--sc-6);
   max-width: 44rem;
 }
+@media (min-width: 860px) {
+  /* Same reserved-corridor treatment as .task-marquee/.services-carousel
+     above (the 24rem strip is defined once, on .task-marquee's own rule) —
+     this section never got it, so on any viewport narrower than ~1300px
+     (confirmed live at 1024px — a real laptop/iPad-landscape width, not an
+     edge case) the expanded ToDoList panel sits directly on top of "Last
+     push" and the heatmap's most recent weeks. */
+  .github-stats {
+    max-width: min(44rem, calc(100% - 24rem));
+  }
+}
 .github-stats__item {
   display: flex;
   flex-direction: column;
@@ -1693,12 +1715,51 @@
   color: var(--sc-ink-soft);
   margin: 0;
 }
+.github-contributions-scroll {
+  position: relative;
+  max-width: 44rem;
+  margin-top: var(--sc-6);
+}
+@media (min-width: 860px) {
+  /* Same corridor reservation as .github-stats above, same reason — the
+     heatmap's own img scales to this container's width, so shrinking the
+     container on a narrower desktop viewport shrinks the graph with it
+     rather than letting it run under the ToDoList panel. */
+  .github-contributions-scroll {
+    max-width: min(44rem, calc(100% - 24rem));
+  }
+}
 .github-contributions {
   display: block;
   width: 100%;
-  max-width: 44rem;
   height: auto;
-  margin-top: var(--sc-6);
+}
+@media (max-width: 640px) {
+  /* ghchart's SVG is a fixed ~53-week grid — scaled to fill a 375px column
+     (as the desktop rule above does) it shrinks past the point the squares
+     read as anything, which is the "horizontal-scroll-and-hope" outcome
+     PLAN.md Step 33 calls out. Real treatment: render at native pixel size
+     (legible squares) in a horizontally scrollable strip, defaulted via the
+     component's own effect to the right edge — the most recent, most
+     relevant weeks — instead of the oldest. The mask fades the leading edge
+     as a constant "more history this way" affordance; a solid-color overlay
+     can't do the same job since this section's background is an
+     interpolated data-sc-drift gradient, not a fixed color to match. */
+  .github-contributions-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, transparent, black 1.5rem);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 1.5rem);
+  }
+  .github-contributions-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .github-contributions {
+    width: auto;
+    max-width: none;
+  }
 }
 .github-stats__note {
   margin-top: var(--sc-2);

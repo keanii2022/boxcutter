@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const GITHUB_USERNAME = "keanii2022";
 
@@ -38,6 +38,8 @@ const CONTRIBUTIONS_CHART_SRC = `https://ghchart.rshah.org/${GITHUB_USERNAME}`;
 export default function GithubStatsChapter() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [error, setError] = useState(false);
+  const contributionsScrollRef = useRef<HTMLDivElement>(null);
+  const contributionsImgRef = useRef<HTMLImageElement>(null);
   // Ticks the clock forward on its own so "3m ago" becomes "4m ago" without
   // needing a fresh fetch — otherwise it'd only update on next page load.
   const [now, setNow] = useState(() => Date.now());
@@ -84,6 +86,32 @@ export default function GithubStatsChapter() {
     return () => window.clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (error) return;
+    const img = contributionsImgRef.current;
+    const scrollEl = contributionsScrollRef.current;
+    if (!img || !scrollEl) return;
+
+    // Below 640px this strip scrolls (see .github-contributions-scroll);
+    // default to its right edge — the most recent weeks — rather than
+    // leaving a freshly-loaded phone visitor looking at last January. A
+    // no-op everywhere the strip isn't scrollable (scrollWidth ===
+    // clientWidth). A plain onLoad prop on the <img> misses this on repeat
+    // visits: the browser cache means the image is often already
+    // `complete` by the time React attaches the listener, so 'load' never
+    // fires — check `complete` directly and only fall back to the event
+    // for a genuinely fresh load.
+    const scrollToRecent = () => {
+      scrollEl.scrollLeft = scrollEl.scrollWidth;
+    };
+    if (img.complete) {
+      scrollToRecent();
+    } else {
+      img.addEventListener("load", scrollToRecent, { once: true });
+      return () => img.removeEventListener("load", scrollToRecent);
+    }
+  }, [error]);
+
   const metrics: { label: string; value: string | number | undefined }[] = [
     { label: "Public repos", value: stats?.publicRepos },
     {
@@ -125,13 +153,16 @@ export default function GithubStatsChapter() {
           ))}
         </div>
         {!error && (
-          // eslint-disable-next-line @next/next/no-img-element -- external, dynamically-sized SVG
-          <img
-            src={CONTRIBUTIONS_CHART_SRC}
-            alt={`${GITHUB_USERNAME}'s GitHub contribution graph`}
-            className="github-contributions"
-            loading="lazy"
-          />
+          <div className="github-contributions-scroll" ref={contributionsScrollRef}>
+            {/* eslint-disable-next-line @next/next/no-img-element -- external, dynamically-sized SVG */}
+            <img
+              ref={contributionsImgRef}
+              src={CONTRIBUTIONS_CHART_SRC}
+              alt={`${GITHUB_USERNAME}'s GitHub contribution graph`}
+              className="github-contributions"
+              loading="lazy"
+            />
+          </div>
         )}
         <p className="sc-body github-stats__note">
           {error
