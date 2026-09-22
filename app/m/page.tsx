@@ -6,17 +6,18 @@ import MobileServicesChapter from "../../components/mobile/ServicesChapter";
 import AboutChapter from "../../components/sections/AboutChapter";
 import AboutGithubScrub from "../../components/sections/AboutGithubScrub";
 import GithubStatsChapter from "../../components/sections/GithubStatsChapter";
-import ContactChapter from "../../components/sections/ContactChapter";
+import MobileContactChapter from "../../components/mobile/ContactChapter";
 
-// Temporary: `proxy.ts` forks phone-class UAs here, but some sections still
-// don't have their own mobile composition (Steps 33-34 remain). Nav/Opening
-// (Step 30) and Services/Cost Estimator (Step 32) got their own mobile
-// builds in components/mobile/; About (Step 31) needed no separate build,
-// just a shared-CSS clearance fix. GitHub stats and Contact still render
-// `app/page.tsx`'s desktop tree so mobile visitors keep the current, working
-// experience while that work lands section by section, instead of a
-// placeholder that would regress production. Replace piece by piece — don't
-// just delete this duplication in one shot once Step 33 starts.
+// `proxy.ts` forks phone-class UAs here (Step 28). Every chapter has now had
+// its own mobile pass (Steps 30-34): Nav/Opening, Services/Cost Estimator,
+// and Contact got dedicated components/mobile/ builds where the desktop
+// composition itself didn't translate (touch targets, a pinned stage
+// clipping stacked content, drag-input sliders); About and GitHub stats
+// needed no separate component, just shared-CSS fixes (badge clearance,
+// a legible contribution graph), so they still import straight from
+// components/sections/. BridgeChapter (the scroll-scrubbed "People have
+// ideas" video hero) is the one chapter with no mobile-specific treatment
+// yet — flagged in Step 31's notes, unscoped, left for a future pass.
 export default function MobileHome() {
   return (
     <>
@@ -29,7 +30,7 @@ export default function MobileHome() {
         <AboutChapter />
         <AboutGithubScrub />
         <GithubStatsChapter />
-        <ContactChapter />
+        <MobileContactChapter />
       </main>
     </>
   );

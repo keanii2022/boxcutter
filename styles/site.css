@@ -2009,6 +2009,88 @@
   }
 }
 
+/* ---------------------------------------------------- mobile contact --- */
+/* Flow-section rebuild of the desktop pinned Contact stage (PLAN.md Step
+   34) — see components/mobile/ContactChapter.tsx for why. Reuses most of
+   the desktop chapter's own classnames (.contact__rule/__headline/__sub/
+   __cta) since the copy/CTA styling itself doesn't need to change, only
+   the section's own layout mechanism. */
+.m-contact {
+  background: var(--sc-canvas);
+  padding-top: var(--sc-10);
+  padding-bottom: var(--sc-10);
+}
+@media (max-width: 640px) {
+  /* Same ToDoList-badge clearance fix as About/Services/GitHub (Steps
+     31-33) — below 640px the badge sits at top: var(--sc-11) (192px),
+     taller than this section's own --sc-10 floor. */
+  .m-contact {
+    padding-top: max(var(--sc-10), 19rem);
+  }
+}
+.m-contact__social {
+  margin-top: var(--sc-8);
+}
+
+/* ------------------------------------------------ mobile bridge drag --- */
+/* The signature mobile moment (PLAN.md Step 29/34) — see
+   components/mobile/Bridge.tsx for the interaction itself. Reuses the
+   desktop artwork's own classnames (.bridge/.bridge__wire/.bridge__node/
+   .bridge__ring/.bridge__pulse) for the idle state, including its
+   reduced-motion handling, for free — only the drag track, the solid
+   "connected" wire-fill, and the pulse-dot's manual-control override are
+   new here. */
+.m-bridge {
+  margin-top: var(--sc-2);
+}
+.m-bridge__track {
+  display: block;
+  width: 100%;
+  /* Claims the horizontal drag gesture entirely — without this, iOS/Android
+     treat it as an attempt to pan the page and fight the pointermove
+     handler for the same input. */
+  touch-action: none;
+  cursor: grab;
+}
+.m-bridge__track:active {
+  cursor: grabbing;
+}
+.m-bridge__wire-fill {
+  fill: none;
+  stroke: var(--oa-green);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  /* Paired with the `pathLength={100}` attribute in the component: dash
+     math stays 0-100 regardless of the curve's actual on-screen length. */
+  stroke-dasharray: 100;
+  filter: drop-shadow(0 0 4px var(--oa-green));
+}
+.m-bridge__track--connected .bridge__wire {
+  transition: opacity 320ms var(--sc-ease-out);
+  opacity: 0;
+}
+.m-bridge__pulse--manual {
+  /* Drag (and the settled connected state) drives offset-distance directly
+     via inline style — a *paused* animation still wins the cascade for the
+     property it animates (pausing freezes time, it doesn't hand the
+     property back), so the inline value never showed up until this was
+     `none` instead: fully removing the animation is what releases
+     offset-distance back to the inline style. */
+  animation: none !important;
+}
+.m-bridge__label {
+  margin-top: var(--sc-3);
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  color: var(--sc-ink-soft);
+  text-align: center;
+}
+.m-bridge__label--connected {
+  color: var(--sc-accent);
+}
+
 /* ------------------------------------------------------- scroll pulse --- */
 /* A "you're moving" cue: the viewport frame breathes between dimmed and
    brighter neon orange while actively scrolling, and fades to nothing
