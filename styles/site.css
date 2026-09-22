@@ -693,7 +693,15 @@
 }
 .service-card__cta {
   display: inline-flex;
-  margin: 0 var(--sc-5) var(--sc-5);
+  align-items: center;
+  /* Padding instead of just line-height, so the tap target itself clears
+     44px (PLAN.md Step 35's touch-target audit) rather than just the
+     visible text — confirmed live at ~23px before this, the only route to
+     booking from inside an expanded card on mobile. Negative margin-top
+     cancels the added padding's own visual push so the link's *text*
+     still sits where it did before, only the hit area grows. */
+  padding: var(--sc-3) 0;
+  margin: calc(-1 * var(--sc-3)) var(--sc-5) calc(var(--sc-5) - var(--sc-3));
   color: var(--sc-accent);
   font-family: var(--sc-font-mono);
   text-transform: uppercase;
@@ -946,6 +954,14 @@
   gap: var(--sc-2);
 }
 .cost-estimator__pill {
+  /* min-height (not just the em-based padding) so the tap target itself
+     clears 44px regardless of font metrics — measured at 36px on the
+     mobile wizard before this (PLAN.md Step 35's touch-target audit);
+     shared with desktop, where the extra height is harmless. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
   padding: 0.4em 0.9em;
   background: none;
   border: 1px solid var(--sc-hairline-strong);
@@ -985,8 +1001,12 @@
   text-align: right;
 }
 .cost-estimator__toggle {
+  /* min-height for the same reason as .cost-estimator__pill above (PLAN.md
+     Step 35) — a bare checkbox + one line of text was well under 44px
+     tall on the mobile wizard. */
   display: flex;
   align-items: center;
+  min-height: 2.75rem;
   gap: var(--sc-2);
   font-size: var(--sc-t-sm);
   color: var(--sc-ink);
@@ -1100,8 +1120,11 @@
 }
 .m-estimator-screen__close {
   flex-shrink: 0;
-  width: 2.25rem;
-  height: 2.25rem;
+  /* 2.25rem (36px) measured short of the 44px touch-target floor (PLAN.md
+     Step 35's audit) — same 2.75rem convention already used elsewhere in
+     this file for an explicit minimum tap size. */
+  width: 2.75rem;
+  height: 2.75rem;
   display: grid;
   place-items: center;
   background: none;
@@ -1873,6 +1896,11 @@
 .opening__cta {
   position: relative;
   margin-top: var(--sc-5);
+  /* padding-block, not more margin: this is the site's primary conversion
+     link, and it measured 2px short of the 44px touch-target floor
+     (PLAN.md Step 35's audit) — small enough that a margin adjustment
+     would've been invisible padding wasted outside the tappable box. */
+  padding-block: 0.15rem;
   display: inline-flex;
   align-items: baseline;
   gap: var(--sc-3);

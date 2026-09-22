@@ -11,6 +11,15 @@ import BookCallLink from "../BookCallLink";
  * all). Here the video sits right under the headline instead of after the
  * sub-copy: the hook needs a payoff before a visitor scrolls past it, not
  * one more paragraph in between.
+ *
+ * Video is `diy-research-m.mp4`, not the desktop file (PLAN.md Step 35):
+ * the source is 1440x1440 for a desktop column that renders it up to
+ * 44rem, but `.m-opening__video` never displays it past 19rem — a mobile
+ * Lighthouse pass flagged it as the single largest above-the-fold asset
+ * (714KB) and the top contributor to a mediocre Speed Index. Re-encoded at
+ * 640x640 (105KB) — same "half-ish the desktop file" convention already
+ * established for `bridge-scrub-m.mp4` — with no visible quality loss at
+ * the size it's actually shown.
  */
 export default function MobileOpening() {
   return (
@@ -34,7 +43,7 @@ export default function MobileOpening() {
           aria-label="A cascade of late-night searches: how to run a small business without hiring five people"
         >
           <LoopVideo
-            src="/media/diy-research.mp4"
+            src="/media/diy-research-m.mp4"
             className="m-opening__video-clip"
           />
         </div>
