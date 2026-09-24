@@ -37,6 +37,21 @@
   --sc-ink-soft: #9a9ba1;
   color: var(--sc-ink);
 }
+@media (max-width: 640px) {
+  /* The mobile fork's fixed bottom nav bar (.m-nav-bottom, Step 30) didn't
+     exist when scrollcraft's own .sc-copy--lead bottom-anchor value
+     (clamp(3rem, 12vh, 9rem)) was set, and it only reaches ~11px of
+     clearance at a 812px-tall viewport before accounting for
+     env(safe-area-inset-bottom) — real devices with a home-indicator inset
+     push the bar taller still, enough to cover this copy outright. Scoped
+     to #chapter-bridge (the only .sc-copy--lead user) rather than touching
+     the shared engine rule. Bar's own worst-case height is padding(--sc-3
+     top+bottom) + its 44px CTA + safe-area-inset-bottom; this clears that
+     plus a breathing-room gap. */
+  #chapter-bridge .sc-copy--lead {
+    bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+  }
+}
 
 /* --------------------------------------------------------------- nav ---- */
 .oa-nav {
