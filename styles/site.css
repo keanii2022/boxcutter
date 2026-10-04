@@ -227,19 +227,24 @@
   padding: 0.5rem;
   margin: -0.5rem;
 }
-.m-nav-bottom {
+/* The fixed bottom dock: the action bar plus, above it, ToDoList's docked
+   line (.todo--docked) — one frosted surface, so the badge reads as part
+   of the bar instead of a second thing floating over the page. */
+.m-dock {
   position: fixed;
   inset-inline: 0;
   bottom: 0;
   z-index: var(--sc-z-chrome);
+  background: color-mix(in oklab, white 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--sc-hairline-strong);
+}
+.m-nav-bottom {
   display: flex;
   align-items: center;
   gap: var(--sc-3);
   padding: var(--sc-3) var(--sc-gutter);
   padding-bottom: calc(var(--sc-3) + env(safe-area-inset-bottom, 0px));
-  background: color-mix(in oklab, white 92%, transparent);
-  backdrop-filter: blur(6px);
-  border-top: 1px solid var(--sc-hairline-strong);
 }
 .m-nav-bottom__cta {
   flex: 1;
@@ -548,8 +553,9 @@
      640px the badge sits at top: var(--sc-11) (192px) and this section's
      fixed --sc-10 (128px) top padding isn't enough to clear it before the
      headline starts. Confirmed live at 375x812 on the mobile Services
-     chapter (Step 32). */
-  .services__intro {
+     chapter (Step 32). Desktop tree only now: the mobile tree (.m-main)
+     docks the badge into its bottom bar instead (.todo--docked). */
+  main:not(.m-main) .services__intro {
     padding-top: max(var(--sc-10), 19rem);
   }
 }
@@ -1591,6 +1597,51 @@
     padding: var(--sc-3) var(--sc-4);
   }
 }
+/* Mobile tree: ToDoList rendered inside .m-dock (components/mobile/Nav.tsx)
+   as a slim centred line directly above "Book a call", instead of a panel
+   floating at a fixed spot in the reading area — where, on a phone, it
+   eventually sat on top of some heading or paragraph in every chapter.
+   Collapses to zero height (0fr row) until the same `--visible` trigger
+   the floating version uses (reader reaches Services), so the bar is its
+   usual size through Opening/Bridge — Bridge's bottom-anchored copy is
+   sized against that height (see #chapter-bridge .sc-copy--lead). Placed
+   after every other .todo rule, including the >=860px --expanded block a
+   landscape phone can reach, so it wins at equal specificity. */
+.todo.todo--docked {
+  position: static;
+  width: auto;
+  max-width: none;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  transform: none;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--sc-d-slow) var(--sc-ease-drawer),
+    opacity var(--sc-d-slow) var(--sc-ease-out);
+}
+.todo.todo--docked.todo--visible {
+  grid-template-rows: 1fr;
+  transform: none;
+}
+.todo.todo--docked .todo__label,
+.todo.todo--docked .todo__list {
+  display: none;
+}
+.todo.todo--docked .todo__total {
+  /* Height comes from line-height alone (no vertical padding/margin), so
+     the 0fr row can collapse it fully — padding would leak through. */
+  min-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0 var(--sc-gutter);
+  border: none;
+  text-align: center;
+  font-size: var(--sc-t-sm);
+  line-height: 2.25rem;
+}
 
 /* ------------------------------------------------------------- about --- */
 .about__story {
@@ -1619,9 +1670,9 @@
      fix above was measured against. Both of About's own sections land their
      heading right in that band otherwise, confirmed live at 375x812. Placed
      after the base .about__principles rule so it wins the cascade at equal
-     specificity. */
-  .about__story,
-  .about__principles {
+     specificity. Desktop tree only — see .services__intro's note. */
+  main:not(.m-main) .about__story,
+  main:not(.m-main) .about__principles {
     padding-top: max(var(--sc-section), 19rem);
   }
 }
@@ -1686,8 +1737,9 @@
      the 9rem floor above (measured against the desktop badge position).
      Flagged in Step 32's note to check here; confirmed live at 375x812: the
      "live from GitHub" label landed directly under the badge without this.
-     Placed after the base rule so it wins the cascade at equal specificity. */
-  .github-section {
+     Placed after the base rule so it wins the cascade at equal specificity.
+     Desktop tree only — see .services__intro's note. */
+  main:not(.m-main) .github-section {
     padding-top: max(var(--sc-section), 19rem);
   }
 }
@@ -2062,14 +2114,6 @@
   background: var(--sc-canvas);
   padding-top: var(--sc-10);
   padding-bottom: var(--sc-10);
-}
-@media (max-width: 640px) {
-  /* Same ToDoList-badge clearance fix as About/Services/GitHub (Steps
-     31-33) — below 640px the badge sits at top: var(--sc-11) (192px),
-     taller than this section's own --sc-10 floor. */
-  .m-contact {
-    padding-top: max(var(--sc-10), 19rem);
-  }
 }
 .m-contact__social {
   margin-top: var(--sc-8);

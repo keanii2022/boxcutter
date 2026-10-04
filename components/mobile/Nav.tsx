@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import BoxCutterLogo from "../BoxCutterLogo";
+import ToDoList from "../ToDoList";
 import { BOOKING_URL } from "../../lib/content";
 
 const CHAPTERS: { id: string; label: string }[] = [
@@ -132,17 +133,22 @@ export default function MobileNav() {
           {active}
         </span>
       </nav>
-      <nav className="m-nav-bottom" aria-label="Primary actions">
-        <a
-          className="m-nav-bottom__cta"
-          href={BOOKING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Book a call
-        </a>
-        <TokenButton />
-      </nav>
+      {/* The bottom dock: the to-do badge rides here as a slim line above
+          the actions rather than floating over page content. */}
+      <div className="m-dock">
+        <ToDoList docked />
+        <nav className="m-nav-bottom" aria-label="Primary actions">
+          <a
+            className="m-nav-bottom__cta"
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Book a call
+          </a>
+          <TokenButton />
+        </nav>
+      </div>
     </>
   );
 }

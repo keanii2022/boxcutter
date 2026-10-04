@@ -18,8 +18,14 @@ import { STORY_STEPS } from "../lib/content";
  * Visibility/expansion still watch the Services chapter's own --sc-p
  * (published by the engine on its act element). Bespoke JS, no engine edit,
  * no kit device, per uniqueness.md §3.
+ *
+ * `docked` (mobile tree only, rendered inside MobileNav's bottom dock):
+ * same tracking, but laid out as a slim line of the bottom bar instead of
+ * a fixed panel floating over the page — any fixed spot in a phone's
+ * reading area eventually lands on some heading or paragraph as the page
+ * scrolls under it.
  */
-export default function ToDoList() {
+export default function ToDoList({ docked = false }: { docked?: boolean }) {
   const [checked, setChecked] = useState<boolean[]>(() =>
     STORY_STEPS.map(() => false)
   );
@@ -117,7 +123,7 @@ export default function ToDoList() {
         finalized ? " todo--final" : ""
       }${expanded ? " todo--expanded" : ""}${
         inContact ? " todo--in-contact" : ""
-      }`}
+      }${docked ? " todo--docked" : ""}`}
       aria-live="polite"
       aria-label="Running list of steps from idea to client"
     >

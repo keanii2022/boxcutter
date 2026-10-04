@@ -1,5 +1,4 @@
 import MobileNav from "../../components/mobile/Nav";
-import ToDoList from "../../components/ToDoList";
 import MobileOpening from "../../components/mobile/Opening";
 import BridgeChapter from "../../components/sections/BridgeChapter";
 import MobileServicesChapter from "../../components/mobile/ServicesChapter";
@@ -21,9 +20,10 @@ import MobileContactChapter from "../../components/mobile/ContactChapter";
 export default function MobileHome() {
   return (
     <>
+      {/* ToDoList lives inside MobileNav's bottom dock here, not floating
+          over the page — see .todo--docked in styles/site.css. */}
       <MobileNav />
-      <ToDoList />
-      <main id="top">
+      <main id="top" className="m-main">
         <MobileOpening />
         <BridgeChapter />
         <MobileServicesChapter />
