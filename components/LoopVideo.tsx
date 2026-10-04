@@ -41,13 +41,23 @@ function getServerSnapshot(): boolean {
  * fetches the video independently of whether playback ever starts, so a
  * static first frame renders regardless — the "paused still frame"
  * fallback this doc comment already promised, actually delivered now.
+ *
+ * Not quite (Step 42): a real iPhone still showed the Opening clip blank —
+ * iOS doesn't reliably paint a frame for a video that hasn't played, even
+ * with `preload="auto"`. So `poster` is a real still of the clip's first
+ * frame, which shows whatever the device decides about playback, and
+ * every tap retries `.play()`: Low Power Mode refuses autoplay, but still
+ * allows playback started from a real tap.
  */
 export default function LoopVideo({
   src,
+  poster,
   className,
   cue,
 }: {
   src: string;
+  /** a still of the clip's first frame — shown until it actually plays */
+  poster?: string;
   className?: string;
   /** optional data-sc-cue value, for a clip whose entrance should fade in
       with the rest of its act's copy instead of popping in unanimated */
@@ -82,7 +92,7 @@ export default function LoopVideo({
     if (!el || !inView) return;
 
     const tryPlay = () => {
-      if (reduced || document.hidden) return;
+      if (reduced || document.hidden || !el.paused) return;
       el.play().catch(() => {});
     };
 
@@ -90,7 +100,13 @@ export default function LoopVideo({
     else tryPlay();
 
     document.addEventListener("visibilitychange", tryPlay);
-    return () => document.removeEventListener("visibilitychange", tryPlay);
+    document.addEventListener("touchend", tryPlay, { passive: true });
+    document.addEventListener("click", tryPlay);
+    return () => {
+      document.removeEventListener("visibilitychange", tryPlay);
+      document.removeEventListener("touchend", tryPlay);
+      document.removeEventListener("click", tryPlay);
+    };
   }, [reduced, inView]);
 
   return (
@@ -98,6 +114,7 @@ export default function LoopVideo({
       ref={ref}
       className={className}
       src={inView ? src : undefined}
+      poster={poster}
       preload="auto"
       loop={!reduced}
       muted

@@ -28,7 +28,11 @@ export default function SocialClip({
       data-sc-cue={reveal === "cue" ? "0.15" : undefined}
       data-sc-in={reveal === "flow" ? true : undefined}
     >
-      <LoopVideo src="/media/box-socials.mp4" className="social-clip" />
+      <LoopVideo
+        src="/media/box-socials.mp4"
+        poster="/media/box-socials-poster.jpg"
+        className="social-clip"
+      />
       <a
         className="social-clip__ig"
         href={INSTAGRAM_URL}

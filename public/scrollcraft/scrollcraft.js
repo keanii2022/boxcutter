@@ -1050,11 +1050,20 @@
         // the page through this very guard, so a seek stuck past 700ms is
         // re-issued rather than waited on forever.
         if (V.el.seeking) {
+          // An offscreen clip's stalled seek is left alone: retrying it only
+          // keeps a phone decoder busy that the onscreen clip needs.
+          if (!V.live) continue;
           var nw = performance.now();
           if (!V.stuckAt) V.stuckAt = nw;
           else if (nw - V.stuckAt > 700) {
             V.stuckAt = nw;
-            try { V.el.currentTime = V.el.currentTime + 0.001; } catch (e) {}
+            // Retry toward where the reader is NOW, not 1ms past the stalled
+            // spot. Re-seeking the same spot let a seek that hangs there hang
+            // forever, freezing the clip on that frame even after the reader
+            // scrolled away from it (seen on an iPhone: stuck on the last frame
+            // after scrolling back up).
+            V.cur = V.target;
+            try { V.el.currentTime = clamp(V.cur, 0, 0.999) * (V.el.duration || 1); } catch (e) {}
           }
           continue;
         }

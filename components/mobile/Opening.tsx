@@ -44,6 +44,7 @@ export default function MobileOpening() {
         >
           <LoopVideo
             src="/media/diy-research-m.mp4"
+            poster="/media/diy-research-m-poster.jpg"
             className="m-opening__video-clip"
           />
         </div>

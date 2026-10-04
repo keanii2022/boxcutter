@@ -39,6 +39,7 @@ export default function Opening() {
         >
           <LoopVideo
             src="/media/diy-research.mp4"
+            poster="/media/diy-research-poster.jpg"
             className="opening__video-clip"
           />
         </div>

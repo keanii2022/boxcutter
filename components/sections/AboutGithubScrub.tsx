@@ -11,6 +11,12 @@
  * supplied export down to just that ~5s (the source ran 187s but everything
  * past ~5s was blank white, clearly unintentional export padding) and
  * re-encoded smaller (1280w, no audio, ~700KB).
+ *
+ * Re-encoded again for scrubbing (Step 42), same settings as scroll-craft's
+ * encode.sh: that first pass kept the source's 60fps and only two
+ * keyframes in five seconds, so every scroll-driven seek decoded up to
+ * ~250 frames — fine on a laptop, but on an iPhone the clip never moved.
+ * Now 30fps with a keyframe every 8 frames (every 4 in the `-m` variant).
  */
 export default function AboutGithubScrub() {
   return (
@@ -23,6 +29,7 @@ export default function AboutGithubScrub() {
       <video
         data-sc-scrub
         data-sc-src="/media/about-github-scrub.mp4"
+        data-sc-src-mobile="/media/about-github-scrub-m.mp4"
         className="thin-scrub__video"
         muted
         playsInline
