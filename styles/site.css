@@ -548,17 +548,6 @@
 .services__intro-line {
   max-width: 34ch;
 }
-@media (max-width: 640px) {
-  /* Same ToDoList-badge clearance bug fixed for About (Step 31) — below
-     640px the badge sits at top: var(--sc-11) (192px) and this section's
-     fixed --sc-10 (128px) top padding isn't enough to clear it before the
-     headline starts. Confirmed live at 375x812 on the mobile Services
-     chapter (Step 32). Desktop tree only now: the mobile tree (.m-main)
-     docks the badge into its bottom bar instead (.todo--docked). */
-  main:not(.m-main) .services__intro {
-    padding-top: max(var(--sc-10), 19rem);
-  }
-}
 
 /* service card icon — hand-drawn line art, same idiom as BoxCutterLogo/Bridge */
 .service-icon {
@@ -1390,33 +1379,44 @@
   top: calc(var(--sc-8) + var(--sc-2));
   bottom: auto;
 }
-@media (max-width: 640px) {
-  /* This offset clears a single-line desktop nav. Below 640px the nav's
-     own mark stacks logo+wordmark over a tagline line, and the "Book a
-     call" pill wraps to two lines too, so the nav itself runs taller than
-     this badge's desktop clearance — without more room here the badge
-     lands on top of the nav (and whatever heading sits just below it). */
-  .todo:not(.todo--expanded) {
-    top: var(--sc-11);
-  }
-}
-/* Below the corridor breakpoint the engine can still flag the panel
-   --expanded (that flag tracks scroll position, not viewport width) —
-   without this, `.todo:not(.todo--expanded)`'s minimised position above
-   simply fails to match and the panel falls back to the base `.todo`
-   rule's bottom-right corner, with none of the corridor reservation that
-   only exists at >=860px. Force the same minimised corner here regardless
-   of the class, since there is no full layout below this width. */
+/* Below the corridor breakpoint there's no reserved strip of the page to
+   float in — a panel at any fixed spot in the reading area (it used to sit
+   under the nav, top-right) ends up on top of some heading, paragraph or
+   video in every chapter as the page scrolls under it, at every width in
+   this range (measured at 500/700/800px). So it becomes edge chrome
+   instead: a slim full-width line along the viewport's bottom edge, same
+   look as the mobile tree's docked line (.todo--docked), sliding up into
+   place on the same `--visible` trigger. Applies whether or not the engine
+   has flagged --expanded (that tracks scroll position, not viewport width);
+   the full list only exists in the >=860px block below. */
 @media (max-width: 859.98px) {
-  .todo {
-    padding: var(--sc-3) var(--sc-4);
-    top: calc(var(--sc-8) + var(--sc-2));
-    bottom: auto;
+  .todo:not(.todo--docked) {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    padding: 0 var(--sc-gutter) env(safe-area-inset-bottom, 0px);
+    border: none;
+    border-top: 1px solid var(--sc-hairline-strong);
+    border-radius: 0;
+    background: color-mix(in oklab, white 92%, transparent);
+    backdrop-filter: blur(6px);
+    box-shadow: none;
+    transform: translate3d(0, 100%, 0);
   }
-}
-@media (max-width: 640px) {
-  .todo {
-    top: var(--sc-11);
+  .todo:not(.todo--docked).todo--visible {
+    transform: none;
+  }
+  .todo:not(.todo--docked) .todo__total {
+    /* The later unscoped .todo__total rule's divider spacing (margin,
+       padding-top, border-top — meant for the full >=860px list) otherwise
+       wins here and nearly doubles the strip's height. */
+    margin: 0;
+    padding: 0;
+    border: none;
+    text-align: center;
+    line-height: 2.25rem;
   }
 }
 /* Full detail (Services) gets the reserved 24rem corridor to itself — sized
@@ -1591,18 +1591,12 @@
     animation: none;
   }
 }
-@media (max-width: 640px) {
-  .todo {
-    width: auto;
-    padding: var(--sc-3) var(--sc-4);
-  }
-}
 /* Mobile tree: ToDoList rendered inside .m-dock (components/mobile/Nav.tsx)
    as a slim centred line directly above "Book a call", instead of a panel
    floating at a fixed spot in the reading area — where, on a phone, it
    eventually sat on top of some heading or paragraph in every chapter.
    Collapses to zero height (0fr row) until the same `--visible` trigger
-   the floating version uses (reader reaches Services), so the bar is its
+   the desktop tree's version uses (reader reaches Services), so the bar is its
    usual size through Opening/Bridge — Bridge's bottom-anchored copy is
    sized against that height (see #chapter-bridge .sc-copy--lead). Placed
    after every other .todo rule, including the >=860px --expanded block a
@@ -1663,19 +1657,6 @@
 .about__principles {
   padding-top: var(--sc-4);
 }
-@media (max-width: 640px) {
-  /* Below 640px ToDoList's fixed badge moves to top: var(--sc-11) (192px,
-     sized for the taller stacked mobile nav — see .todo:not(.todo--expanded)
-     and its 640px override) instead of the >640px value the github-section
-     fix above was measured against. Both of About's own sections land their
-     heading right in that band otherwise, confirmed live at 375x812. Placed
-     after the base .about__principles rule so it wins the cascade at equal
-     specificity. Desktop tree only — see .services__intro's note. */
-  main:not(.m-main) .about__story,
-  main:not(.m-main) .about__principles {
-    padding-top: max(var(--sc-section), 19rem);
-  }
-}
 .principles {
   margin-top: var(--sc-6);
   display: flex;
@@ -1730,18 +1711,6 @@
      is tuned for sections with more room to give (it clamps up to 11rem on
      a wide viewport); here it just reads as dead air. */
   padding-bottom: clamp(2rem, 4vw, 4rem);
-}
-@media (max-width: 640px) {
-  /* Same ToDoList-badge clearance bug fixed for About/Services (Steps 31/32)
-     — below 640px the badge sits at top: var(--sc-11) (192px), taller than
-     the 9rem floor above (measured against the desktop badge position).
-     Flagged in Step 32's note to check here; confirmed live at 375x812: the
-     "live from GitHub" label landed directly under the badge without this.
-     Placed after the base rule so it wins the cascade at equal specificity.
-     Desktop tree only — see .services__intro's note. */
-  main:not(.m-main) .github-section {
-    padding-top: max(var(--sc-section), 19rem);
-  }
 }
 .github-live {
   display: flex;
@@ -1946,6 +1915,33 @@
 .social-clip__ig-accent {
   fill: var(--sc-accent);
   stroke: none;
+}
+/* Below the 860px corridor breakpoint (iPad portrait, narrow desktop
+   windows) copy and clip stack in one column inside the pinned 100svh
+   stage, and the stack ran taller than the stage: centred and clipped, the
+   headline sat under the fixed nav or fully above the viewport, and the
+   clip ran off the bottom (measured at 768x1024, 820x1180, 500-800x900).
+   Lay the stage out top-down between the nav (~102-119px tall here) and
+   .todo's bottom-edge strip instead — copy at its natural height, the clip
+   square-sized to whatever height is left. Scoped to .contact: the mobile
+   tree's .m-contact is a plain flow section with no such ceiling. */
+@media (max-width: 859.98px) {
+  .contact__stage {
+    justify-content: flex-start;
+    padding-top: calc(var(--sc-9) + var(--sc-6));
+    padding-bottom: calc(2.25rem + var(--sc-5));
+  }
+  .contact__grid {
+    flex: 1 1 auto;
+    min-height: 0;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--sc-5);
+  }
+  .contact .social-clip-wrap {
+    width: auto;
+    max-width: 100%;
+    height: 100%;
+  }
 }
 .contact__rule {
   max-width: 6rem;

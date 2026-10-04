@@ -23,7 +23,7 @@ export default function MobileHome() {
       {/* ToDoList lives inside MobileNav's bottom dock here, not floating
           over the page — see .todo--docked in styles/site.css. */}
       <MobileNav />
-      <main id="top" className="m-main">
+      <main id="top">
         <MobileOpening />
         <BridgeChapter />
         <MobileServicesChapter />
