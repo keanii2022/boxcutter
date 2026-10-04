@@ -163,6 +163,10 @@ export const SOLUTION_TRAINING: PricingTier = {
 export const ESTIMATOR_TRIGGER_COPY =
   "Got an idea of what you can spend already? Check out my cost estimator";
 
+// Token$ nav button (Step 27), hidden for now (Step 40) — flip to true to
+// bring it back on both the desktop nav and the phone's bottom dock.
+export const SHOW_TOKEN_BUTTON = false;
+
 // What credits can buy, beyond web builds — shown near the token marketplace entry point.
 export const CREDIT_MARKETPLACE_DESCRIPTION =
   "Credits aren't just for web work — use them for 1-on-1s, debugging and feature work, hands-off fixes, email management, customer service support, graphic design, logo creation, or talking through your branding.";

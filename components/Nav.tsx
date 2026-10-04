@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import BoxCutterLogo from "./BoxCutterLogo";
 import TerminalLine from "./TerminalLine";
-import { BOOKING_URL } from "../lib/content";
+import { BOOKING_URL, SHOW_TOKEN_BUTTON } from "../lib/content";
 
 const CHAPTERS: { id: string; label: string }[] = [
   { id: "chapter-hero", label: "" },
@@ -138,7 +138,7 @@ export default function Nav() {
         >
           Book a call
         </a>
-        <TokenButton />
+        {SHOW_TOKEN_BUTTON && <TokenButton />}
         <span className="oa-nav__folio" aria-live="polite">
           {active}
         </span>
