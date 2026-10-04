@@ -15,8 +15,8 @@ import MobileContactChapter from "../../components/mobile/ContactChapter";
 // needed no separate component, just shared-CSS fixes (badge clearance,
 // a legible contribution graph), so they still import straight from
 // components/sections/. BridgeChapter (the scroll-scrubbed "People have
-// ideas" video hero) is the one chapter with no mobile-specific treatment
-// yet — flagged in Step 31's notes, unscoped, left for a future pass.
+// ideas" video hero) is shared too — on any portrait screen its wide clip
+// sits in a rounded frame instead of being cropped (Step 41).
 export default function MobileHome() {
   return (
     <>

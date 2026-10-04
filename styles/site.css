@@ -52,6 +52,50 @@
     bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
   }
 }
+/* Holds the clip and its poster. Fills the stage by default, so the
+   full-bleed composition is unchanged wherever the frame isn't switched on. */
+.bridge__frame {
+  position: absolute;
+  inset: 0;
+}
+/* Any portrait screen — phone, or iPad held upright (Step 41): the clip is
+   ~2:1, so covering a tall screen showed only its middle and cut both
+   characters in half. Fit the whole clip into a rounded frame across the
+   screen width instead, with the copy stacked under it on the stage's own
+   dark ground — not over the video, so the scrim goes. The group centres
+   in the space between the top nav and the bottom bar (.m-dock on phones,
+   the to-do strip below 860px on the desktop tree). */
+@media (orientation: portrait) {
+  #chapter-bridge [data-sc-stage] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--sc-6);
+    padding: var(--sc-9) var(--sc-gutter)
+      calc(var(--sc-9) + env(safe-area-inset-bottom, 0px));
+    background: #08090b; /* the act's data-sc-drift target */
+  }
+  #chapter-bridge .bridge__frame {
+    position: relative;
+    inset: auto;
+    flex: none;
+    aspect-ratio: 2164 / 1080; /* the clip's own shape — nothing cropped */
+    border-radius: var(--sc-r-lg);
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.14);
+  }
+  /* Rounded directly too: iOS Safari doesn't always clip a <video> to its
+     parent's rounded corners. */
+  #chapter-bridge .bridge__frame > * {
+    border-radius: inherit;
+  }
+  #chapter-bridge .sc-scrim {
+    display: none;
+  }
+  #chapter-bridge .sc-copy--lead {
+    position: static;
+  }
+}
 
 /* --------------------------------------------------------------- nav ---- */
 .oa-nav {
