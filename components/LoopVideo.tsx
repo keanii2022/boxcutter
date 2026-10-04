@@ -31,6 +31,16 @@ function getServerSnapshot(): boolean {
  * scroll — same IntersectionObserver idiom as TerminalLine's typing
  * trigger — so a below-fold instance (Contact's SocialClip) doesn't fetch
  * its whole file on initial load alongside the hero's own video.
+ *
+ * `preload="auto"` (not "none"): confirmed via a real phone recording that
+ * iOS Low Power Mode rejects `.play()` outright — the promise rejection is
+ * caught and swallowed below, same as any other autoplay refusal, but with
+ * `preload="none"` that left both this component's instances (Opening's
+ * hero video, Contact's SocialClip) permanently blank, since nothing ever
+ * requests the file if the one thing that requests it never runs. `auto`
+ * fetches the video independently of whether playback ever starts, so a
+ * static first frame renders regardless — the "paused still frame"
+ * fallback this doc comment already promised, actually delivered now.
  */
 export default function LoopVideo({
   src,
@@ -88,7 +98,7 @@ export default function LoopVideo({
       ref={ref}
       className={className}
       src={inView ? src : undefined}
-      preload="none"
+      preload="auto"
       loop={!reduced}
       muted
       playsInline
