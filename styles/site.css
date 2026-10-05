@@ -620,6 +620,12 @@
      its own padding, so --sc-10 more read as a gap on a real phone. */
   .services__intro {
     padding-top: var(--sc-8);
+    /* Step 47: this bottom padding plus the offerings' own top padding
+       stacked ~120px between the word ticker and "What we do". */
+    padding-bottom: var(--sc-5);
+  }
+  .services__offerings {
+    padding-top: var(--sc-6);
   }
 }
 .services__headline {
@@ -1383,7 +1389,8 @@
 }
 @media (max-width: 640px) {
   .task-marquee {
-    margin-top: var(--sc-8);
+    /* --sc-8 read as a gap on a real phone (Step 47). */
+    margin-top: var(--sc-7);
   }
 }
 .task-marquee__track {
