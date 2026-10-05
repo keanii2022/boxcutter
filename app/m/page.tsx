@@ -2,7 +2,7 @@ import MobileNav from "../../components/mobile/Nav";
 import MobileOpening from "../../components/mobile/Opening";
 import BridgeChapter from "../../components/sections/BridgeChapter";
 import MobileServicesChapter from "../../components/mobile/ServicesChapter";
-import AboutChapter from "../../components/sections/AboutChapter";
+import MobileAboutChapter from "../../components/mobile/AboutChapter";
 import AboutGithubScrub from "../../components/sections/AboutGithubScrub";
 import GithubStatsChapter from "../../components/sections/GithubStatsChapter";
 import MobileContactChapter from "../../components/mobile/ContactChapter";
@@ -11,9 +11,10 @@ import MobileContactChapter from "../../components/mobile/ContactChapter";
 // its own mobile pass (Steps 30-34): Nav/Opening, Services/Cost Estimator,
 // and Contact got dedicated components/mobile/ builds where the desktop
 // composition itself didn't translate (touch targets, a pinned stage
-// clipping stacked content, drag-input sliders); About and GitHub stats
-// needed no separate component, just shared-CSS fixes (badge clearance,
-// a legible contribution graph), so they still import straight from
+// clipping stacked content, drag-input sliders) — and About since Step 48,
+// as a card slideshow instead of a wall of text. GitHub stats needed no
+// separate component, just shared-CSS fixes (badge clearance, a legible
+// contribution graph), so it still imports straight from
 // components/sections/. BridgeChapter (the scroll-scrubbed "People have
 // ideas" video hero) is shared too — on any portrait screen its wide clip
 // sits in a rounded frame instead of being cropped (Step 41), and here it
@@ -28,7 +29,7 @@ export default function MobileHome() {
         <MobileOpening />
         <BridgeChapter flow />
         <MobileServicesChapter />
-        <AboutChapter />
+        <MobileAboutChapter />
         <AboutGithubScrub />
         <GithubStatsChapter />
         <MobileContactChapter />

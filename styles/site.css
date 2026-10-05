@@ -1745,6 +1745,110 @@
 .about__principles {
   padding-top: var(--sc-4);
 }
+
+/* ------------------------------------------------------ mobile about --- */
+/* Phone About as a slideshow (Step 48, components/mobile/AboutChapter.tsx):
+   one card per piece of the story instead of a full-width wall of lede-
+   size text. A native scroll-snap strip, so swiping is the browser's own
+   gesture; cards share the tallest card's height (one grid row), so the
+   controls don't jump between cards. Same card look as .service-card. */
+.m-about__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  gap: var(--sc-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.m-about__track::-webkit-scrollbar {
+  display: none;
+}
+.m-about__card {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-4);
+  padding: var(--sc-6) var(--sc-5);
+  border: 1px solid var(--sc-hairline);
+  border-radius: var(--sc-r-lg);
+  background: var(--sc-surface);
+}
+.m-about__title {
+  font-size: var(--sc-t-xl);
+  line-height: 1.15;
+  letter-spacing: var(--sc-track-snug);
+}
+.m-about__body {
+  font-size: var(--sc-t-base);
+  line-height: 1.65;
+  color: var(--sc-ink-soft);
+  text-wrap: pretty;
+}
+.m-about__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--sc-4);
+}
+.m-about__arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--sc-hairline-strong);
+  border-radius: var(--sc-r-pill);
+  background: none;
+  color: var(--sc-ink);
+  cursor: pointer;
+  transition: opacity var(--sc-d-fast) var(--sc-ease-out),
+    transform var(--sc-d-fast) var(--sc-ease-out);
+}
+.m-about__arrow:active {
+  transform: scale(0.94);
+}
+.m-about__arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.m-about__arrow svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.m-about__dots {
+  display: flex;
+}
+/* The button is the tap target; the dot itself is drawn smaller inside it. */
+.m-about__dot {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.m-about__dot::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--sc-r-pill);
+  background: var(--sc-hairline-strong);
+  transition: width var(--sc-d-base) var(--sc-ease-out),
+    background var(--sc-d-base) var(--sc-ease-out);
+}
+.m-about__dot[aria-current="true"]::before {
+  width: 22px;
+  background: var(--sc-accent);
+}
 .principles {
   margin-top: var(--sc-6);
   display: flex;

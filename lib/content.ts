@@ -159,6 +159,23 @@ export const SOLUTION_TRAINING: PricingTier = {
   description: "Two weeks, project-led and hands-on, until you can run what we built yourself.",
 };
 
+// About chapter copy — one source for the desktop column and the phone
+// slideshow (Step 48), so the two can't drift out of sync.
+export const ABOUT_HEADLINE = "I’m the bridge between you and the machine.";
+
+export const ABOUT_LEDE: string[] = [
+  "You don’t need to understand how any of this works. You just need someone who does — and who’ll explain it like a person, not a manual.",
+  "BoxCutter is Hispanic-owned, built in San Francisco, and priced for people who don’t have big-tech budgets — individuals and small businesses. I’ve seen a solution I couldn’t afford. Had an idea I never got to execute. Found a way in and still didn’t have the money to walk through it. I know what it feels like to want to give up completely and just stay stuck there.",
+  "I got out of that. Now I meet people where they are — no jargon, one phone call to start, pricing that fits what you’ve actually got — and build the bridge the rest of the way myself.",
+];
+
+export const ABOUT_PRINCIPLES: { title: string; body: string }[] = [
+  {
+    title: "One conversation, start to finish.",
+    body: "You tell me what's going on once. I figure out what it actually takes to fix it and get it done — no re-explaining yourself on every call, no getting passed around to someone else. Just one person who already knows what you need, seeing it through.",
+  },
+];
+
 // Services-section estimator trigger (Step 25).
 export const ESTIMATOR_TRIGGER_COPY =
   "Got an idea of what you can spend already? Check out my cost estimator";
