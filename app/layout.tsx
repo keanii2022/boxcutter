@@ -25,9 +25,9 @@ const spaceMono = Space_Mono({
 });
 
 const SITE_URL = "https://boxcuttersf.com";
-const SITE_TITLE = "BoxCutter: Keani Antezana";
+const SITE_TITLE = "BoxCutter: think outside the box";
 const SITE_DESCRIPTION =
-  "BoxCutter: think outside the box. Plainspoken, no-jargon help with AI and tech for small businesses and solo founders, from Keani Antezana.";
+  "Plainspoken, no-jargon help with AI and tech for small businesses and solo founders.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
