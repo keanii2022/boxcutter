@@ -1,4 +1,4 @@
-import LoopVideo from "../LoopVideo";
+import LoopImage from "../LoopImage";
 import BookCallLink from "../BookCallLink";
 
 /**
@@ -29,9 +29,9 @@ export default function Opening() {
           role="img"
           aria-label="A cascade of late-night searches: how to run a small business without hiring five people"
         >
-          <LoopVideo
-            src="/media/diy-research.mp4"
-            poster="/media/diy-research-poster.jpg"
+          <LoopImage
+            src="/media/diy-research.webp"
+            still="/media/diy-research-poster.jpg"
             className="opening__video-clip"
           />
         </div>

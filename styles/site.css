@@ -82,6 +82,45 @@
     position: static;
   }
 }
+/* Phone tree (Step 46, BridgeChapter's `flow`): no pin, so no full-screen
+   stage — the framed clip and its copy are ordinary content that scrub as
+   they scroll past. Same frame as the portrait rules above, but in both
+   orientations (sideways, sized to fit between the top bar and the dock),
+   and the clip's own full-fill rule, since without a pin the engine never
+   marks this stage .sc-stage. Specificity beats the portrait block's. */
+#chapter-bridge.bridge--flow {
+  padding: var(--sc-7) var(--sc-gutter);
+}
+#chapter-bridge.bridge--flow [data-sc-stage] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-5);
+  padding: 0;
+}
+#chapter-bridge.bridge--flow .bridge__frame {
+  position: relative;
+  inset: auto;
+  width: min(100%, calc((100svh - 11rem) * 2164 / 1080));
+  aspect-ratio: 2164 / 1080;
+  border-radius: var(--sc-r-lg);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.14);
+}
+#chapter-bridge.bridge--flow .bridge__frame > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+#chapter-bridge.bridge--flow .sc-scrim {
+  display: none;
+}
+#chapter-bridge.bridge--flow .sc-copy--lead {
+  position: static;
+  max-width: none;
+}
 
 /* --------------------------------------------------------------- nav ---- */
 .oa-nav {
@@ -396,6 +435,11 @@
   object-fit: cover;
   display: block;
 }
+/* LoopImage's <picture> wrapper steps out of layout so its <img> sizes
+   against the clip container directly. */
+.loop-image {
+  display: contents;
+}
 
 /* ------------------------------------------------------- mobile hero --- */
 /* Mobile-composed opening beat (PLAN.md Step 30, components/mobile/
@@ -413,7 +457,9 @@
   align-items: center;
   background: var(--sc-canvas);
   padding-top: var(--sc-10);
-  padding-bottom: var(--sc-10);
+  /* Tighter than the top (which has to clear the brand bar): the Bridge
+     clip follows straight on now that it no longer pins (Step 46). */
+  padding-bottom: var(--sc-8);
 }
 .m-opening__inner {
   width: 100%;
@@ -568,6 +614,13 @@
 .services__intro {
   padding-top: var(--sc-10);
   padding-bottom: var(--sc-8);
+}
+@media (max-width: 640px) {
+  /* Phone rhythm (Step 46): the Bridge clip right above already ends with
+     its own padding, so --sc-10 more read as a gap on a real phone. */
+  .services__intro {
+    padding-top: var(--sc-8);
+  }
 }
 .services__headline {
   max-width: 20ch;
@@ -1751,6 +1804,14 @@
      a wide viewport); here it just reads as dead air. */
   padding-bottom: clamp(2rem, 4vw, 4rem);
 }
+@media (max-width: 640px) {
+  /* Phone rhythm (Step 46): the 9rem floor above is clearance for the
+     desktop's floating to-do badge, which never floats at this width (it
+     docks into the bottom bar), so it was just empty space on a phone. */
+  .github-section {
+    padding-top: var(--sc-8);
+  }
+}
 .github-live {
   display: flex;
   align-items: baseline;
@@ -1903,21 +1964,21 @@
   gap: var(--sc-4);
 }
 .social-clip-wrap {
-  /* No card chrome (was: rounded corners + a hairline outline) — same
-     de-boxing treatment as .world, so the clip reads as a free-floating
-     object rather than UI inside a bounded box. The 64vh term is what
-     guards the fixed top-right todo badge on short viewports (checked
-     empirically down to 1400x700 — the badge itself is now a compact
-     single line at this breakpoint, never the full list, so it needs far
-     less clearance than it used to) — the 62rem term is just a ceiling
-     for very tall windows and rarely binds in practice.
+  /* The post itself, cropped from its white export square (Step 46) and
+     shaped to it (604x898). Height is held to the same 64vh the old
+     square used — that's what guards the fixed top-right todo badge on
+     short viewports (checked empirically down to 1400x700) — so the width
+     follows from it; 26rem caps it on tall windows. Rounded like a phone
+     screenshot so the white post reads as an object on the dark page.
      Reveals with the rest of Contact's copy (data-sc-cue on the element
      itself, in SocialClip.tsx) instead of popping in at full opacity the
      moment the section scrolls into range, ahead of everything else. */
   position: relative;
-  width: min(100%, 62rem, 64vh);
-  aspect-ratio: 1 / 1;
+  width: min(100%, 26rem, calc(64vh * 604 / 898));
+  aspect-ratio: 604 / 898;
   margin-inline: auto;
+  border-radius: var(--sc-r-lg);
+  overflow: hidden;
 }
 .social-clip {
   width: 100%;
@@ -2152,7 +2213,8 @@
    the section's own layout mechanism. */
 .m-contact {
   background: var(--sc-canvas);
-  padding-top: var(--sc-10);
+  /* Step 46: --sc-10 above read as dead air after GitHub on a real phone. */
+  padding-top: var(--sc-8);
   padding-bottom: var(--sc-10);
 }
 .m-contact__social {

@@ -1,4 +1,4 @@
-import LoopVideo from "./LoopVideo";
+import LoopImage from "./LoopImage";
 
 const INSTAGRAM_URL =
   "https://www.instagram.com/boxcutter.sf/?utm_source=ig_web_button_share_sheet";
@@ -7,7 +7,9 @@ const INSTAGRAM_URL =
  * A Canva mockup the user made themselves: a fake social post (an open box,
  * their box logo as the profile photo, animated floating hearts) — concrete
  * proof the "automated content" pitch isn't hypothetical. The Instagram
- * badge links off to the real account it's standing in for.
+ * badge links off to the real account it's standing in for. Cropped to
+ * just the post (Step 46) — the export sat it in a 1440px white square,
+ * which on the dark site read as a white box around a smaller picture.
  *
  * `reveal="cue"` (default) is the desktop Contact chapter's pin-progress
  * reveal (`data-sc-cue`, keyed to `data-sc-act`). That attribute only means
@@ -28,10 +30,11 @@ export default function SocialClip({
       data-sc-cue={reveal === "cue" ? "0.15" : undefined}
       data-sc-in={reveal === "flow" ? true : undefined}
     >
-      <LoopVideo
-        src="/media/box-socials.mp4"
-        poster="/media/box-socials-poster.jpg"
+      <LoopImage
+        src="/media/box-socials.webp"
+        still="/media/box-socials-poster.jpg"
         className="social-clip"
+        lazy
       />
       <a
         className="social-clip__ig"

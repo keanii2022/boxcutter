@@ -16,7 +16,8 @@ import MobileContactChapter from "../../components/mobile/ContactChapter";
 // a legible contribution graph), so they still import straight from
 // components/sections/. BridgeChapter (the scroll-scrubbed "People have
 // ideas" video hero) is shared too — on any portrait screen its wide clip
-// sits in a rounded frame instead of being cropped (Step 41).
+// sits in a rounded frame instead of being cropped (Step 41), and here it
+// scrolls with the page instead of pinning (`flow`, Step 46).
 export default function MobileHome() {
   return (
     <>
@@ -25,7 +26,7 @@ export default function MobileHome() {
       <MobileNav />
       <main id="top">
         <MobileOpening />
-        <BridgeChapter />
+        <BridgeChapter flow />
         <MobileServicesChapter />
         <AboutChapter />
         <AboutGithubScrub />

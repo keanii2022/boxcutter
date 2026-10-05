@@ -1,4 +1,4 @@
-import LoopVideo from "../LoopVideo";
+import LoopImage from "../LoopImage";
 import BookCallLink from "../BookCallLink";
 
 /**
@@ -12,14 +12,10 @@ import BookCallLink from "../BookCallLink";
  * sub-copy: the hook needs a payoff before a visitor scrolls past it, not
  * one more paragraph in between.
  *
- * Video is `diy-research-m.mp4`, not the desktop file (PLAN.md Step 35):
- * the source is 1440x1440 for a desktop column that renders it up to
- * 44rem, but `.m-opening__video` never displays it past 19rem — a mobile
- * Lighthouse pass flagged it as the single largest above-the-fold asset
- * (714KB) and the top contributor to a mediocre Speed Index. Re-encoded at
- * 640x640 (105KB) — same "half-ish the desktop file" convention the
- * Bridge scrub's phone variant used — with no visible quality loss at
- * the size it's actually shown.
+ * The clip is an animated WebP (Step 46, see LoopImage) shared with the
+ * desktop Opening: 960x960 at 20fps, 306KB — sharp at the 19rem it's
+ * shown here even on a 3x screen, and lighter than the 714KB desktop video
+ * a mobile Lighthouse pass once flagged (Step 35).
  */
 export default function MobileOpening() {
   return (
@@ -37,9 +33,9 @@ export default function MobileOpening() {
           role="img"
           aria-label="A cascade of late-night searches: how to run a small business without hiring five people"
         >
-          <LoopVideo
-            src="/media/diy-research-m.mp4"
-            poster="/media/diy-research-m-poster.jpg"
+          <LoopImage
+            src="/media/diy-research.webp"
+            still="/media/diy-research-m-poster.jpg"
             className="m-opening__video-clip"
           />
         </div>
