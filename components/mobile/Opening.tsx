@@ -27,11 +27,6 @@ export default function MobileOpening() {
       id="chapter-hero"
       className="m-opening"
       aria-label="BoxCutter"
-      /* Same drift anchor as the desktop Opening (see components/sections/
-         Opening.tsx) — without an act here, the drift chain has nothing to
-         evaluate while scrolled back above Bridge's own range. */
-      data-sc-act="flow"
-      data-sc-drift="#ffffff"
     >
       <div className="m-opening__inner">
         <h1 className="m-opening__headline sc-display sc-display--lg">

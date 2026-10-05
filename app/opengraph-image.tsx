@@ -14,24 +14,29 @@ export default function OpengraphImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#ffffff",
+          background: "#08090b",
           gap: 28,
         }}
       >
         <svg width="140" height="140" viewBox="0 0 64 64">
           <path
+            d="M14 30 L6 12 L28 12 L34 30 Z M34 30 L36 12 L58 12 L50 30 Z"
+            fill="#d4aa82"
+          />
+          <path d="M14 30 L50 30 L50 58 L14 58 Z" fill="#b5835a" />
+          <path
             d="M14 30 L6 12 L28 12 L34 30 M34 30 L36 12 L58 12 L50 30 M14 30 L50 30 L50 58 L14 58 Z"
             fill="none"
-            stroke="#121212"
-            strokeWidth={3}
+            stroke="#6b4a2e"
+            strokeWidth={2.5}
             strokeLinejoin="round"
             strokeLinecap="round"
           />
           <path
             d="M34 30 L41 37 L31 43 L43 51 L35 58"
             fill="none"
-            stroke="#d64200"
-            strokeWidth={3}
+            stroke="#ff6a1f"
+            strokeWidth={3.5}
             strokeLinejoin="round"
             strokeLinecap="round"
           />
@@ -41,14 +46,14 @@ export default function OpengraphImage() {
             display: "flex",
             fontSize: 76,
             fontWeight: 700,
-            color: "#121212",
+            color: "#f4f2ef",
             letterSpacing: -1,
           }}
         >
           box
-          <span style={{ color: "#d64200" }}>Cutter</span>
+          <span style={{ color: "#ff6a1f" }}>Cutter</span>
         </div>
-        <div style={{ display: "flex", fontSize: 30, color: "#5a5a5a" }}>
+        <div style={{ display: "flex", fontSize: 30, color: "#a3a19c" }}>
           think outside the box
         </div>
       </div>

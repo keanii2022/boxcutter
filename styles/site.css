@@ -24,19 +24,6 @@
 }
 
 /* ------------------------------------------------------------- bridge --- */
-/* data-sc-drift only interpolates --sc-canvas (see the nav-pill fix below
-   for why) — it never touches --sc-ink, so text left on the brand's default
-   near-black ink goes invisible against this section's near-black drift
-   target. Re-point ink at scroll-craft's own light-on-dark defaults for the
-   life of this section only. The explicit `color` here (not just the custom
-   properties) matters: .sc-display never sets its own `color`, so without
-   this it inherits body's already-resolved dark value instead of
-   re-evaluating var(--sc-ink) against this scope. */
-#chapter-bridge {
-  --sc-ink: #f4f2ef;
-  --sc-ink-soft: #9a9ba1;
-  color: var(--sc-ink);
-}
 @media (max-width: 640px) {
   /* The mobile fork's fixed bottom nav bar (.m-nav-bottom, Step 30) didn't
      exist when scrollcraft's own .sc-copy--lead bottom-anchor value
@@ -61,8 +48,8 @@
 /* Any portrait screen — phone, or iPad held upright (Step 41): the clip is
    ~2:1, so covering a tall screen showed only its middle and cut both
    characters in half. Fit the whole clip into a rounded frame across the
-   screen width instead, with the copy stacked under it on the stage's own
-   dark ground — not over the video, so the scrim goes. The group centres
+   screen width instead, with the copy stacked under it on the page's dark
+   ground — not over the video, so the scrim goes. The group centres
    in the space between the top nav and the bottom bar (.m-dock on phones,
    the to-do strip below 860px on the desktop tree). */
 @media (orientation: portrait) {
@@ -73,7 +60,6 @@
     gap: var(--sc-6);
     padding: var(--sc-9) var(--sc-gutter)
       calc(var(--sc-9) + env(safe-area-inset-bottom, 0px));
-    background: #08090b; /* the act's data-sc-drift target */
   }
   #chapter-bridge .bridge__frame {
     position: relative;
@@ -119,14 +105,11 @@
   text-transform: uppercase;
   padding: 0.4em 0.75em;
   border-radius: var(--sc-r-pill);
-  /* Deliberately NOT var(--sc-canvas): data-sc-drift overwrites that variable
-     on the document root as the page scrolls through dark sections (see
-     scrollcraft.js's mixColor/setProperty on --sc-canvas), so mixing against
-     it made the pill go dark right along with the page — the opposite of
-     what a fixed nav chrome chip should do. white/oa-ink here are the
-     literal, drift-immune colors so the pill (and --sc-ink's near-black
-     logo/wordmark on top of it) stay legible over every section. */
-  background: color-mix(in oklab, white 92%, transparent);
+  /* Frosted near-black, so the logo/wordmark stay legible over whatever
+     scrolls under them. (Literal white until the Step 45 dark site: the
+     page used to drift between white and black, so the chip couldn't
+     follow --sc-canvas then. Nothing drifts now.) */
+  background: color-mix(in oklab, var(--sc-canvas) 88%, transparent);
   backdrop-filter: blur(6px);
 }
 .oa-nav__right {
@@ -279,7 +262,7 @@
   inset-inline: 0;
   bottom: 0;
   z-index: var(--sc-z-chrome);
-  background: color-mix(in oklab, white 92%, transparent);
+  background: color-mix(in oklab, var(--sc-canvas) 88%, transparent);
   backdrop-filter: blur(6px);
   border-top: 1px solid var(--sc-hairline-strong);
 }
@@ -1136,7 +1119,8 @@
 .cost-estimator__warning {
   font-size: var(--sc-t-sm);
   font-weight: 700;
-  color: #7a5b00;
+  /* pale on the dark tint (it was a dark mustard on the light one) */
+  color: #f5c344;
   text-wrap: pretty;
 }
 .estimator-modal__body {
@@ -1268,7 +1252,7 @@
   padding: var(--sc-4) var(--sc-gutter);
   padding-bottom: calc(var(--sc-4) + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--sc-hairline-strong);
-  background: color-mix(in oklab, white 92%, transparent);
+  background: color-mix(in oklab, var(--sc-canvas) 88%, transparent);
   backdrop-filter: blur(6px);
 }
 .m-estimator__total {
@@ -1444,7 +1428,7 @@
     border: none;
     border-top: 1px solid var(--sc-hairline-strong);
     border-radius: 0;
-    background: color-mix(in oklab, white 92%, transparent);
+    background: color-mix(in oklab, var(--sc-canvas) 88%, transparent);
     backdrop-filter: blur(6px);
     box-shadow: none;
     transform: translate3d(0, 100%, 0);
@@ -1724,19 +1708,30 @@
 }
 
 /* -------------------------------------------------------- thin scrub --- */
+/* A rounded frame at the clip's own 1280x770 shape, like the Bridge clip's
+   (Step 45): the clip has a light background, which as a full-bleed band
+   across the dark page read as a glaring stripe; framed, it's a picture
+   window. Its own shape means nothing is cropped — the old full-width
+   band cover-cropped the box's flaps on wide screens. */
 .thin-scrub__video {
   display: block;
-  width: 100%;
-  /* The source clip is 1280x770; at the old clamp (200-440px) object-fit:
-     cover's width-driven scale blew the video up past 2x on wide viewports,
-     cropping enough off the top and bottom to clip the box's open flaps and
-     its base — visibly "cut off" rather than a deliberate close crop.
-     Taller here keeps the crop within the clip's actual subject. */
-  height: clamp(260px, 46vw, 620px);
-  object-fit: cover;
+  width: min(100%, 48rem);
+  margin-inline: auto;
+  aspect-ratio: 1280 / 770;
+  border-radius: var(--sc-r-lg);
+  box-shadow: 0 0 0 1px var(--sc-hairline-strong);
   /* Placeholder tone until the first flipbook frame lands — a plain
      strip, not an empty gap. */
   background: var(--sc-surface);
+}
+@media (min-width: 860px) {
+  /* Left-aligned with the page's text column and clear of the fixed
+     ToDoList panel, same 24rem corridor as .services-carousel and
+     .github-stats — centred, the frame ran under the panel. */
+  .thin-scrub__video {
+    width: min(48rem, calc(100% - 24rem));
+    margin-inline: 0;
+  }
 }
 
 /* ------------------------------------------------------------ github --- */
@@ -1836,6 +1831,11 @@
   display: block;
   width: 100%;
   height: auto;
+  /* ghchart only draws for a white page (pale empty-day squares, dark
+     labels). Flipped for the dark site: invert takes white to black, and
+     the 180deg hue turn brings the inverted greens back round to green —
+     brightest now means busiest, as on GitHub's own dark theme. */
+  filter: invert(1) hue-rotate(180deg);
 }
 @media (max-width: 640px) {
   /* ghchart's SVG is a fixed ~53-week grid — scaled to fill a 375px column

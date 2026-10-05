@@ -26,12 +26,14 @@ export default function AboutGithubScrub() {
       data-sc-act="flow"
       className="thin-scrub"
     >
-      <canvas
-        data-sc-sequence="/media/seq/box/{iii}.webp:101:1"
-        data-sc-sequence-mobile="/media/seq/box-m/{iii}.webp:101:1"
-        className="thin-scrub__video"
-        aria-hidden="true"
-      />
+      <div className="sc-wrap">
+        <canvas
+          data-sc-sequence="/media/seq/box/{iii}.webp:101:1"
+          data-sc-sequence-mobile="/media/seq/box-m/{iii}.webp:101:1"
+          className="thin-scrub__video"
+          aria-hidden="true"
+        />
+      </div>
     </section>
   );
 }

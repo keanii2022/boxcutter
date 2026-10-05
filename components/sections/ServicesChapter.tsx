@@ -11,7 +11,6 @@ export default function ServicesChapter() {
       id="chapter-services"
       data-chapter="Services"
       data-sc-act="flow"
-      data-sc-drift="#ffffff"
       className="services"
     >
       <section className="sc-section services__intro">

@@ -2,10 +2,10 @@
    BoxCutter — brand tokens
    ----------------------------------------------------------------------------
    Real brand palette (PLAN.md Step 5, 2026-09-14; wordmark colors reused
-   as-is for the BoxCutter rebrand, PLAN.md Step 19): white canvas, black
-   ink, neon orange for type/links/the wordmark's cut half, neon green as a
-   second accent for buttons. Replaces the Spline-palette placeholder that
-   stood in from Step 3 through the first half of Step 5.
+   as-is for the BoxCutter rebrand, PLAN.md Step 19), dark since Step 45
+   (2026-10-04): the Bridge section's near-black is now the whole page's
+   ground, with warm off-white ink, neon orange for type/links/the
+   wordmark's cut half, neon green as a second accent for buttons.
    Everything under the first blank line is exactly the set scrollcraft.css
    asks a brand to override: six colour roles and two font families. Below
    that are outsideAI's own site-specific additions — outside scrollcraft's
@@ -13,31 +13,34 @@
    ========================================================================== */
 
 :root {
-  --sc-canvas:     #ffffff;
-  --sc-surface:    #f3f2ef;
-  --sc-ink:        #121212;
+  /* Native form controls, scrollbars and autofill render dark to match. */
+  color-scheme: dark;
+
+  --sc-canvas:     #08090b;
+  /* Raised just enough off the ground to read as a card. */
+  --sc-surface:    #14161b;
+  /* Warm off-white, not pure white — pure white on near-black glares. */
+  --sc-ink:        #f4f2ef;
   /* Warm gray, not flat: same "tinted, never flat gray" rule scrollcraft's
-     own default uses. 7.6:1 on canvas, 6.8:1 on surface. */
-  --sc-ink-soft:   #57534e;
-  /* Neon orange, dialed back from the top of the range (#ff5a1f, 3.1:1 on
-     white — fails AA for the body-sized text this token is also used as,
-     e.g. the nav wordmark and inline links) to #d64200 (4.5:1) so it stays
-     legible as text and not just as a fill. The louder, uncompromised neon
-     lives in the oa-pulse and oa-green tokens below, where it's only ever
-     a glow or a button fill sitting behind dark ink, not text color itself. */
-  --sc-accent:     #d64200;
-  /* Mirrors scrollcraft's own pattern: accent-ink matches canvas (there,
-     dark canvas → dark accent-ink; here, white canvas → white accent-ink).
-     4.5:1 on --sc-accent. */
-  --sc-accent-ink: #ffffff;
+     own default uses. 7.7:1 on canvas, 7.0:1 on surface. */
+  --sc-ink-soft:   #a3a19c;
+  /* Neon orange. On the old white canvas it had to be dialed down to
+     #d64200 to pass AA as text; on near-black that same orange is only
+     4.4:1, so it comes back up toward the neon: #ff6a1f is 7:1 on canvas,
+     6.3:1 on surface — legible as text (nav wordmark, inline links) and
+     as a fill. */
+  --sc-accent:     #ff6a1f;
+  /* Mirrors scrollcraft's own pattern: accent-ink matches canvas (dark
+     canvas → dark accent-ink). 7:1 on --sc-accent; white would be 2.9:1. */
+  --sc-accent-ink: #08090b;
 
   --sc-font-display: var(--font-fraunces), Georgia, serif;
   --sc-font-text:    var(--font-space-grotesk), system-ui, sans-serif;
   --sc-font-mono:    var(--font-space-mono), ui-monospace, monospace;
 
   /* the "outside the box" motif's own colour: dim, secondary, never the CTA.
-     4.7:1 on canvas. */
-  --oa-bracket: #78736a;
+     5.8:1 on canvas. */
+  --oa-bracket: #8f8a82;
 
   /* scroll/hover pulse — a "you're moving" cue, breathing between two
      intensities of neon orange. Deliberately calmer than the WPM Typing
@@ -53,4 +56,11 @@
      not a text colour needing its own contrast-on-canvas. */
   --oa-green: #39ff14;
   --oa-green-ink: #0a1f00;
+
+  /* The logo's box, filled like real cardboard so it pops on the dark page
+     (a white outline read as just more text) — sampled from the box in the
+     About/GitHub flipbook: lit flaps, shaded front, dark kraft edge. */
+  --oa-cardboard:       #d4aa82;
+  --oa-cardboard-shade: #b5835a;
+  --oa-cardboard-edge:  #6b4a2e;
 }

@@ -12,14 +12,6 @@ export default function Opening() {
       id="chapter-hero"
       className="opening"
       aria-label="BoxCutter"
-      /* data-sc-act="flow" registers this section as a (non-pinning, purely
-         passive) act for no reason other than to give the drift chain an
-         anchor above Bridge. Without an act here at all, the drift loop has
-         nothing to evaluate while scrolled back above Bridge's own range —
-         both acts read raw=0, neither branch fires, and --sc-canvas is left
-         at whatever it was last set to instead of resetting to white. */
-      data-sc-act="flow"
-      data-sc-drift="#ffffff"
     >
       <div className="opening__inner">
         <div className="opening__content">

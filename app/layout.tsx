@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Space_Grotesk, Space_Mono } from "next/font/google";
 import "../styles/scrollcraft.css";
 import "../styles/tokens.css";
@@ -45,6 +45,13 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
   },
+};
+
+// Browser chrome (iOS Safari's toolbar, Android's status bar) matches the
+// dark page instead of framing it in white.
+export const viewport: Viewport = {
+  themeColor: "#08090b",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

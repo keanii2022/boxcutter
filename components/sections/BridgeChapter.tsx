@@ -19,7 +19,6 @@ export default function BridgeChapter() {
       data-chapter="Bridge"
       data-sc-act="scrub"
       data-sc-span="1.75"
-      data-sc-drift="#08090b"
     >
       <div data-sc-stage>
         <div className="bridge__frame">

@@ -1,17 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <path d="M14 30 L6 12 L28 12 L34 30 Z M34 30 L36 12 L58 12 L50 30 Z" fill="#d4aa82" />
+  <path d="M14 30 L50 30 L50 58 L14 58 Z" fill="#b5835a" />
   <path
     d="M14 30 L6 12 L28 12 L34 30 M34 30 L36 12 L58 12 L50 30 M14 30 L50 30 L50 58 L14 58 Z"
     fill="none"
-    stroke="#121212"
-    stroke-width="3"
+    stroke="#6b4a2e"
+    stroke-width="2.5"
     stroke-linejoin="round"
     stroke-linecap="round"
   />
   <path
     d="M34 30 L41 37 L31 43 L43 51 L35 58"
     fill="none"
-    stroke="#d64200"
-    stroke-width="3"
+    stroke="#ff6a1f"
+    stroke-width="3.5"
     stroke-linejoin="round"
     stroke-linecap="round"
   />
