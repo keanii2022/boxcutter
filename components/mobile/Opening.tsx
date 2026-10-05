@@ -17,8 +17,8 @@ import BookCallLink from "../BookCallLink";
  * 44rem, but `.m-opening__video` never displays it past 19rem — a mobile
  * Lighthouse pass flagged it as the single largest above-the-fold asset
  * (714KB) and the top contributor to a mediocre Speed Index. Re-encoded at
- * 640x640 (105KB) — same "half-ish the desktop file" convention already
- * established for `bridge-scrub-m.mp4` — with no visible quality loss at
+ * 640x640 (105KB) — same "half-ish the desktop file" convention the
+ * Bridge scrub's phone variant used — with no visible quality loss at
  * the size it's actually shown.
  */
 export default function MobileOpening() {

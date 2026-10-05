@@ -1734,8 +1734,8 @@
      Taller here keeps the crop within the clip's actual subject. */
   height: clamp(260px, 46vw, 620px);
   object-fit: cover;
-  /* Placeholder tone until the real clip lands at data-sc-src — a plain
-     strip, not a broken-image flash, while that fetch 404s. */
+  /* Placeholder tone until the first flipbook frame lands — a plain
+     strip, not an empty gap. */
   background: var(--sc-surface);
 }
 

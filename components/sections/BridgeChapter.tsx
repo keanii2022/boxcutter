@@ -4,6 +4,13 @@
  * instead of covering the whole stage — the clip is ~2:1, so covering a
  * tall screen cut both characters in half. `.bridge__frame` is a plain
  * full-stage box otherwise, so the landscape composition is unchanged.
+ *
+ * A flipbook, not a video (Step 44): a real iPhone wouldn't step a
+ * <video> with scroll reliably — frozen on its last frame, or not moving
+ * at all in Low Power Mode. Still images on a canvas always paint. 100
+ * WebP frames (20fps of the original 5s clip), 2164w on desktop and 1280w
+ * on phones. The poster stays underneath as the placeholder until the
+ * first frame lands.
  */
 export default function BridgeChapter() {
   return (
@@ -17,14 +24,12 @@ export default function BridgeChapter() {
       <div data-sc-stage>
         <div className="bridge__frame">
           <img className="sc-stage__poster" src="/media/bridge-scrub-poster.jpg" alt="" />
-          <video
-            data-sc-scrub
+          <canvas
+            data-sc-sequence="/media/seq/bridge/{iii}.webp:100:1"
+            data-sc-sequence-mobile="/media/seq/bridge-m/{iii}.webp:100:1"
             data-sc-lead="0.15"
             data-sc-settle="0.3"
-            data-sc-src="/media/bridge-scrub.mp4"
-            data-sc-src-mobile="/media/bridge-scrub-m.mp4"
-            muted
-            playsInline
+            aria-hidden="true"
           />
         </div>
         <div className="sc-scrim sc-scrim--lead" aria-hidden="true" />

@@ -65,6 +65,8 @@
      data-sc-sequence="a/{i}.webp:120:1"
                               on <canvas>. vp scrubs an image sequence
                               (path template : frameCount : startIndex).
+                              data-sc-sequence-mobile, data-sc-lead and
+                              data-sc-settle work as they do on a clip.
      data-sc-pan="0.6"        on a wide rail inside data-sc-act="pan". p (the
                               pin window, not vp — a rail is meant to be
                               scrubbed in place, not mid-slide) drives
@@ -376,11 +378,20 @@
       // image sequence
       var cv = el.querySelector('canvas[data-sc-sequence]');
       if (cv) {
-        var spec = cv.getAttribute('data-sc-sequence').split(':');
+        // A phone gets its own lighter frame set when the canvas names one,
+        // the same choice data-sc-src-mobile makes for a clip.
+        var spec = ((isMobile() && cv.getAttribute('data-sc-sequence-mobile')) ||
+                    cv.getAttribute('data-sc-sequence')).split(':');
+        var sLead = parseFloat(cv.getAttribute('data-sc-lead'));
+        var sSettle = parseFloat(cv.getAttribute('data-sc-settle'));
         act.seq = {
-          el: cv, ctx: cv.getContext('2d', { alpha: false }),
+          // Not { alpha: false }: an opaque canvas starts out solid black, a
+          // black box over a light page until the first frame lands.
+          el: cv, ctx: cv.getContext('2d'),
           tpl: spec[0], count: parseInt(spec[1], 10) || 1, start: parseInt(spec[2], 10) || 0,
-          frames: [], loaded: 0, drawn: -1
+          lead: isNaN(sLead) ? 0 : clamp(sLead, 0, 0.9),
+          settle: isNaN(sSettle) ? 0 : clamp(sSettle, 0, 0.9),
+          frames: [], drawn: -1
         };
       }
 
@@ -715,7 +726,10 @@
     function loadSeq(a) {
       var S = a.seq;
       if (!S || S.frames.length) return;
-      for (var i = 0; i < S.count; i++) {
+      // Under reduced motion the sequence holds its first frame, the still a
+      // clip's poster would show, so that is all it fetches.
+      var n = reduce ? 1 : S.count;
+      for (var i = 0; i < n; i++) {
         (function (i) {
           var img = new Image();
           img.decoding = 'async';
@@ -723,7 +737,9 @@
                          .replace('{ii}', String(S.start + i).padStart(2, '0'))
                          .replace('{iii}', String(S.start + i).padStart(3, '0'))
                          .replace('{iiii}', String(S.start + i).padStart(4, '0'));
-          img.onload = function () { S.loaded++; if (S.loaded === 1) S.drawn = -1; };
+          // Draw as frames land, not only on the next scroll: a reader parked
+          // on the act would otherwise look at an empty canvas until they move.
+          img.onload = function () { if (a.live) drawSeq(a); };
           S.frames[i] = img;
         })(i);
       }
@@ -731,16 +747,27 @@
     function drawSeq(a) {
       var S = a.seq;
       if (!S || !S.frames.length) return;
-      var idx = clamp(Math.round(a.p * (S.count - 1)), 0, S.count - 1);
-      if (idx === S.drawn) return;
-      var img = S.frames[idx];
-      if (!img || !img.complete || !img.naturalWidth) return;
+      // The same clock a scrub clip runs on: vp (the stage's whole visible
+      // life, not just the pin window), held at each end by lead/settle.
+      var t = clamp01((a.vp - S.lead) / Math.max(1 - S.lead - S.settle, 0.001));
+      var idx = reduce ? 0 : clamp(Math.round(t * (S.count - 1)), 0, S.count - 1);
+      // The nearest frame that has actually arrived, so a sequence that is
+      // still loading shows something close rather than nothing.
+      var img = null, got = -1;
+      for (var d = 0; d < S.count && !img; d++) {
+        var pair = [idx - d, idx + d];
+        for (var k = 0; k < 2; k++) {
+          var f = S.frames[pair[k]];
+          if (f && f.complete && f.naturalWidth) { img = f; got = pair[k]; break; }
+        }
+      }
+      if (!img || got === S.drawn) return;
       var cw = S.el.width, ch = S.el.height;
       // cover fit
       var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
       var w = img.naturalWidth * scale, h = img.naturalHeight * scale;
       S.ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
-      S.drawn = idx;
+      S.drawn = got;
     }
 
     // ---- worldflight ------------------------------------------------------
