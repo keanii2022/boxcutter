@@ -1742,6 +1742,13 @@
   font-size: var(--sc-t-lg);
   max-width: 58ch;
 }
+/* Paragraph headings under the chapter headline (Step 49): a step down
+   from it, so the column reads headline → sections, not four equals. */
+.about__subhead {
+  font-size: var(--sc-t-xl);
+  line-height: 1.15;
+  letter-spacing: var(--sc-track-snug);
+}
 .about__principles {
   padding-top: var(--sc-4);
 }
@@ -1766,19 +1773,52 @@
   display: none;
 }
 .m-about__card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   gap: var(--sc-4);
-  padding: var(--sc-6) var(--sc-5);
-  border: 1px solid var(--sc-hairline);
+  padding: var(--sc-6) var(--sc-5) var(--sc-9);
+  border: 1px solid var(--sc-hairline-strong);
   border-radius: var(--sc-r-lg);
-  background: var(--sc-surface);
+  /* A warm glow from the top corner the kicker sits in (Step 49), so the
+     card reads as lit rather than a flat grey slab. */
+  background:
+    radial-gradient(120% 70% at 0% 0%,
+      color-mix(in oklab, var(--sc-accent) 16%, transparent), transparent 70%),
+    var(--sc-surface);
+}
+/* The card's number again, huge and faint in the bottom corner — fills the
+   space the shorter cards leave under their copy (all cards share the
+   tallest one's height). */
+.m-about__numeral {
+  position: absolute;
+  right: var(--sc-4);
+  bottom: calc(-1 * var(--sc-4));
+  z-index: -1;
+  font-family: var(--sc-font-display);
+  font-size: 9rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: var(--sc-track-snug);
+  color: color-mix(in oklab, var(--sc-accent) 20%, transparent);
+  pointer-events: none;
+}
+.m-about__kicker {
+  margin: 0;
+  font-family: var(--sc-font-mono);
+  font-size: var(--sc-t-xs);
+  letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase;
+  color: var(--sc-accent);
 }
 .m-about__title {
   font-size: var(--sc-t-xl);
-  line-height: 1.15;
+  line-height: 1.12;
   letter-spacing: var(--sc-track-snug);
+  color: var(--sc-ink);
 }
 .m-about__body {
   font-size: var(--sc-t-base);

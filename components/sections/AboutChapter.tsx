@@ -1,4 +1,4 @@
-import { ABOUT_HEADLINE, ABOUT_LEDE, ABOUT_PRINCIPLES } from "../../lib/content";
+import { ABOUT_PRINCIPLES, ABOUT_STORY } from "../../lib/content";
 
 export default function AboutChapter() {
   return (
@@ -7,12 +7,24 @@ export default function AboutChapter() {
         <div className="sc-wrap about__story-inner">
           <div className="sc-stack" data-sc-in data-sc-stagger="70">
             <hr className="sc-rule about__rule" data-sc-reveal="up" data-sc-reveal-at="0.1 0.6" />
-            <h2 className="sc-display sc-display--md">{ABOUT_HEADLINE}</h2>
-            {ABOUT_LEDE.map((para) => (
-              <p className="sc-body about__lede" key={para}>
-                {para}
-              </p>
-            ))}
+            {ABOUT_STORY.map(({ heading, body }, i) =>
+              // The first heading is the chapter's own; the rest head their
+              // paragraph under it (Step 49).
+              [
+                i === 0 ? (
+                  <h2 className="sc-display sc-display--md" key={heading}>
+                    {heading}
+                  </h2>
+                ) : (
+                  <h3 className="sc-display about__subhead" key={heading}>
+                    {heading}
+                  </h3>
+                ),
+                <p className="sc-body about__lede" key={body}>
+                  {body}
+                </p>,
+              ]
+            )}
           </div>
         </div>
       </section>

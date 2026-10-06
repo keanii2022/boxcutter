@@ -1,7 +1,7 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
-import { ABOUT_HEADLINE, ABOUT_LEDE, ABOUT_PRINCIPLES } from "../../lib/content";
+import { useEffect, useRef, useState } from "react";
+import { ABOUT_PRINCIPLES, ABOUT_STORY } from "../../lib/content";
 
 /**
  * Phone About as a slideshow (Step 48). The desktop column — headline,
@@ -14,27 +14,16 @@ import { ABOUT_HEADLINE, ABOUT_LEDE, ABOUT_PRINCIPLES } from "../../lib/content"
  * The track is a native horizontal scroll-snap strip, so swiping is the
  * browser's own gesture; the buttons just scroll it to a card, and the
  * active dot follows the scroll position rather than the other way round.
+ *
+ * Every card leads with an orange numbered kicker and a serif heading,
+ * with its number repeated huge and faint in the corner (Step 49): body
+ * text alone in a plain card looked dead on a real phone.
  */
 export default function MobileAboutChapter() {
-  const [opening, story, turn] = ABOUT_LEDE;
-  const slides: ReactNode[] = [
-    <Fragment key="opening">
-      <h2 className="sc-display m-about__title">{ABOUT_HEADLINE}</h2>
-      <p className="m-about__body">{opening}</p>
-    </Fragment>,
-    <p className="m-about__body" key="story">
-      {story}
-    </p>,
-    <p className="m-about__body" key="turn">
-      {turn}
-    </p>,
-    ...ABOUT_PRINCIPLES.map((p) => (
-      <Fragment key={p.title}>
-        <p className="sc-label">how I work</p>
-        <h3 className="sc-display m-about__title">{p.title}</h3>
-        <p className="m-about__body">{p.body}</p>
-      </Fragment>
-    )),
+  const kickers = ["The bridge", "The story", "The turn"];
+  const slides = [
+    ...ABOUT_STORY.map((s, i) => ({ kicker: kickers[i], title: s.heading, body: s.body })),
+    ...ABOUT_PRINCIPLES.map((p) => ({ kicker: "How I work", title: p.title, body: p.body })),
   ];
 
   const trackRef = useRef<HTMLDivElement>(null);
@@ -81,7 +70,6 @@ export default function MobileAboutChapter() {
     <div id="chapter-about" data-chapter="About" className="about m-about">
       <section className="sc-section">
         <div className="sc-wrap" data-sc-in>
-          <hr className="sc-rule about__rule" />
           <div
             className="m-about__slides"
             role="region"
@@ -89,17 +77,29 @@ export default function MobileAboutChapter() {
             aria-label="About BoxCutter"
           >
             <div className="m-about__track" ref={trackRef} tabIndex={0}>
-              {slides.map((content, i) => (
-                <div
-                  className="m-about__card"
-                  role="group"
-                  aria-roledescription="slide"
-                  aria-label={`${i + 1} of ${slides.length}`}
-                  key={i}
-                >
-                  {content}
-                </div>
-              ))}
+              {slides.map((slide, i) => {
+                const num = String(i + 1).padStart(2, "0");
+                // The chapter's heading is the first card's; the rest sit under it.
+                const Title = i === 0 ? "h2" : "h3";
+                return (
+                  <div
+                    className="m-about__card"
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label={`${i + 1} of ${slides.length}`}
+                    key={slide.title}
+                  >
+                    <span className="m-about__numeral" aria-hidden="true">
+                      {num}
+                    </span>
+                    <p className="m-about__kicker">
+                      {num} — {slide.kicker}
+                    </p>
+                    <Title className="sc-display m-about__title">{slide.title}</Title>
+                    <p className="m-about__body">{slide.body}</p>
+                  </div>
+                );
+              })}
             </div>
             <div className="m-about__controls">
               <button

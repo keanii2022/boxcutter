@@ -160,13 +160,22 @@ export const SOLUTION_TRAINING: PricingTier = {
 };
 
 // About chapter copy — one source for the desktop column and the phone
-// slideshow (Step 48), so the two can't drift out of sync.
-export const ABOUT_HEADLINE = "I’m the bridge between you and the machine.";
-
-export const ABOUT_LEDE: string[] = [
-  "You don’t need to understand how any of this works. You just need someone who does — and who’ll explain it like a person, not a manual.",
-  "BoxCutter is Hispanic-owned, built in San Francisco, and priced for people who don’t have big-tech budgets — individuals and small businesses. I’ve seen a solution I couldn’t afford. Had an idea I never got to execute. Found a way in and still didn’t have the money to walk through it. I know what it feels like to want to give up completely and just stay stuck there.",
-  "I got out of that. Now I meet people where they are — no jargon, one phone call to start, pricing that fits what you’ve actually got — and build the bridge the rest of the way myself.",
+// slideshow (Step 48), so the two can't drift out of sync. Every paragraph
+// has its own heading (Step 49, headings 2 and 3 from the user); the first
+// is the chapter's headline.
+export const ABOUT_STORY: { heading: string; body: string }[] = [
+  {
+    heading: "I’m the bridge between you and the machine.",
+    body: "You don’t need to understand how any of this works. You just need someone who does — and who’ll explain it like a person, not a manual.",
+  },
+  {
+    heading: "From the ground up.",
+    body: "BoxCutter is Hispanic-owned, built in San Francisco, and priced for people who don’t have big-tech budgets — individuals and small businesses. I’ve seen a solution I couldn’t afford. Had an idea I never got to execute. Found a way in and still didn’t have the money to walk through it. I know what it feels like to want to give up completely and just stay stuck there.",
+  },
+  {
+    heading: "I got out of that.",
+    body: "Now I meet people where they are — no jargon, one phone call to start, pricing that fits what you’ve actually got — and build the bridge the rest of the way myself.",
+  },
 ];
 
 export const ABOUT_PRINCIPLES: { title: string; body: string }[] = [
